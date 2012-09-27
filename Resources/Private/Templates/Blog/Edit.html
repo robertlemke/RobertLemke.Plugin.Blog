@@ -1,0 +1,28 @@
+<f:layout name="Master" />
+
+<f:section name="mainbox">
+	<h2 class="flow3-firstHeader"><f:translate>Edit blog properties</f:translate></h2>
+	<f:flashMessages class="flashmessages"/>
+	<f:render partial="FormErrors" arguments="{for: 'blog'}" />
+	<f:form method="blog" action="update" object="{blog}" name="blog" enctype="multipart/form-data">
+		<label><f:translate>Title</f:translate></label><br />
+		<f:form.textfield property="title" id="title" /><br />
+		<label for="description" source="Main"><f:translate>Description</f:translate></label><br />
+		<f:form.textfield property="description" id="description" /><br />
+		<label for="fullDescription"><f:translate>Long description</f:translate></label><br />
+		<f:form.textfield property="fullDescription" id="fullDescription" /><br />
+		<label for="keywords"><f:translate>Keywords (comma separated)</f:translate></label><br />
+		<f:form.textfield property="keywords" id="keywords" /><br />
+		<label for="blurb"><f:translate>Blurb</f:translate></label><br />
+		<f:form.textarea property="blurb" rows="5" cols="40" id="blurb" /><br />
+		<f:if condition="{blog.authorPicture}"><img src="{f:uri.resource(resource: blog.authorPicture)}" style="max-width: 60px; float:right;" /></f:if>
+		<label for="authorPicture"><f:translate>Author picture</f:translate></label><br />
+		<f:form.upload property="authorPicture" id="authorPicture" /><br />
+		<label for="twitterUsername"><f:translate>Twitter username</f:translate></label><br />
+		<f:form.textfield property="twitterUsername" id="twitterUsername" /><br />
+		<label for="googleAnalyticsAccountNumber"><f:translate>Google Analytics Account #</f:translate></label><br />
+		<f:form.textfield property="googleAnalyticsAccountNumber" id="googleAnalyticsAccountNumber" /><br />
+
+		<f:form.submit value="{f:translate(value: 'Update', package: 'TYPO3.FLOW3')}"/>
+	</f:form>
+</f:section>

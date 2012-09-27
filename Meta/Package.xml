@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://typo3.org/ns/2008/flow3/package" version="1.0">
-	<key>RobertLemke.Plugin.Blog</key>
-	<title/>
-	<description/>
-	<version/>
+<package xmlns="http://typo3.org/ns/2008/flow3/package">
+    <key>Blog</key>
+    <title>Blog</title>
+    <description>A blog plugin for TYPO3 Phoenix</description>
+    <version>1.0.0</version>
+    <state>Stable</state>
+    <constraints>
+        <depends>
+            <package minVersion="1.2.0-dev">TYPO3.FLOW3</package>
+        </depends>
+        <conflicts/>
+        <suggests/>
+    </constraints>
 </package>

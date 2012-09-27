@@ -1,0 +1,33 @@
+<f:layout name="Master" />
+
+<f:section name="mainbox">
+	<h2 class="flow3-firstHeader"><f:translate arguments="{0: post.title}"><![CDATA[Edit post &quot;{0}&quot;]]></f:translate></h2>
+	<f:flashMessages class="flashmessages"/>
+	<f:render partial="FormErrors" arguments="{for: 'post'}" />
+	<f:form method="post" action="update" object="{post}" name="post" enctype="multipart/form-data">
+		<label for="author"><f:translate>Author</f:translate></label><br />
+		<f:form.textfield property="author" id="author" /><br />
+		<label for="title"><f:translate>Title</f:translate></label><br />
+		<f:form.textfield property="title" id="title" /><br />
+		<label for="content"><f:translate>Content</f:translate></label><br />
+		<f:form.textarea property="content" rows="5" cols="40" id="content" /><br />
+
+		<f:if condition="{post.image.originalResource}"><img src="{f:uri.resource(resource: post.image.originalResource)}" style="max-width: 60px; float:right;" /></f:if>
+		<label for="image"><f:translate>Image resource</f:translate></label><br />
+		<f:form.textfield property="image.title" />
+		<f:form.upload property="image.originalResource" id="image" />
+
+		<f:if condition="{categories}">
+			<label for="category"><f:translate>Category</f:translate></label><br />
+			<f:form.select property="category" options="{categories}" optionLabelField="name" id="category" /><br />
+			<br />
+		</f:if>
+
+		<f:if condition="{existingPosts}">
+			<label for="relatedPosts"><f:translate>Related Posts</f:translate></label><br />
+			<f:form.select property="relatedPosts" options="{existingPosts}" optionLabelField="title" multiple="1" size="4" id="relatedPosts" /><br />
+			<br />
+		</f:if>
+		<f:form.submit value="{f:translate(value: 'Update', package: 'TYPO3.FLOW3')}"/>
+	</f:form>
+</f:section>

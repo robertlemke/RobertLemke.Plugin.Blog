@@ -1,0 +1,18 @@
+#                                                                        #
+# Settings Configuration for the Blog package                            #
+#                                                                        #
+
+RobertLemke:
+  Plugin:
+    Blog:
+      notifications:
+        to:
+          email: ''
+          name: 'Blog Admin'
+
+  TYPO3CR:
+    contentTypes:
+      'RobertLemke.Plugin.Blog:PostsPlugin':
+        superTypes: ['TYPO3.Phoenix.ContentTypes:Plugin']
+        label: 'Blog Posts'
+        group: 'Plugins'

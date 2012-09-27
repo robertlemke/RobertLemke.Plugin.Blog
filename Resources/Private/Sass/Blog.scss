@@ -1,0 +1,123 @@
+.robertlemke-plugin-blog {
+
+	.metadata {
+		font-size: 0.8em;
+	}
+
+	li.post, li.comment {
+		list-style-type: none;
+		list-style-image: none;
+	}
+
+	ul.relatedpostslist {
+		clear: both;
+		margin-top: 8px;
+		margin-bottom: 10px;
+		padding: 8px;
+	}
+
+	ul.relatedpostslist li {
+		list-style-type:square;
+		margin-left:15px;
+	}
+
+	ol.commentlist {
+		clear: both;
+		margin-bottom: 10px;
+	}
+
+	li.comment {
+		clear: both;
+		background-color: #efefef;
+	}
+
+	li.spamcomment {
+		background-color: #efd3d5;
+	}
+
+	li.comment p.metadata {
+		background-color: #d7d7d7;
+		border-bottom: 1px solid #999999;
+		padding: 1px 8px;
+		margin: 10px 0 0 0;
+	}
+
+	li.comment p.content {
+		padding: 8px;
+		margin: 0;
+		margin-left:80px;
+		min-height: 73px;
+	}
+
+	.comment img.gravatar {
+		float: left;
+		margin: 4px 10px 4px 0;
+	}
+
+	/*--------------- pagination ------------------*/
+
+	ul.typo3-widget-paginator {
+		 list-style-type: none;
+	}
+
+	ul.typo3-widget-paginator li {
+		 display: block;
+		 float:left;
+		 padding: 4px 6px;
+		 margin: 4px;
+	}
+
+	/*--------------- form validation ------------------*/
+
+	input.typo3-form-error {
+		border: 1px solid #8a1f11;
+	}
+
+	.errors {
+		padding: .8em;
+		margin-bottom:1em;
+		border: 1px solid #FBC2C4;
+	}
+	.errors dt {
+		float: left;
+		color:#8a1f11;
+		width: 100px;
+		font-weight: bold;
+	}
+	.errors dd {
+		margin-left: 100px;
+		color:#8a1f11;
+	}
+
+	.error, .f3-form-error {
+		background:#FBE3E4;
+		border-color:#FBC2C4;
+	}
+	.error {
+		color:#8a1f11;
+	}
+	.notice {
+		background:#FFF6BF;
+		color:#514721;
+		border-color:#FFD324;
+	}
+	.success {
+		background:#E6EFC2;
+		color:#264409;
+		border-color:#C6D880;
+	}
+	.error a {
+		color:#8a1f11;
+	}
+	.notice a {
+		color:#514721;
+	}
+	.success a {
+		color:#264409;
+	}
+
+	.required {
+		color:#8a1f11;
+	}
+
+}

@@ -1,0 +1,79 @@
+{namespace blog=RobertLemke\Plugin\Blog\ViewHelpers}
+<f:layout name="Master" />
+
+<f:section name="Content">
+	<f:flashMessages class="flashmessages" />
+
+	<h1>{post.title}<f:security.ifHasRole role="Editor">
+			<f:link.action action="edit" arguments="{post: post}" controller="Post"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_edit.png')}" title="{f:translate(value: 'Edit post')}" /></f:link.action>
+			<f:link.action onclick="return confirm('{f:translate(value: 'Really delete this post?')}');" action="delete" arguments="{post: post}" controller="Post"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_delete.png')}" title="{f:translate(value: 'Delete post')}" /></f:link.action>
+		</f:security.ifHasRole></h1>
+		<p class="content"><f:format.crop maxCharacters="1000000">{f:format.raw(value: post.content)}</f:format.crop></p>
+	<f:if condition="{post.image.originalResource}">
+		<p><img src="{f:uri.resource(resource: post.image.originalResource)}" style="max-width: 100%" alt="{post.image.title}" /></p>
+	</f:if>
+	<f:if condition="{post.relatedPosts}">
+		<div id="relatedposts" class="relatedposts">
+			<h3><f:translate>Related Posts</f:translate></h3>
+			<ul class="relatedpostslist">
+				<f:for each="{post.relatedPosts}" as="relatedPost">
+					<li><f:link.action action="show" arguments="{post: relatedPost}">{relatedPost.title}</f:link.action></li>
+				</f:for>
+			</ul>
+		</div>
+		<div class="clear"></div>
+	</f:if>
+	<div id="comments" class="comments">
+		<f:if condition="{post.numberOfComments}">
+			<h3><f:translate>Comments</f:translate></h3>
+			<ol class="commentlist">
+				<f:for each="{post.comments}" as="comment" reverse="TRUE">
+					<f:if condition="{comment.spam} == 0">
+							<li class="comment">
+								<p class="metadata">
+								<img src="{f:uri.resource(path: 'Icons/FamFamFam/user_comment.png')}" title="Comment" /> {comment.author} | <f:format.date format='d.m.Y'>{comment.date}</f:format.date>
+									<f:security.ifHasRole role="Editor">
+I									| <f:link.action onclick="return confirm('{f:translate(value: 'Really delete this comment?')}');" action="delete" arguments="{post: post, comment: comment}" controller="Comment"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_delete.png')}" title="{f:translate(value: 'Delete comment')}" /></f:link.action>
+									| <f:link.action action="markSpam" arguments="{post: post, comment: comment}" controller="Comment"><img src="{f:uri.resource(path: 'Icons/FamFamFam/thumb_down.png')}" title="{f:translate(value: 'Mark as spam')}" /></f:link.action>
+									</f:security.ifHasRole>
+								</p>
+								<blog:gravatar email="{comment.emailAddress}" default="{f:uri.resource(path: 'gravatar_default.png')}" class="gravatar" />
+								<p class="content"><f:format.nl2br>{comment.content}</f:format.nl2br></p>
+							</li>
+					</f:if>
+				</f:for>
+			</ol>
+
+			<f:security.ifHasRole role="Editor">
+				<h3><f:translate>Comments marked as spam</f:translate></h3>
+				<ol class="commentlist">
+					<f:for each="{post.comments}" as="comment" reverse="TRUE">
+						<f:if condition="{comment.spam}">
+							<li class="spamcomment comment">
+								<p class="metadata">
+								<img src="{f:uri.resource(path: 'Icons/FamFamFam/user_comment.png')}" title="Comment" /> {comment.author} | <f:format.date format='d.m.Y'>{comment.date}</f:format.date>
+								| <f:link.action onclick="return confirm('{f:translate(value: 'Really delete this comment?')}');" action="delete" arguments="{post: post, comment: comment}" controller="Comment"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_delete.png')}" title="{f:translate(value: 'Delete comment')}" /></f:link.action>
+								| <f:link.action action="markHam" arguments="{post: post, comment: comment}" controller="Comment"><img src="{f:uri.resource(path: 'Icons/FamFamFam/thumb_up.png')}" title="{f:translate(value: 'Mark as ham')}" /></f:link.action>
+								</p>
+								<blog:gravatar email="{comment.emailAddress}" default="{f:uri.resource(path: 'gravatar_default.png')}" class="gravatar" />
+								<p class="content"><f:format.nl2br>{comment.content}</f:format.nl2br></p>
+							</li>
+						</f:if>
+					</f:for>
+				</ol>
+			</f:security.ifHasRole>
+			<div class="clear"></div>
+		</f:if>
+		<h3><f:translate>Leave a reply</f:translate></h3>
+		<f:render partial="FormErrors" arguments="{for: 'newComment'}" />
+		<f:form action="create" arguments="{post: post}" controller="Comment" object="{newComment}" name="newComment" class="newcomment" section="comments">
+			<label for="comment.author"><f:translate>Name <span class="required">*</span></f:translate></label>
+			<f:form.textfield id="comment.author" property="author" />
+			<label for="comment.emailaddress"><f:translate>Email <span class="required">*</span> (won't be displayed)</f:translate></label>
+			<f:form.textfield id="comment.emailaddress" property="emailAddress" />
+			<f:form.textarea id="comment.content" property="content" rows="10" cols="50"/>
+			<f:form.submit value="{f:translate(value: 'Submit', package: 'TYPO3.FLOW3')}" class="secondary button" />
+		</f:form>
+		<f:render partial="/PostMetaData" arguments="{post: post}"/>
+	</div>
+</f:section>

@@ -1,0 +1,12 @@
+<f:layout name="Master" />
+
+<f:section name="mainbox">
+	<h2 class="flow3-firstHeader"><f:translate arguments="{0: category.name}"><![CDATA[Edit category &quot;{0}&quot;]]></f:translate></h2>
+	<f:flashMessages class="flashmessages"/>
+	<f:render partial="FormErrors" arguments="{for: 'category'}" />
+	<f:form action="update" object="{category}" name="category">
+		<label><f:translate id="category.name"/></label><br />
+		<f:form.textfield property="name" /><br />
+		<f:form.submit value="{f:translate(value: 'Update', package: 'TYPO3.FLOW3')}"/>
+	</f:form>
+</f:section>

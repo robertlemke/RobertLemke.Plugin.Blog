@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--{namespace typo3=TYPO3\TYPO3\ViewHelpers}{namespace ts=TYPO3\TypoScript\ViewHelpers}-->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" version="HTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml" xmlns:typo3="http://www.typo3.org/ns/2011/FLOW3/Packages/TYPO3/Content/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/1999/html"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="en" version="HTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml" xmlns:typo3="http://www.typo3.org/ns/2011/FLOW3/Packages/TYPO3/Content/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/1999/html"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="en" version="HTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml" xmlns:typo3="http://www.typo3.org/ns/2011/FLOW3/Packages/TYPO3/Content/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/1999/html"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" version="HTML+RDFa 1.1" xmlns="http://www.w3.org/1999/xhtml" xmlns:typo3="http://www.typo3.org/ns/2011/FLOW3/Packages/TYPO3/Content/" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/1999/html"> <!--<![endif]-->
+	<head>
+		<f:base/>
+		<title>{title} blog</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		<link rel="stylesheet" href="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Stylesheets/app.css">
+		<link rel="stylesheet" href="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Stylesheets/Fonts.css">
+		<link rel="stylesheet" href="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Stylesheets/Main.css">
+		<link rel="stylesheet" href="_Resources/Static/Packages/RobertLemke.Plugin.Blog/Stylesheets/Blog.css">
+
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/modernizr.foundation.js"></script>
+		<!-- IE Fix for HTML5 Tags -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+	<div class="row hide-for-small" id="whitespace-top"></div>
+	<div class="row">
+			<header class="three columns main-navigation t3-reloadable-content" id="navigation-main">
+				<nav class="show-for-small" id="navigation-main-small">
+					<a href="/" class="logotype"><h1>robert lemke<span class="underscore">_</span></h1></a><br/>
+					<a href="coach">coach</a></li>
+					<a href="blog/posts/" class="active">blog</a></li>
+					<a href="about">about</a></li>
+					<a href="contact">contact</a></li>
+				</nav>
+				<nav class="hide-for-small" id="navigation-main-full">
+					<a href="/" class="logotype"><h1>robert lemke<span class="underscore">_</span></h1></a>
+					<a href="coach">coach</a></li>
+					<a href="blog/posts/" class="active">blog</a></li>
+					<a href="about">about</a></li>
+					<a href="contact">contact</a></li>
+				</nav>
+			</header>
+			<section class="seven columns t3-reloadable-content" id="mainsection">
+				<div class="robertlemke-plugin-blog">
+				<f:render section="Content"/>
+				</div>
+			</section>
+			<div class="one column hide-for-small"></div>
+		</div>
+
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.foundation.alerts.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.foundation.buttons.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.foundation.forms.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.foundation.mediaQueryToggle.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.foundation.navigation.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/jquery.placeholder.js"></script>
+		<script src="_Resources/Static/Packages/RobertLemke.RobertLemkeCom/Javascripts/foundation/app.js"></script>
+		<script>$('body').scrollTop(0);</script>
+	</body>
+</html>

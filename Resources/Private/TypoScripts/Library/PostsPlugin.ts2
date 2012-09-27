@@ -1,0 +1,7 @@
+prototype(RobertLemke.Plugin.Blog:PostsPlugin) < prototype(TYPO3.Phoenix.ContentTypes:Plugin)
+prototype(RobertLemke.Plugin.Blog:PostsPlugin) {
+	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/Post/Index.html'
+	package = 'RobertLemke.Plugin.Blog'
+	controller = 'Post'
+	action = 'index'
+}

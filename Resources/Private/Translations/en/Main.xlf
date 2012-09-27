@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" source-language="en" datatype="plaintext">
+		<body>
+			<trans-unit id="1">
+				<source>Recent Posts</source>
+			</trans-unit>
+			<trans-unit id="2">
+				<source>Latest Tweet</source>
+			</trans-unit>
+			<trans-unit id="3">
+				<source>Follow me on Twitter</source>
+			</trans-unit>
+			<trans-unit id="4">
+				<source>Administration</source>
+			</trans-unit>
+			<group restype="x-gettext-plurals" id="5">
+				<trans-unit id="5[0]">
+					<source>{0,number} comments</source>
+				</trans-unit>
+				<trans-unit id="5[1]">
+					<source>{0,number} comments</source>
+				</trans-unit>
+			</group>
+			<trans-unit id="6">
+				<source>Filed under: {0}</source>
+			</trans-unit>
+			<trans-unit id="7">
+				<source>Tags:</source>
+			</trans-unit>
+			<trans-unit id="8">
+				<source>Published on {0,datetime} by {1}</source>
+			</trans-unit>
+			<trans-unit id="9">
+				<source>Subscribe to feed</source>
+			</trans-unit>
+			<trans-unit id="10">
+				<source>Read more</source>
+			</trans-unit>
+			<trans-unit id="11">
+				<source>This blog currently doesn't contain any posts.</source>
+			</trans-unit>
+			<trans-unit id="12">
+				<source>Create the first post</source>
+			</trans-unit>
+			<trans-unit id="13">
+				<source>Posts tagged with &amp;quot;{0}&amp;quot;:</source>
+			</trans-unit>
+			<trans-unit id="14">
+				<source>{0} Related Posts</source>
+			</trans-unit>
+			<trans-unit id="15">
+				<source>Create a new post</source>
+			</trans-unit>
+			<trans-unit id="16">
+				<source>Edit post</source>
+			</trans-unit>
+			<trans-unit id="17">
+				<source>Delete post</source>
+			</trans-unit>
+			<trans-unit id="18">
+				<source>Edit blog properties</source>
+			</trans-unit>
+			<trans-unit id="19">
+				<source>Manage categories</source>
+			</trans-unit>
+			<trans-unit id="20">
+				<source>Edit account</source>
+			</trans-unit>
+			<trans-unit id="category.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="21">
+				<source>Edit category &quot;{0}&quot;</source>
+			</trans-unit>
+			<trans-unit id="22">
+				<source>Add category</source>
+			</trans-unit>
+			<trans-unit id="23">
+				<source>Delete category</source>
+			</trans-unit>
+			<trans-unit id="24">
+				<source>Edit category</source>
+			</trans-unit>
+			<trans-unit id="25">
+				<source>Really delete this category?</source>
+			</trans-unit>
+			<trans-unit id="26">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="27">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="28">
+				<source>Long description</source>
+			</trans-unit>
+			<trans-unit id="29">
+				<source>Keywords (comma separated)</source>
+			</trans-unit>
+			<trans-unit id="30">
+				<source>Blurb</source>
+			</trans-unit>
+			<trans-unit id="31">
+				<source>Author picture</source>
+			</trans-unit>
+			<trans-unit id="32">
+				<source>Twitter username</source>
+			</trans-unit>
+			<trans-unit id="33">
+				<source>Google Analytics Account #</source>
+			</trans-unit>
+			<trans-unit id="34">
+				<source>Really delete this post?</source>
+			</trans-unit>
+			<trans-unit id="35">
+				<source>Related Posts</source>
+			</trans-unit>
+			<trans-unit id="36">
+				<source>Comments</source>
+			</trans-unit>
+			<trans-unit id="37">
+				<source>Delete comment</source>
+			</trans-unit>
+			<trans-unit id="38">
+				<source>Really delete this comment?</source>
+			</trans-unit>
+			<trans-unit id="39">
+				<source>Leave a reply</source>
+			</trans-unit>
+			<trans-unit id="40">
+				<source>Name &lt;span class="required"&gt;*&lt;/span&gt;</source>
+			</trans-unit>
+			<trans-unit id="41">
+				<source>Email &lt;span class="required"&gt;*&lt;/span&gt; (won't be displayed)</source>
+			</trans-unit>
+			<trans-unit id="42">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="43">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="44">
+				<source>Image resource</source>
+			</trans-unit>
+			<trans-unit id="45">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="46">
+				<source>Edit post &quot;{0}&quot;</source>
+			</trans-unit>
+			<trans-unit id="47">
+				<source>My image title</source>
+			</trans-unit>
+			<trans-unit id="48">
+				<source>Filed under:</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

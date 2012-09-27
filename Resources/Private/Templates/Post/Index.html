@@ -1,0 +1,42 @@
+{namespace blog=RobertLemke\Plugin\Blog\ViewHelpers}
+{namespace typo3=TYPO3\TYPO3\ViewHelpers}
+
+<f:layout name="Master" />
+
+<f:section name="Content">
+	<f:flashMessages class="flashmessages" />
+	<f:if condition="{tag}">
+		<h2><f:translate arguments="{0: tag.name}">Posts tagged with &quot;{0}&quot;:</f:translate></h2>
+	</f:if>
+	<f:if condition="{category}">
+		<h1><f:translate arguments="{0: category.name}">{0} Related Posts</f:translate></h1>
+	</f:if>
+	<f:if condition="{posts}">
+		<f:then>
+			<f:security.ifHasRole role="Editor">
+				<div id="navigation">
+					<span class="buttons"><f:link.action action="new" controller="Post"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_add.png')}" title="{f:translate(value: 'Create a new post')}"/></f:link.action></span>
+					<div class="clear"></div>
+				</div>
+			</f:security.ifHasRole>
+			<ol class="posts">
+				<f:for each="{posts}" as="post">
+					<li class="post">
+						<h2>
+							<f:link.action action="show" controller="Post" arguments="{post: post}">{post.title}</f:link.action>
+							<f:security.ifHasRole role="Editor">
+								<f:link.action action="edit" arguments="{post: post}" controller="Post"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_edit.png')}" title="{f:translate(value: 'Edit post')}" /></f:link.action>
+								<f:link.action onclick="return confirm('{f:translate(value: 'Really delete this post?')}');" action="delete" arguments="{post: post}" controller="Post"><img src="{f:uri.resource(path: 'Icons/FamFamFam/page_delete.png')}" title="{f:translate(value: 'Delete post')}" /></f:link.action>
+							</f:security.ifHasRole>
+						</h2>
+						<p class="content"><f:link.action action='show' arguments='{post: post}' class="invisible-link"><blog:readMore>{f:format.raw(value: post.content)}</blog:readMore></f:link.action> <f:link.action action='show' arguments='{post: post}' class="read-more">_</f:link.action></p>
+					</li>
+					<hr/>
+				</f:for>
+			</ol>
+		</f:then>
+		<f:else>
+			<p><f:translate>This blog currently doesn't contain any posts.</f:translate> <f:link.action action="new" controller="Post"><f:translate>Create the first post</f:translate></f:link.action></p>
+		</f:else>
+	</f:if>
+</f:section>

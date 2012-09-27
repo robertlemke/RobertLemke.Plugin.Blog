@@ -1,0 +1,18 @@
+<f:layout name="Master" />
+
+<f:section name="mainbox">
+	<h2 class="flow3-firstHeader"><f:translate>Edit account</f:translate></h2>
+	<f:flashMessages class="flashmessages"/>
+	<f:render partial="FormErrors" arguments="{for: 'account'}" />
+	<f:form action="update" object="{account}" name="account">
+		<label for="accountIdentifier"><f:translate package="TYPO3.FLOW3">Username</f:translate></label><br />
+		<f:form.textfield property="accountIdentifier" id="accountIdentifier" /><br />
+		<label for="firstname"><f:translate package="TYPO3.Party">First name</f:translate></label><br />
+		<f:form.textfield property="party.name.firstName" id="firstname" /><br />
+		<label for="lastname"><f:translate package="TYPO3.Party">Last name</f:translate></label><br />
+		<f:form.textfield property="party.name.lastName" id="lastname" /><br />
+		<label for="password"><f:translate package="TYPO3.FLOW3">New password</f:translate></label><br />
+		<f:form.password name="password" id="password" /><br />
+		<f:form.submit value="{f:translate(value: 'Update', package: 'TYPO3.FLOW3')}"/>
+	</f:form>
+</f:section>

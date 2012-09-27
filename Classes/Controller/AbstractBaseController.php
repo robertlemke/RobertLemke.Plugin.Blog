@@ -1,8 +1,8 @@
 <?php
-namespace RobertLemke\Plugin\Blog;
+namespace RobertLemke\Plugin\Blog\Controller;
 
 /*                                                                        *
- * This script belongs to the FLOW3 package "Blog".                       *
+ * This script belongs to the FLOW3 package "Blog".                 *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License as published by the *
@@ -21,23 +21,44 @@ namespace RobertLemke\Plugin\Blog;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use \TYPO3\FLOW3\Package\Package as BasePackage;
+use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
- * The Blog Package
+ * An action controller with base functionality for all action controllers of
+ * the Blog package.
  *
  */
-class Package extends BasePackage {
+abstract class AbstractBaseController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
 
 	/**
-	 * Invokes custom PHP code directly after the package manager has been initialized.
+	 * @FLOW3\Inject
+	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\BlogRepository
+	 */
+	protected $blogRepository;
+
+	/**
+	 * @FLOW3\Inject
+	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\PostRepository
+	 */
+	protected $postRepository;
+
+	/**
+	 * @var \RobertLemke\Plugin\Blog\Domain\Model\Blog
+	 */
+	protected $blog;
+
+	/**
+	 * Initializes the view before invoking an action method.
 	 *
-	 * @param \TYPO3\FLOW3\Core\Bootstrap $bootstrap The current bootstrap
+	 * @param \TYPO3\FLOW3\Mvc\View\ViewInterface $view The view to be initialized
 	 * @return void
 	 */
-	public function boot(\TYPO3\FLOW3\Core\Bootstrap $bootstrap) {
-		$dispatcher = $bootstrap->getSignalSlotDispatcher();
-		$dispatcher->connect('RobertLemke\Plugin\Blog\Controller\CommentController', 'commentCreated', 'RobertLemke\Plugin\Blog\Service\Notification', 'sendNewCommentNotification');
+	protected function initializeView(\TYPO3\FLOW3\Mvc\View\ViewInterface $view) {
+		$this->blog = $this->blogRepository->findActive();
+		if ($this->blog === NULL) {
+			$this->redirect('index', 'Setup');
+		}
+		$view->assign('blog', $this->blog);
 	}
 
 }
