@@ -68,7 +68,7 @@
 
 -
   name: 'Posts Pagination - First page'
-  uriPattern:    '/posts'
+  uriPattern:    '/posts(.{@format})'
   defaults:
     '@controller': 'Post'
     '@action':     'index'
