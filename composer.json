@@ -1,6 +1,6 @@
 {
     "name": "robertlemke/plugin-blog",
-    "type": "typo3-flow-plugin",
+    "type": "typo3-flow-package",
     "description": "Blog plugin for TYPO3 Neos",
     "homepage": "http://robertlemke.com",
     "keywords": ["plugin"],
