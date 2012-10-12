@@ -22,12 +22,12 @@ namespace RobertLemke\Plugin\Blog\Domain\Model;
  *                                                                        */
 
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A blog
  *
- * @FLOW3\Entity
+ * @Flow\Entity
  */
 class Blog {
 
@@ -35,8 +35,8 @@ class Blog {
 	 * The blog's title.
 	 *
 	 * @var string
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "minimum"=1, "maximum"=80 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "minimum"=1, "maximum"=80 })
 	 * @ORM\Column(length=80)
 	 */
 	protected $title = '';
@@ -45,8 +45,8 @@ class Blog {
 	 * A short description of the blog
 	 *
 	 * @var string
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=150 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=150 })
 	 * @ORM\Column(length=150)
 	 */
 	protected $description = '';
@@ -55,8 +55,8 @@ class Blog {
 	 * A longer description of the blog, mainly used in the meta tag for search engines
 	 *
 	 * @var string
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=255 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=255 })
 	 */
 	protected $fullDescription = '';
 
@@ -64,8 +64,8 @@ class Blog {
 	 * A comma separated list of keywords, to be used in the meta information
 	 *
 	 * @var string
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=255 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=255 })
 	 */
 	protected $keywords = '';
 
@@ -74,15 +74,15 @@ class Blog {
 	 *
 	 * @var string
 	 * @ORM\Column(type="text", length=400)
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=400 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=400 })
 	 */
 	protected $blurb = '';
 
 	/**
 	 * A picture of the author
 	 *
-	 * @var \TYPO3\FLOW3\Resource\Resource
+	 * @var \TYPO3\Flow\Resource\Resource
 	 * @ORM\ManyToOne
 	 */
 	protected $authorPicture;
@@ -90,8 +90,8 @@ class Blog {
 	/**
 	 * Twitter username - if any
 	 *
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=80 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=80 })
 	 * @var string
 	 * @ORM\Column(length=80)
 	 */
@@ -100,8 +100,8 @@ class Blog {
 	/**
 	 * Google Analytics account number - if any
 	 *
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=20 })
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=20 })
 	 * @var string
 	 * @ORM\Column(length=20)
 	 */
@@ -182,7 +182,7 @@ class Blog {
 	/**
 	 * Returns the author's picture
 	 *
-	 * @return \TYPO3\FLOW3\Resource\Resource
+	 * @return \TYPO3\Flow\Resource\Resource
 	 */
 	public function getAuthorPicture() {
 		return $this->authorPicture;
@@ -191,10 +191,10 @@ class Blog {
 	/**
 	 * Sets the author's picture
 	 *
-	 * @param \TYPO3\FLOW3\Resource\Resource $authorPicture
+	 * @param \TYPO3\Flow\Resource\Resource $authorPicture
 	 * @return void
 	 */
-	public function setAuthorPicture(\TYPO3\FLOW3\Resource\Resource $authorPicture) {
+	public function setAuthorPicture(\TYPO3\Flow\Resource\Resource $authorPicture) {
 		$this->authorPicture = $authorPicture;
 	}
 

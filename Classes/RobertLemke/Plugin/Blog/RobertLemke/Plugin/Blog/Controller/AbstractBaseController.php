@@ -21,23 +21,23 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * An action controller with base functionality for all action controllers of
  * the Blog package.
  *
  */
-abstract class AbstractBaseController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
+abstract class AbstractBaseController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\BlogRepository
 	 */
 	protected $blogRepository;
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\PostRepository
 	 */
 	protected $postRepository;
@@ -50,10 +50,10 @@ abstract class AbstractBaseController extends \TYPO3\FLOW3\Mvc\Controller\Action
 	/**
 	 * Initializes the view before invoking an action method.
 	 *
-	 * @param \TYPO3\FLOW3\Mvc\View\ViewInterface $view The view to be initialized
+	 * @param \TYPO3\Flow\Mvc\View\ViewInterface $view The view to be initialized
 	 * @return void
 	 */
-	protected function initializeView(\TYPO3\FLOW3\Mvc\View\ViewInterface $view) {
+	protected function initializeView(\TYPO3\Flow\Mvc\View\ViewInterface $view) {
 		$this->blog = $this->blogRepository->findActive();
 		if ($this->blog === NULL) {
 			$this->redirect('index', 'Setup');

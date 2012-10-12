@@ -21,23 +21,23 @@ namespace RobertLemke\Plugin\Blog\Domain\Repository;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A repository for Blogs
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
-class BlogRepository extends \TYPO3\FLOW3\Persistence\Repository {
+class BlogRepository extends \TYPO3\Flow\Persistence\Repository {
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\PostRepository
 	 */
 	protected $postRepository;
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\CategoryRepository
 	 */
 	protected $categoryRepository;

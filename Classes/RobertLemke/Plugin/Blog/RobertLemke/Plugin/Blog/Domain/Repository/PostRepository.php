@@ -21,21 +21,21 @@ namespace RobertLemke\Plugin\Blog\Domain\Repository;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use \TYPO3\FLOW3\Persistence\QueryInterface;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use \TYPO3\Flow\Persistence\QueryInterface;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A repository for Blog Posts
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
-class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
+class PostRepository extends \TYPO3\Flow\Persistence\Repository {
 
 	/**
 	 * Finds posts by the specified blog
 	 *
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Blog $blog The blog the post must refer to
-	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface The posts
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface The posts
 	 */
 	public function findByBlog(\RobertLemke\Plugin\Blog\Domain\Model\Blog $blog) {
 		$query = $this->createQuery();
@@ -50,7 +50,7 @@ class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	 *
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Tag $tag
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Blog $blog The blog the post must refer to
-	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface The posts
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface The posts
 	 */
 	public function findByTagAndBlog(\RobertLemke\Plugin\Blog\Domain\Model\Tag $tag, \RobertLemke\Plugin\Blog\Domain\Model\Blog $blog) {
 		$query = $this->createQuery();
@@ -69,7 +69,7 @@ class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	 *
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Category $category
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Blog $blog The blog the post must refer to
-	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface The posts
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface The posts
 	 */
 	public function findByCategoryAndBlog(\RobertLemke\Plugin\Blog\Domain\Model\Category $category, \RobertLemke\Plugin\Blog\Domain\Model\Blog $blog) {
 		$query = $this->createQuery();
@@ -92,7 +92,7 @@ class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	public function findPrevious(\RobertLemke\Plugin\Blog\Domain\Model\Post $post) {
 		$query = $this->createQuery();
 		return $query->matching($query->lessThan('date', $post->getDate()))
-			->setOrderings(array('date' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING))
+			->setOrderings(array('date' => \TYPO3\Flow\Persistence\QueryInterface::ORDER_DESCENDING))
 			->execute()
 			->getFirst();
 	}
@@ -106,7 +106,7 @@ class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	public function findNext(\RobertLemke\Plugin\Blog\Domain\Model\Post $post) {
 		$query = $this->createQuery();
 		return $query->matching($query->greaterThan('date', $post->getDate()))
-			->setOrderings(array('date' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_ASCENDING))
+			->setOrderings(array('date' => \TYPO3\Flow\Persistence\QueryInterface::ORDER_ASCENDING))
 			->execute()
 			->getFirst();
 	}
@@ -116,7 +116,7 @@ class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	 *
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Blog $blog The blog the post must refer to
 	 * @param integer $limit The number of posts to return at max
-	 * @return \TYPO3\FLOW3\Persistence\QueryResultInterface The posts
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface The posts
 	 */
 	public function findRecentByBlog(\RobertLemke\Plugin\Blog\Domain\Model\Blog $blog, $limit = 5) {
 		$query = $this->createQuery();
@@ -136,7 +136,7 @@ class PostRepository extends \TYPO3\FLOW3\Persistence\Repository {
 	public function findRecentExceptThis(\RobertLemke\Plugin\Blog\Domain\Model\Post $post, $limit = 20) {
 		$query = $this->createQuery();
 		$posts = $query->matching($query->equals('blog', $post->getBlog()))
-				->setOrderings(array('date' => \TYPO3\FLOW3\Persistence\QueryInterface::ORDER_DESCENDING))
+				->setOrderings(array('date' => \TYPO3\Flow\Persistence\QueryInterface::ORDER_DESCENDING))
 				->setLimit($limit)
 				->execute()
 				->toArray();

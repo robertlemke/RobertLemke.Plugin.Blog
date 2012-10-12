@@ -21,7 +21,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * The category controller for the Blog package
@@ -30,13 +30,13 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 class CategoryController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseController {
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\CategoryRepository
 	 */
 	protected $categoryRepository;
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\PostRepository
 	 */
 	protected $postRepository;
@@ -93,7 +93,7 @@ class CategoryController extends \RobertLemke\Plugin\Blog\Controller\AbstractBas
 	public function deleteAction(\RobertLemke\Plugin\Blog\Domain\Model\Category $category) {
 		$numberOfPostsInThisCategory = $this->postRepository->countByCategory($category);
 		if ($numberOfPostsInThisCategory > 0) {
-			$this->addFlashMessage('%d post(s) refer to category "%s". Please adjust them first.', 'Category can\'t be deleted', \TYPO3\FLOW3\Error\Message::SEVERITY_ERROR, array($numberOfPostsInThisCategory, $category));
+			$this->addFlashMessage('%d post(s) refer to category "%s". Please adjust them first.', 'Category can\'t be deleted', \TYPO3\Flow\Error\Message::SEVERITY_ERROR, array($numberOfPostsInThisCategory, $category));
 		} else {
 			$this->categoryRepository->remove($category);
 			$this->addFlashMessage('The category has been deleted.');
@@ -104,12 +104,12 @@ class CategoryController extends \RobertLemke\Plugin\Blog\Controller\AbstractBas
 	/**
 	 * Override getErrorFlashMessage to present nice flash error messages.
 	 *
-	 * @return \TYPO3\FLOW3\Error\Message
+	 * @return \TYPO3\Flow\Error\Message
 	 */
 	protected function getErrorFlashMessage() {
 		switch ($this->actionMethodName) {
 			case 'createAction' :
-				return new \TYPO3\FLOW3\Error\Error('Could not create the new category');
+				return new \TYPO3\Flow\Error\Error('Could not create the new category');
 			default :
 				return parent::getErrorFlashMessage();
 		}

@@ -21,7 +21,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * Comments controller for the Blog package
@@ -29,7 +29,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 class CommentController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseController {
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Akismet\Service
 	 */
 	protected $akismetService;
@@ -109,12 +109,12 @@ class CommentController extends \RobertLemke\Plugin\Blog\Controller\AbstractBase
 	/**
 	 * Override getErrorFlashMessage to present nice flash error messages.
 	 *
-	 * @return \TYPO3\FLOW3\Error\Message
+	 * @return \TYPO3\Flow\Error\Message
 	 */
 	protected function getErrorFlashMessage() {
 		switch ($this->actionMethodName) {
 			case 'createAction' :
-				return new \TYPO3\FLOW3\Error\Error('Could not create the new comment');
+				return new \TYPO3\Flow\Error\Error('Could not create the new comment');
 			default :
 				return parent::getErrorFlashMessage();
 		}
@@ -124,7 +124,7 @@ class CommentController extends \RobertLemke\Plugin\Blog\Controller\AbstractBase
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
 	 * @return void
-	 * @FLOW3\Signal
+	 * @Flow\Signal
 	 */
 	protected function emitCommentCreated(\RobertLemke\Plugin\Blog\Domain\Model\Comment $comment, \RobertLemke\Plugin\Blog\Domain\Model\Post $post) {}
 }

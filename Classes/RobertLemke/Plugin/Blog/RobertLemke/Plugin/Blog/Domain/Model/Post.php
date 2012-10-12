@@ -22,12 +22,12 @@ namespace RobertLemke\Plugin\Blog\Domain\Model;
  *                                                                        */
 
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A blog post
  *
- * @FLOW3\Entity
+ * @Flow\Entity
  */
 class Post {
 
@@ -39,21 +39,21 @@ class Post {
 
 	/**
 	 * @var string
-	 * @FLOW3\Validate(type="StringLength", options={ "minimum"=1, "maximum"=100 })
-	 * @FLOW3\Identity
+	 * @Flow\Validate(type="StringLength", options={ "minimum"=1, "maximum"=100 })
+	 * @Flow\Identity
 	 * @ORM\Column(length=100)
 	 */
 	protected $title;
 
 	/**
-	 * @FLOW3\Identity
+	 * @Flow\Identity
 	 * @var \DateTime
 	 */
 	protected $date;
 
 	/**
 	 * @var string
-	 * @FLOW3\Validate(type="StringLength", options={ "minimum"=1, "maximum"=50 })
+	 * @Flow\Validate(type="StringLength", options={ "minimum"=1, "maximum"=50 })
 	 * @ORM\Column(length=50)
 	 */
 	protected $author;
@@ -61,7 +61,7 @@ class Post {
 	/**
 	 * @var string
 	 * @ORM\Column(type="text")
-	 * @FLOW3\Validate(type="Raw")
+	 * @Flow\Validate(type="Raw")
 	 */
 	protected $content;
 

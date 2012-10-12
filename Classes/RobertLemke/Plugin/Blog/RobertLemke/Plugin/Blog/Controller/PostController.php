@@ -21,29 +21,29 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * The posts controller for the Blog package
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
 class PostController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseController {
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Plugin\Blog\Domain\Repository\CategoryRepository
 	 */
 	protected $categoryRepository;
 
 	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\Context
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Security\Context
 	 */
 	protected $securityContext;
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \RobertLemke\Akismet\Service
 	 */
 	protected $akismetService;
@@ -75,8 +75,8 @@ class PostController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseCon
 	 *
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post The post to display
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $newComment If the comment form as has been submitted but the comment was not valid, this argument is used for displaying the entered values again
-	 * @FLOW3\IgnoreValidation("$post")
-	 * @FLOW3\IgnoreValidation("$newComment")
+	 * @Flow\IgnoreValidation("$post")
+	 * @Flow\IgnoreValidation("$newComment")
 	 * @return void
 	 */
 	public function showAction(\RobertLemke\Plugin\Blog\Domain\Model\Post $post, \RobertLemke\Plugin\Blog\Domain\Model\Comment $newComment = NULL) {
@@ -131,7 +131,7 @@ class PostController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseCon
 	 * Displays a form for editing an existing post
 	 *
 	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post An existing post object taken as a basis for the rendering
-	 * @FLOW3\IgnoreValidation("$post")
+	 * @Flow\IgnoreValidation("$post")
 	 * @return void
 	 */
 	public function editAction(\RobertLemke\Plugin\Blog\Domain\Model\Post $post) {
@@ -182,21 +182,21 @@ class PostController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseCon
 	/**
 	 * Override getErrorFlashMessage to present nice flash error messages.
 	 *
-	 * @return \TYPO3\FLOW3\Error\Message
+	 * @return \TYPO3\Flow\Error\Message
 	 */
 	protected function getErrorFlashMessage() {
 		switch ($this->actionMethodName) {
 			case 'createAction' :
-				return new \TYPO3\FLOW3\Error\Error('Could not create the new post');
+				return new \TYPO3\Flow\Error\Error('Could not create the new post');
 			case 'updateAction' :
-				return new \TYPO3\FLOW3\Error\Error('Could not update the post');
+				return new \TYPO3\Flow\Error\Error('Could not update the post');
 			default :
 				return parent::getErrorFlashMessage();
 		}
 	}
 
 	/**
-	 * @return \TYPO3\FLOW3\Security\Account
+	 * @return \TYPO3\Flow\Security\Account
 	 */
 	protected function findCurrentAccount() {
 		$activeTokens = $this->securityContext->getAuthenticationTokens();

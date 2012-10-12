@@ -21,7 +21,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * The account controller for the Blog package
@@ -30,32 +30,32 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 class AccountController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseController {
 
 	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\AccountRepository
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Security\AccountRepository
 	 */
 	protected $accountRepository;
 
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \TYPO3\Party\Domain\Repository\PartyRepository
 	 */
 	protected $partyRepository;
 
 	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\Authentication\AuthenticationManagerInterface
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Security\Authentication\AuthenticationManagerInterface
 	 */
 	protected $authenticationManager;
 
 	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\Context
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Security\Context
 	 */
 	protected $securityContext;
 
 	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\Cryptography\HashService
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Security\Cryptography\HashService
 	 */
 	protected $hashService;
 
@@ -96,11 +96,11 @@ class AccountController extends \RobertLemke\Plugin\Blog\Controller\AbstractBase
 	/**
 	 * Updates the account properties
 	 *
-	 * @param \TYPO3\FLOW3\Security\Account $account
+	 * @param \TYPO3\Flow\Security\Account $account
 	 * @param string $password
 	 * @return void
 	 */
-	public function updateAction(\TYPO3\FLOW3\Security\Account $account, $password = '') {
+	public function updateAction(\TYPO3\Flow\Security\Account $account, $password = '') {
 		if ($password != '') {
 			$account->setCredentialsSource($this->hashService->hashPassword($password));
 		}

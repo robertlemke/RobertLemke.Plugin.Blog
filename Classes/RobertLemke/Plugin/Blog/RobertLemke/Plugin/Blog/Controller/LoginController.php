@@ -21,7 +21,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A controller which allows for logging into the backend
@@ -30,8 +30,8 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 class LoginController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseController {
 
 	/**
-	 * @FLOW3\Inject
-	 * @var \TYPO3\FLOW3\Security\Authentication\AuthenticationManagerInterface
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Security\Authentication\AuthenticationManagerInterface
 	 */
 	protected $authenticationManager;
 
@@ -51,13 +51,13 @@ class LoginController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseCo
 	 * to the login screen.
 	 *
 	 * @return void
-	 * @throws \TYPO3\FLOW3\Security\Exception\AuthenticationRequiredException
+	 * @throws \TYPO3\Flow\Security\Exception\AuthenticationRequiredException
 	 */
 	public function authenticateAction() {
 		try {
 			$this->authenticationManager->authenticate();
 			$this->redirect('index', 'Admin');
-		} catch (\TYPO3\FLOW3\Security\Exception\AuthenticationRequiredException $exception) {
+		} catch (\TYPO3\Flow\Security\Exception\AuthenticationRequiredException $exception) {
 			$this->addFlashMessage('Wrong username or password.');
 			throw $exception;
 		}

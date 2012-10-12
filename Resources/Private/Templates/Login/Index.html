@@ -2,22 +2,22 @@
 
 <f:section name="mainbox">
 	<div id="loginscreen">
-		<h2><f:translate source="Main" package="TYPO3.FLOW3">Authentication required</f:translate></h2>
+		<h2><f:translate source="Main" package="TYPO3.Flow">Authentication required</f:translate></h2>
 		<p><f:flashMessages class="flashmessages" /></p>
 		<f:form action="authenticate" method="post">
 			<fieldset>
 				<legend></legend>
 				<div class="row username">
-					<label id="usernameLabel" for="username" class="placeholder"><span><f:translate package="TYPO3.FLOW3">Username</f:translate></span></label>
+					<label id="usernameLabel" for="username" class="placeholder"><span><f:translate package="TYPO3.Flow">Username</f:translate></span></label>
 					<f:form.textfield name="__authentication[TYPO3][FLOW3][Security][Authentication][Token][UsernamePassword][username]" tabindex="1" />
 				</div>
 
 				<div class="row password">
-					<label id="passwordLabel" for="password" class="placeholder"><span><f:translate package="TYPO3.FLOW3" id="authentication.password"/></span></label>
+					<label id="passwordLabel" for="password" class="placeholder"><span><f:translate package="TYPO3.Flow" id="authentication.password"/></span></label>
 					<f:form.password  name="__authentication[TYPO3][FLOW3][Security][Authentication][Token][UsernamePassword][password]" tabindex="2" />
 				</div>
 
-				<f:form.submit value="{f:translate(id: 'authentication.login', package: 'TYPO3.FLOW3')}" />
+				<f:form.submit value="{f:translate(id: 'authentication.login', package: 'TYPO3.Flow')}" />
 			</fieldset>
 		</f:form>
 	</div>

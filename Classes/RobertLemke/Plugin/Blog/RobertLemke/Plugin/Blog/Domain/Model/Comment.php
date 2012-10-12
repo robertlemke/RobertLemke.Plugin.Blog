@@ -22,18 +22,18 @@ namespace RobertLemke\Plugin\Blog\Domain\Model;
  *                                                                        */
 
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A blog post comment
  *
- * @FLOW3\Entity
+ * @Flow\Entity
  */
 class Comment {
 
 	/**
 	 * @var \DateTime
-	 * @FLOW3\Identity
+	 * @Flow\Identity
 	 */
 	protected $date;
 
@@ -45,22 +45,22 @@ class Comment {
 
 	/**
 	 * @var string
-	 * @FLOW3\Validate(type="Text")
-	 * @FLOW3\Validate(type="StringLength", options={ "minimum"=3, "maximum"=80 })
-	 * @FLOW3\Identity
+	 * @Flow\Validate(type="Text")
+	 * @Flow\Validate(type="StringLength", options={ "minimum"=3, "maximum"=80 })
+	 * @Flow\Identity
 	 * @ORM\Column(length=80)
 	 */
 	protected $author;
 
 	/**
 	 * @var string
-	 * @FLOW3\Validate(type="EmailAddress")
+	 * @Flow\Validate(type="EmailAddress")
 	 */
 	protected $emailAddress;
 
 	/**
 	 * @var string
-	 * @FLOW3\Validate(type="NotEmpty")
+	 * @Flow\Validate(type="NotEmpty")
 	 * @ORM\Column(type="text")
 	 */
 	protected $content;

@@ -22,24 +22,24 @@ namespace RobertLemke\Plugin\Blog\Domain\Model;
  *                                                                        */
 
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * An image
  *
- * @FLOW3\Entity
+ * @Flow\Entity
  */
 class Image {
 
 	/**
 	 * @var string
-	 * @FLOW3\Validate(type="StringLength", options={ "maximum"=100 })
+	 * @Flow\Validate(type="StringLength", options={ "maximum"=100 })
 	 * @ORM\Column(length=100)
 	 */
 	protected $title;
 
 	/**
-	 * @var \TYPO3\FLOW3\Resource\Resource
+	 * @var \TYPO3\Flow\Resource\Resource
 	 * @ORM\ManyToOne
 	 * FLOW3\Validate(type="NotEmpty")
 	 */
@@ -67,17 +67,17 @@ class Image {
 	/**
 	 * Sets the original resource
 	 *
-	 * @param \TYPO3\FLOW3\Resource\Resource $originalResource
+	 * @param \TYPO3\Flow\Resource\Resource $originalResource
 	 * @return void
 	 */
-	public function setOriginalResource(\TYPO3\FLOW3\Resource\Resource $originalResource) {
+	public function setOriginalResource(\TYPO3\Flow\Resource\Resource $originalResource) {
 		$this->originalResource = $originalResource;
 	}
 
 	/**
 	 * Returns the original resource
 	 *
-	 * @return \TYPO3\FLOW3\Resource\Resource $originalResource
+	 * @return \TYPO3\Flow\Resource\Resource $originalResource
 	 */
 	public function getOriginalResource() {
 		return $this->originalResource;
