@@ -1,25 +1,25 @@
 {
-    "name": "robertlemke/plugin-blog",
-    "type": "typo3-flow-plugin",
-    "description": "Blog plugin for TYPO3 Neos",
-    "homepage": "http://robertlemke.com",
-    "keywords": ["plugin"],
-	"license": "MIT",
-    "authors": [
-        {
-            "name": "Robert Lemke",
-			"email": "rl@robertlemke.com",
-            "homepage": "http://robertlemke.com"
-        }
-    ],
+	"name":"robertlemke/plugin-blog",
+	"type":"typo3-flow-plugin",
+	"description":"Blog plugin for TYPO3 Neos",
+	"homepage":"http://robertlemke.com",
+	"keywords":["plugin"],
+	"license":"MIT",
+	"authors":[
+		{
+			"name":"Robert Lemke",
+			"email":"rl@robertlemke.com",
+			"homepage":"http://robertlemke.com"
+		}
+	],
 
-    "require": {
-        "typo3/phoenix": "*",
-		"robertlemke/akismet": "*"
-    },
-    "autoload": {
-        "psr-0": {
-            "RobertLemke\\Plugin\\Blog": "Classes"
-        }
-    }
+	"require":{
+		"robertlemke/akismet":"*",
+		"typo3/phoenix":"*"
+	},
+	"autoload":{
+		"psr-0":{
+			"RobertLemke\\Plugin\\Blog":"Classes"
+		}
+	}
 }
