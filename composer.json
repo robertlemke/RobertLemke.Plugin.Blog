@@ -1,14 +1,15 @@
 {
-    "name": "robertlemke/plugin-blog",
-    "type": "typo3-flow-plugins",
-    "description": "A blog plugin for TYPO3 Phoenix",
-    "version": "1.0.0",
-    "require": {
-        "typo3/flow": "*"
-    },
-    "autoload": {
-        "psr-0": {
-            "RobertLemke\\Plugin\\Blog": "Classes"
-        }
-    }
+	"name":"robertlemke/plugin-blog",
+	"type":"typo3-flow-plugins",
+	"description":"A blog plugin for TYPO3 Phoenix",
+	"version":"1.0.0",
+	"require":{
+		"typo3/flow":"*",
+		"robertlemke/akismet":"*"
+	},
+	"autoload":{
+		"psr-0":{
+			"RobertLemke\\Plugin\\Blog":"Classes"
+		}
+	}
 }
