@@ -1,6 +1,6 @@
 {
     "name": "robertlemke/plugin-blog",
-    "type": "typo3-flow-package",
+    "type": "typo3-flow-plugin",
     "description": "Blog plugin for TYPO3 Neos",
     "homepage": "http://robertlemke.com",
     "keywords": ["plugin"],
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-0": {
-            "TYPO3\\Flow": "Classes"
+            "RobertLemke\\Plugin\\Blog": "Classes"
         }
     }
 }
