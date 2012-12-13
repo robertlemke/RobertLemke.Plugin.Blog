@@ -1,12 +1,13 @@
 {
 	"name":"robertlemke/plugin-blog",
 	"type":"typo3-flow-plugins",
-	"description":"A blog plugin for TYPO3 Phoenix",
+	"description":"A blog plugin for TYPO3 Neos",
 	"version":"1.0.0",
 	"require":{
 		"typo3/flow":"*",
 		"typo3/swiftmailer": "*",
-		"robertlemke/akismet":"*"
+		"robertlemke/akismet":"*",
+		"typo3/neos":"dev-master"
 	},
 	"autoload":{
 		"psr-0":{
