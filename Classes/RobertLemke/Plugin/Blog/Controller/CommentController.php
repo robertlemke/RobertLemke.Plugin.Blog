@@ -21,12 +21,22 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use RobertLemke\Plugin\Blog\Domain\Model\Comment;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Mvc\Controller\ActionController;
+use TYPO3\Fluid\Core\Widget\AbstractWidgetController;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
  * Comments controller for the Blog package
  */
-class CommentController extends \RobertLemke\Plugin\Blog\Controller\AbstractBaseController {
+class CommentController extends ActionController {
+
+	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\TYPO3CR\Domain\Service\ContentTypeManager
+	 */
+	protected $contentTypeManager;
 
 	/**
 	 * @Flow\Inject
@@ -46,64 +56,53 @@ class CommentController extends \RobertLemke\Plugin\Blog\Controller\AbstractBase
 	/**
 	 * Creates a new comment
 	 *
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post The post which will contain the new comment
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $newComment A fresh Comment object which has not yet been added to the repository
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node which will contain the new comment
+	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $newComment A fresh Comment object
 	 * @return void
 	 */
-	public function createAction(\RobertLemke\Plugin\Blog\Domain\Model\Post $post, \RobertLemke\Plugin\Blog\Domain\Model\Comment $newComment) {
-		$post->addComment($newComment);
+	public function createAction(NodeInterface $postNode, Comment $newComment) {
+		$commentContentType = $this->contentTypeManager->getContentType('RobertLemke.Plugin.Blog:Comment');
+		$commentNode = $postNode->getNode('comments')->createNode(uniqid('comment'), $commentContentType);
+		$commentNode->setProperty('text', filter_var($newComment->getContent(), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
+		$commentNode->setProperty('author', $newComment->getAuthor());
+		$commentNode->setProperty('emailAddress', $newComment->getEmailAddress());
+		$commentNode->setProperty('datePublished', new \DateTime());
+		$commentNode->setProperty('spam', FALSE);
 
 		if ($this->akismetService->isCommentSpam('', $newComment->getContent(), 'comment', $newComment->getAuthor(), $newComment->getEmailAddress())) {
-			$newComment->setSpam(TRUE);
+			$commentNode->setProperty('spam', TRUE);
 		}
 
-		$this->postRepository->update($post);
 		$this->addFlashMessage('Your new comment was created.');
-		$this->emitCommentCreated($newComment, $post);
-		$this->redirect('show', 'Post', NULL, array('post' => $post));
+		$this->emitCommentCreated($commentNode, $postNode);
+		$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
 	}
 
 	/**
-	 * Removes a comment
+	 * A special action which is called if the originally intended action could
+	 * not be called, for example if the arguments were not valid.
 	 *
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment
-	 * @return void
+	 * @return string
+	 * @api
 	 */
-	public function deleteAction(\RobertLemke\Plugin\Blog\Domain\Model\Post $post, \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment) {
-		$post->removeComment($comment);
-		$this->postRepository->update($post);
-		$this->redirect('show', 'Post', NULL, array('post' => $post));
-	}
+	protected function errorAction() {
+		$errorFlashMessage = $this->getErrorFlashMessage();
+		if ($errorFlashMessage !== FALSE) {
+			$this->flashMessageContainer->addMessage($errorFlashMessage);
+		}
+		$postNode = $this->arguments['postNode']->getValue();
+		if ($postNode !== NULL) {
+			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
+		}
 
-	/**
-	 * Marks a comment as spam
-	 *
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment
-	 * @return void
-	 */
-	public function markSpamAction(\RobertLemke\Plugin\Blog\Domain\Model\Post $post, \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment) {
-		$this->akismetService->submitSpam('', $comment->getContent(), 'comment', $comment->getAuthor(), $comment->getEmailAddress());
-		$comment->setSpam(TRUE);
-		$this->postRepository->updateComment($post, $comment);
-		$this->addFlashMessage('Marked comment as spam.');
-		$this->redirect('show', 'Post', NULL, array('post' => $post));
-	}
+		$message = 'An error occurred while trying to call ' . get_class($this) . '->' . $this->actionMethodName . '().' . PHP_EOL;
+		foreach ($this->arguments->getValidationResults()->getFlattenedErrors() as $propertyPath => $errors) {
+			foreach ($errors as $error) {
+				$message .= 'Error for ' . $propertyPath . ':  ' . $error->render() . PHP_EOL;
+			}
+		}
 
-	/**
-	 * Marks a comment as ham
-	 *
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment
-	 * @return void
-	 */
-	public function markHamAction(\RobertLemke\Plugin\Blog\Domain\Model\Post $post, \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment) {
-		$this->akismetService->submitHam('', $comment->getContent(), 'comment', $comment->getAuthor(), $comment->getEmailAddress());
-		$comment->setSpam(FALSE);
-		$this->postRepository->updateComment($post, $comment);
-		$this->addFlashMessage('Marked comment as ham.');
-		$this->redirect('show', 'Post', NULL, array('post' => $post));
+		return $message;
 	}
 
 	/**
@@ -121,12 +120,14 @@ class CommentController extends \RobertLemke\Plugin\Blog\Controller\AbstractBase
 	}
 
 	/**
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
+	 * Signal which informs about a newly created comment
+	 *
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $commentNode The comment node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node
 	 * @return void
 	 * @Flow\Signal
 	 */
-	protected function emitCommentCreated(\RobertLemke\Plugin\Blog\Domain\Model\Comment $comment, \RobertLemke\Plugin\Blog\Domain\Model\Post $post) {}
+	protected function emitCommentCreated(NodeInterface $commentNode, NodeInterface $postNode) {}
 }
 
 ?>

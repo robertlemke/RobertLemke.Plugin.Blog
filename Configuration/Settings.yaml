@@ -10,9 +10,73 @@ RobertLemke:
           email: ''
           name: 'Blog Admin'
 
+TYPO3:
   TYPO3CR:
     contentTypes:
-      'RobertLemke.Plugin.Blog:PostsPlugin':
-        superTypes: ['TYPO3.Phoenix.ContentTypes:Plugin']
-        label: 'Blog Posts'
+      'RobertLemke.Plugin.Blog:Post':
+        superTypes: ['TYPO3.Neos.ContentTypes:Folder']
+        label: 'Blog Post'
+        icon: 'Images/Icons/White/doc_empty_icon-16.png'
+        darkIcon: 'Images/Icons/Black/doc_empty_icon-16.png'
+        groups:
+          page:
+            label: 'Blog Post'
+          moreinfo:
+            label: 'More Info'
+        properties:
+          datePublished:
+            type: date
+            label: 'Publication Date'
+            group: 'page'
+            reloadOnChange: true
+          relatedPosts:
+            type: string
+            label: 'Related Posts'
+            group: 'moreinfo'
+            reloadOnChange: false
+          category:
+            type: string
+            label: 'Category'
+            group: 'moreinfo'
+            reloadOnChange: false
+          tags:
+            type: string
+            label: 'Tags'
+            group: 'moreinfo'
+            reloadOnChange: false
+      'RobertLemke.Plugin.Blog:Comment':
+        superTypes: ['TYPO3.Neos.ContentTypes:ContentObject']
+        group: 'General'
+        label: 'Blog Comment'
+        groups:
+          comment:
+            label: 'Blog Comment'
+        properties:
+          datePublished:
+            type: date
+            label: 'Publication Date'
+            group: 'comment'
+            reloadOnChange: true
+          author:
+            type: string
+            label: 'Author'
+            group: 'comment'
+            reloadOnChange: true
+          emailAddress:
+            type: string
+            label: 'Email Address'
+            group: 'comment'
+            reloadOnChange: true
+          spam:
+            type: boolean
+            label: 'Spam'
+            group: 'comment'
+          text:
+            type: string
+            default: '<p>Your Comment Here</p>'
+        inlineEditableProperties: ['text']
+
+      'RobertLemke.Plugin.Blog:PostPlugin':
+        superTypes: ['TYPO3.Neos.ContentTypes:Plugin']
+        label: 'Blog Post Overview'
         group: 'Plugins'

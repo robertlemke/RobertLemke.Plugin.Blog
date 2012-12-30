@@ -1,0 +1,44 @@
+{namespace neos=TYPO3\Neos\ViewHelpers}
+{namespace ts=TYPO3\TypoScript\ViewHelpers}
+<article itemscope="" itemtype="http://schema.org/Article" class="robertlemke-plugin-blog" xmlns:f="http://www.w3.org/1999/html">
+	<f:flashMessages class="flashmessages" />
+	<header>
+		<neos:contentElement node="{node}">
+			<h1 itemprop="name headline"><neos:contentElement.editable property="title">{title}</neos:contentElement.editable></h1>
+		</neos:contentElement>
+		<div class="byline">
+			by
+			<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+				<span itemprop="name">
+					Robert Lemke
+				</span>
+			</span>
+			on
+			<time datetime="{f:format.date(date: node.properties.datePublished, format: 'c')}" itemprop="datePublished"><f:format.date format="F jS, Y">{node.properties.datePublished}</f:format.date></time>
+		</div><br />
+	</header>
+	<div itemprop="articleBody">
+		<ts:renderTypoScript path="main" />
+	</div>
+	<hr />
+	<div id="comments" class="comments">
+		<f:if condition="{numberOfComments}">
+			<h3><f:translate>Comments</f:translate></h3>
+			<ol class="commentlist">
+				<ts:renderTypoScript path="comments" />
+			</ol>
+			<div class="clear"></div>
+		</f:if>
+		<h3><f:translate>Leave a reply</f:translate></h3>
+		<f:render partial="FormErrors" arguments="{for: 'newComment'}" />
+		<f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment">
+			<f:form.hidden name="postNode" value="{node.path}" />
+			<label for="comment.author"><f:translate>Name <span class="required">*</span></f:translate></label>
+			<f:form.textfield id="comment.author" property="author" />
+			<label for="comment.emailaddress"><f:translate>Email <span class="required">*</span> (won't be displayed)</f:translate></label>
+			<f:form.textfield id="comment.emailaddress" property="emailAddress" />
+			<f:form.textarea id="comment.content" property="content" rows="10" cols="50"/>
+			<f:form.submit value="{f:translate(value: 'Submit', package: 'TYPO3.Flow')}" class="secondary button" />
+		</f:form>
+	</div>
+</article>

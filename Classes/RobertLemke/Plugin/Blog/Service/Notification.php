@@ -22,6 +22,7 @@ namespace RobertLemke\Plugin\Blog\Service;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
  * A notification service
@@ -50,11 +51,13 @@ class Notification {
 	}
 
 	/**
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $comment
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
+	 * Send a new notification that a comment has been created
+	 *
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $commentNode The comment node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node
 	 * @return void
 	 */
-	public function sendNewCommentNotification(\RobertLemke\Plugin\Blog\Domain\Model\Comment $comment, \RobertLemke\Plugin\Blog\Domain\Model\Post $post) {
+	public function sendNewCommentNotification(NodeInterface $commentNode, NodeInterface $postNode) {
 		if ($this->settings['notifications']['to']['email'] === '') {
 			return;
 		}
@@ -62,10 +65,10 @@ class Notification {
 		try {
 			$mail = new \TYPO3\SwiftMailer\Message();
 			$mail
-				->setFrom(array($comment->getEmailAddress() => $comment->getAuthor()))
+				->setFrom(array($commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')))
 				->setTo(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
-				->setSubject('New comment on blog post "' . $post->getTitle() . '"' . ($comment->isSpam() ? ' (SPAM)' : ''))
-				->setBody($comment->getContent())
+				->setSubject('New comment on blog post "' . $postNode->getProperty('title') . '"' . ($commentNode->getProperty('spam') ? ' (SPAM)' : ''))
+				->setBody($commentNode->getProperty('text'))
 				->send();
 		} catch (\Exception $e) {
 			$this->systemLogger->logException($e);

@@ -1,0 +1,14 @@
+{namespace neos=TYPO3\Neos\ViewHelpers}
+{namespace ts=TYPO3\TypoScript\ViewHelpers}
+{namespace blog=RobertLemke\Plugin\Blog\ViewHelpers}
+<f:if condition="{comment.spam} == 0">
+	<li class="comment">
+		<p class="metadata">
+		<img src="{f:uri.resource(path: 'Icons/FamFamFam/user_comment.png')}" title="Comment" /> {node.properties.author} | <f:format.date format='d.m.Y'>{node.properties.datePublished}</f:format.date>
+		</p>
+		<blog:gravatar email="{node.properties.emailAddress}" default="{f:uri.resource(path: 'gravatar_default.png')}" class="gravatar" />
+		<neos:contentElement node="{node}">
+			<p class="content"><neos:contentElement.editable property="text" tag="span">{text}</neos:contentElement.editable></p>
+		</neos:contentElement>
+	</li>
+</f:if>

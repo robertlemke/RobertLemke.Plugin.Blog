@@ -2,19 +2,14 @@
 # Security policy definition                                             #
 #                                                                        #
 # This file contains the security policy configuration for the           #
-# Blog package                                                           #
+# Blog plugin                                                            #
 
 resources:
   methods:
-    TYPO3_Blog_PostEditorMethods: 'method(RobertLemke\Plugin\Blog\Controller\PostController->(new|create|edit|update|delete)Action())'
-    TYPO3_Blog_CommentEditorMethods: 'method(RobertLemke\Plugin\Blog\Controller\CommentController->(edit|update|delete|markSpam|markHam)Action())'
-    TYPO3_Blog_RestrictedControllers: 'class(RobertLemke\Plugin\Blog\Controller\(Blog|Admin|Account|Category)Controller)'
-roles:
-  Editor: []
+    RobertLemke_Plugin_Blog_PostEditorMethods: 'method(RobertLemke\Plugin\Blog\Controller\PostController->(new|create|edit|update|delete)Action())'
+    RobertLemke_Plugin_Blog_CommentEditorMethods: 'method(RobertLemke\Plugin\Blog\Controller\CommentController->(edit|update|delete|markSpam|markHam)Action())'
 acls:
   Editor:
     methods:
-      TYPO3_Blog_PostEditorMethods: GRANT
-      TYPO3_Blog_CommentEditorMethods: GRANT
-      TYPO3_Blog_RestrictedControllers: GRANT
-
+      RobertLemke_Plugin_Blog_PostEditorMethods: GRANT
+      RobertLemke_Plugin_Blog_CommentEditorMethods: GRANT
