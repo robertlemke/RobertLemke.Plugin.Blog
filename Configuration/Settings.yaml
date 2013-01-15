@@ -23,6 +23,11 @@ TYPO3:
             label: 'Blog Post'
           moreinfo:
             label: 'More Info'
+        structure:
+          main:
+            type: 'TYPO3.Neos.ContentTypes:Section'
+          comments:
+            type: 'TYPO3.Neos.ContentTypes:Section'
         properties:
           datePublished:
             type: date

@@ -62,8 +62,6 @@ class BlogCommandController extends \TYPO3\Flow\Cli\CommandController {
 	 */
 	public function createPostCommand($blogNodePath, $workspace) {
 		$shortcutContentType = $this->contentTypeManager->getContentType('TYPO3.Neos.ContentTypes:Shortcut');
-		$sectionContentType = $this->contentTypeManager->getContentType('TYPO3.Neos.ContentTypes:Section');
-		$textContentType = $this->contentTypeManager->getContentType('TYPO3.Neos.ContentTypes:Text');
 		$postContentType = $this->contentTypeManager->getContentType('RobertLemke.Plugin.Blog:Post');
 
 		$contentContext = new ContentContext($workspace);
@@ -103,11 +101,6 @@ class BlogCommandController extends \TYPO3\Flow\Cli\CommandController {
 		$postNode->setProperty('datePublished', $date);
 		$postNode->setProperty('category', '');
 		$postNode->setProperty('tags', '');
-
-		$contentSectionNode = $postNode->createNode('main', $sectionContentType);
-
-		$textNode = $contentSectionNode->createNode(uniqid('text'), $textContentType);
-		$textNode->setProperty('text', 'Create some content here.');
 
 		$this->outputLine('Created new blog post at %s.', array($postNode->getPath()));
 	}
