@@ -81,6 +81,39 @@ TYPO3:
             default: '<p>Your Comment Here</p>'
         inlineEditableProperties: ['text']
 
+      'RobertLemke.Plugin.Blog:Quote':
+        superTypes: ['TYPO3.Neos.ContentTypes:ContentObject']
+        group: 'General'
+        label: 'Blog Quote'
+        groups:
+          quote:
+            label: 'Blog Quote'
+        properties:
+          citeAuthor:
+            type: string
+            label: 'Cite Author'
+            group: 'quote'
+            reloadOnChange: true
+          citeAuthorUri:
+            type: string
+            label: 'Cite Author URI'
+            group: 'quote'
+            reloadOnChange: true
+          citeUri:
+            type: string
+            label: 'Cite URI'
+            group: 'quote'
+            reloadOnChange: true
+          citeUriLabel:
+            type: string
+            label: 'Cite URI Label'
+            group: 'quote'
+            reloadOnChange: true
+          text:
+            type: string
+            default: '<p>Enter quote here</p>'
+        inlineEditableProperties: ['text']
+
       'RobertLemke.Plugin.Blog:PostPlugin':
         superTypes: ['TYPO3.Neos.ContentTypes:Plugin']
         label: 'Blog Post Overview'

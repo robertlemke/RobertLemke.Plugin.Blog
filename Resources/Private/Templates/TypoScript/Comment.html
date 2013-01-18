@@ -4,11 +4,11 @@
 <f:if condition="{comment.spam} == 0">
 	<li class="comment">
 		<p class="metadata">
-		<img src="{f:uri.resource(path: 'Icons/FamFamFam/user_comment.png')}" title="Comment" /> {node.properties.author} | <f:format.date format='d.m.Y'>{node.properties.datePublished}</f:format.date>
+		<strong>{node.properties.author}</strong> | <f:format.date format='d.m.Y'>{node.properties.datePublished}</f:format.date>
 		</p>
-		<blog:gravatar email="{node.properties.emailAddress}" default="{f:uri.resource(path: 'gravatar_default.png')}" class="gravatar" />
+		<blog:gravatar email="{node.properties.emailAddress}" default="{f:uri.resource(path: 'gravatar_default.png')}" size="40" class="gravatar" />
 		<neos:contentElement node="{node}">
-			<p class="content"><neos:contentElement.editable property="text" tag="span">{text}</neos:contentElement.editable></p>
+			<p class="content"><neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br()}</neos:contentElement.editable></p>
 		</neos:contentElement>
 	</li>
 </f:if>

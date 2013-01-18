@@ -32,98 +32,96 @@
 /* line 29, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog li.comment {
   clear: both;
-  background-color: #efefef;
 }
-/* line 34, ../../Private/Sass/Blog.scss */
+/* line 33, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog li.spamcomment {
   background-color: #efd3d5;
 }
-/* line 38, ../../Private/Sass/Blog.scss */
+/* line 37, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog li.comment p.metadata {
-  background-color: #d7d7d7;
-  border-bottom: 1px solid #999999;
-  padding: 1px 8px;
-  margin: 10px 0 0 0;
+  margin: 10px 0 0 72px;
 }
-/* line 45, ../../Private/Sass/Blog.scss */
+/* line 41, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog li.comment p.content {
   padding: 8px;
   margin: 0;
-  margin-left: 80px;
+  margin-left: 65px;
   min-height: 85px;
+  font-size: 15px;
 }
-/* line 52, ../../Private/Sass/Blog.scss */
+/* line 49, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .comment img.gravatar {
+  border-radius: 50% 50% 50% 50%;
   float: left;
-  margin: 4px 10px 4px 0;
+  margin: -25px 10px;
 }
-/* line 59, ../../Private/Sass/Blog.scss */
+/* line 57, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog ul.typo3-widget-paginator {
   list-style-type: none;
 }
-/* line 63, ../../Private/Sass/Blog.scss */
+/* line 61, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog ul.typo3-widget-paginator li {
   display: block;
   float: left;
   padding: 4px 6px;
   margin: 4px;
 }
-/* line 72, ../../Private/Sass/Blog.scss */
+/* line 70, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog input.typo3-form-error {
   border: 1px solid #8a1f11;
 }
-/* line 76, ../../Private/Sass/Blog.scss */
+/* line 74, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .errors {
   padding: .8em;
   margin-bottom: 1em;
   border: 1px solid #FBC2C4;
 }
-/* line 81, ../../Private/Sass/Blog.scss */
+/* line 79, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .errors dt {
   float: left;
   color: #8a1f11;
   width: 100px;
   font-weight: bold;
 }
-/* line 87, ../../Private/Sass/Blog.scss */
+/* line 85, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .errors dd {
   margin-left: 100px;
   color: #8a1f11;
 }
-/* line 92, ../../Private/Sass/Blog.scss */
+/* line 90, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .error, .robertlemke-plugin-blog .f3-form-error {
   background: #FBE3E4;
   border-color: #FBC2C4;
 }
-/* line 96, ../../Private/Sass/Blog.scss */
+/* line 94, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .error {
   color: #8a1f11;
 }
-/* line 99, ../../Private/Sass/Blog.scss */
+/* line 97, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .notice {
   background: #FFF6BF;
   color: #514721;
   border-color: #FFD324;
 }
-/* line 104, ../../Private/Sass/Blog.scss */
+/* line 102, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .success {
   background: #E6EFC2;
   color: #264409;
   border-color: #C6D880;
 }
-/* line 109, ../../Private/Sass/Blog.scss */
+/* line 107, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .error a {
   color: #8a1f11;
 }
-/* line 112, ../../Private/Sass/Blog.scss */
+/* line 110, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .notice a {
   color: #514721;
 }
-/* line 115, ../../Private/Sass/Blog.scss */
+/* line 113, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .success a {
   color: #264409;
 }
-/* line 119, ../../Private/Sass/Blog.scss */
+/* line 117, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .required {
   color: #8a1f11;
 }

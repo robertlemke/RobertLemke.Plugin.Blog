@@ -77,3 +77,18 @@ prototype(RobertLemke.Plugin.Blog:PostPlugin) {
 	controller = 'Post'
 	action = 'index'
 }
+
+#
+# Quote is a straight-forward content type
+#
+
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.TypoScript:Template)
+prototype(RobertLemke.Plugin.Blog:Quote) {
+	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Quote.html'
+	citeAuthor = ${q(node).property('citeAuthor')}
+	citeAuthorUri = ${q(node).property('citeAuthorUri')}
+	citeUriLabel = ${q(node).property('citeUriLabel')}
+	citeUri = ${q(node).property('citeUri')}
+	text = ${q(node).property('text')}
+}
+

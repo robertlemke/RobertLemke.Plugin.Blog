@@ -28,7 +28,6 @@
 
 	li.comment {
 		clear: both;
-		background-color: #efefef;
 	}
 
 	li.spamcomment {
@@ -36,22 +35,21 @@
 	}
 
 	li.comment p.metadata {
-		background-color: #d7d7d7;
-		border-bottom: 1px solid #999999;
-		padding: 1px 8px;
-		margin: 10px 0 0 0;
+		margin: 10px 0 0 72px;
 	}
 
 	li.comment p.content {
 		padding: 8px;
 		margin: 0;
-		margin-left:80px;
+		margin-left: 65px;
 		min-height: 85px;
+		font-size: 15px;
 	}
 
 	.comment img.gravatar {
+		border-radius: 50% 50% 50% 50%;
 		float: left;
-		margin: 4px 10px 4px 0;
+		margin: -25px 10px;
 	}
 
 	/*--------------- pagination ------------------*/
