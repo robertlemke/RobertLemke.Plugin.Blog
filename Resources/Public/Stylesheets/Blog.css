@@ -39,13 +39,13 @@
 }
 /* line 37, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog li.comment p.metadata {
-  margin: 10px 0 0 72px;
+  margin: 10px 0 0 82px;
 }
 /* line 41, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog li.comment p.content {
   padding: 8px;
   margin: 0;
-  margin-left: 65px;
+  margin-left: 75px;
   min-height: 85px;
   font-size: 15px;
 }
