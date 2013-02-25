@@ -11,8 +11,7 @@
 						</h2>
 						<p class="content">
 							<neos:link.node node="{post}" class="invisible-link">
-								<blog:readMore>{f:format.raw(value: post.primaryChildNode.primaryChildNode.properties.text)}
-								</blog:readMore>
+								{post.primaryChildNode.primaryChildNode.properties.text -> f:format.raw() -> blog:readMore()}
 							</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate>Read more</f:translate></neos:link.node>
 						</p>
 					</li>
@@ -24,4 +23,10 @@
 			<p><f:translate>This blog currently doesn't contain any posts.</f:translate></p>
 		</f:else>
 	</f:if>
+	<f:security.ifAuthenticated>
+		<f:form controller="Post" action="create" objectName="nodeTemplate">
+			Title: <f:form.textfield property="title" /><br />
+			<f:form.submit class="button" value="Create new post"/>
+		</f:form>
+	</f:security.ifAuthenticated>
 </div>

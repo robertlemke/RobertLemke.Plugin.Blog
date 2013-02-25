@@ -24,8 +24,8 @@ namespace RobertLemke\Plugin\Blog\Controller;
 use RobertLemke\Plugin\Blog\Domain\Model\Comment;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
-use TYPO3\Fluid\Core\Widget\AbstractWidgetController;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
+use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
 
 /**
  * Comments controller for the Blog package
@@ -56,20 +56,15 @@ class CommentController extends ActionController {
 	/**
 	 * Creates a new comment
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node which will contain the new comment
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Comment $newComment A fresh Comment object
+	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $postNode The post node which will contain the new comment
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeTemplate<RobertLemke.Plugin.Blog:Comment> $nodeTemplate
 	 * @return void
 	 */
-	public function createAction(NodeInterface $postNode, Comment $newComment) {
-		$commentContentType = $this->contentTypeManager->getContentType('RobertLemke.Plugin.Blog:Comment');
-		$commentNode = $postNode->getNode('comments')->createNode(uniqid('comment'), $commentContentType);
-		$commentNode->setProperty('text', filter_var($newComment->getContent(), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
-		$commentNode->setProperty('author', $newComment->getAuthor());
-		$commentNode->setProperty('emailAddress', $newComment->getEmailAddress());
-		$commentNode->setProperty('datePublished', new \DateTime());
+	public function createAction(PersistentNodeInterface $postNode, NodeTemplate $newComment) {
+		$commentNode = $postNode->getNode('comments')->createNodeFromTemplate($newComment, uniqid('comment-'));
 		$commentNode->setProperty('spam', FALSE);
 
-		if ($this->akismetService->isCommentSpam('', $newComment->getContent(), 'comment', $newComment->getAuthor(), $newComment->getEmailAddress())) {
+		if ($this->akismetService->isCommentSpam('', $commentNode->getProperty('text'), 'comment', $commentNode->getProperty('author'), $commentNode->getProperty('emailAddress'))) {
 			$commentNode->setProperty('spam', TRUE);
 		}
 
@@ -122,12 +117,12 @@ class CommentController extends ActionController {
 	/**
 	 * Signal which informs about a newly created comment
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $commentNode The comment node
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $commentNode The comment node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $postNode The post node
 	 * @return void
 	 * @Flow\Signal
 	 */
-	protected function emitCommentCreated(NodeInterface $commentNode, NodeInterface $postNode) {}
+	protected function emitCommentCreated(PersistentNodeInterface $commentNode, PersistentNodeInterface $postNode) {}
 }
 
 ?>

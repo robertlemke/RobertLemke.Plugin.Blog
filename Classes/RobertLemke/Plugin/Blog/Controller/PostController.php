@@ -23,6 +23,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
+use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
 
 /**
  * The posts controller for the Blog package
@@ -38,7 +39,7 @@ class PostController extends ActionController {
 	protected $nodeRepository;
 
 	/**
-	 * List action for this controller. Displays latest posts
+	 * Displays a list of most recent blog posts
 	 *
 	 * @return void
 	 */
@@ -60,6 +61,26 @@ class PostController extends ActionController {
 			}
 		}
 		$this->view->assign('posts', $posts);
+	}
+
+	/**
+	 * Creates a new blog post node
+	 *
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeTemplate<RobertLemke.Plugin.Blog:Post> $nodeTemplate
+	 * @return void
+	 */
+	public function createAction(NodeTemplate $nodeTemplate) {
+		$parentNode = $this->nodeRepository->getContext()->getCurrentNode();
+		$postNode = $parentNode->createNodeFromTemplate($nodeTemplate, uniqid('post-'));
+
+		$mainRequest = $this->request->getMainRequest();
+		$mainUriBuilder = new \TYPO3\Flow\Mvc\Routing\UriBuilder();
+		$mainUriBuilder->setRequest($mainRequest);
+		$uri = $mainUriBuilder
+			->reset()
+			->setCreateAbsoluteUri(TRUE)
+			->uriFor('show', array('node' => $postNode));
+		$this->redirectToUri($uri);
 	}
 
 }

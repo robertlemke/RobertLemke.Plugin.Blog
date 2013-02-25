@@ -24,6 +24,7 @@ namespace RobertLemke\Plugin\Blog\Service;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\SwiftMailer\Message;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
 
 /**
  * A notification service
@@ -54,11 +55,11 @@ class Notification {
 	/**
 	 * Send a new notification that a comment has been created
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $commentNode The comment node
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $commentNode The comment node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $postNode The post node
 	 * @return void
 	 */
-	public function sendNewCommentNotification(NodeInterface $commentNode, NodeInterface $postNode) {
+	public function sendNewCommentNotification(PersistentNodeInterface $commentNode, PersistentNodeInterface $postNode) {
 		if ($this->settings['notifications']['to']['email'] === '') {
 			return;
 		}
