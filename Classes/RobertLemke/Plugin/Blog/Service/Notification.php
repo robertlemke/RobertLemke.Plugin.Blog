@@ -22,6 +22,7 @@ namespace RobertLemke\Plugin\Blog\Service;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\SwiftMailer\Message;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
@@ -62,8 +63,12 @@ class Notification {
 			return;
 		}
 
+		if (!class_exists('TYPO3\SwiftMailer\Message')) {
+			$this->systemLogger->logException(new \TYPO3\Flow\Exception('The package "TYPO3.SwiftMailer" is required to send notifications!', 1359473932));
+		}
+
 		try {
-			$mail = new \TYPO3\SwiftMailer\Message();
+			$mail = new Message();
 			$mail
 				->setFrom(array($commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')))
 				->setTo(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
