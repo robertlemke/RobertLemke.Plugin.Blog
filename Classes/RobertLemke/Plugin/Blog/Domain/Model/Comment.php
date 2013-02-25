@@ -38,12 +38,6 @@ class Comment {
 	protected $date;
 
 	/**
-	 * @var \RobertLemke\Plugin\Blog\Domain\Model\Post
-	 * @ORM\ManyToOne(inversedBy="comments")
-	 */
-	protected $post;
-
-	/**
 	 * @var string
 	 * @Flow\Validate(type="Text")
 	 * @Flow\Validate(type="StringLength", options={ "minimum"=3, "maximum"=80 })
@@ -87,14 +81,6 @@ class Comment {
 	 */
 	public function setDate(\DateTime $date) {
 		$this->date = $date;
-	}
-
-	/**
-	 * @param \RobertLemke\Plugin\Blog\Domain\Model\Post $post
-	 * @return void
-	 */
-	public function setPost(\RobertLemke\Plugin\Blog\Domain\Model\Post $post) {
-		$this->post = $post;
 	}
 
 	/**
