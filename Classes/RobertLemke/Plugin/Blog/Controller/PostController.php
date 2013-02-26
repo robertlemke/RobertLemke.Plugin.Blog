@@ -23,6 +23,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
+use TYPO3\Flow\Mvc\Routing\UriBuilder;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
 
 /**
@@ -37,6 +38,12 @@ class PostController extends ActionController {
 	 * @var \TYPO3\TYPO3CR\Domain\Repository\NodeRepository
 	 */
 	protected $nodeRepository;
+
+	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\TYPO3CR\Domain\Service\ContentTypeManager
+	 */
+	protected $contentTypeManager;
 
 	/**
 	 * Displays a list of most recent blog posts
@@ -70,11 +77,43 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(NodeTemplate $nodeTemplate) {
+		$shortcutContentType = $this->contentTypeManager->getContentType('TYPO3.Neos.ContentTypes:Shortcut');
 		$parentNode = $this->nodeRepository->getContext()->getCurrentNode();
-		$postNode = $parentNode->createNodeFromTemplate($nodeTemplate, uniqid('post-'));
+
+		$slug = uniqid('post');
+		$date = new \DateTime();
+
+		$yearNode = $parentNode->getNode($date->format('Y'));
+		if ($yearNode === NULL) {
+			$yearNode = $parentNode->createNode($date->format('Y'), $shortcutContentType);
+			$yearNode->setProperty('title', $date->format('Y'));
+		}
+
+		$monthNode = $yearNode->getNode($date->format('m'));
+		if ($monthNode === NULL) {
+			$monthNode = $yearNode->createNode($date->format('m'), $shortcutContentType);
+			$monthNode->setProperty('title', $date->format('m'));
+		}
+
+		$dayNode = $monthNode->getNode($date->format('d'));
+		if ($dayNode === NULL) {
+			$dayNode = $monthNode->createNode($date->format('d'), $shortcutContentType);
+			$dayNode->setProperty('title', $date->format('d'));
+		}
+
+		$postNode = $dayNode->createNodeFromTemplate($nodeTemplate, $slug);
+		$postNode->setProperty('datePublished', $date);
+		$postNode->setProperty('category', '');
+		$postNode->setProperty('tags', '');
+
+		# $this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
+		#
+		# The above redirect won't work as it is using the nested action request instead
+		# of the main request. That may be an unwanted behavior. For now use this
+		# workaround:
 
 		$mainRequest = $this->request->getMainRequest();
-		$mainUriBuilder = new \TYPO3\Flow\Mvc\Routing\UriBuilder();
+		$mainUriBuilder = new UriBuilder();
 		$mainUriBuilder->setRequest($mainRequest);
 		$uri = $mainUriBuilder
 			->reset()
