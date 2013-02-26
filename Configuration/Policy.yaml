@@ -1,0 +1,8 @@
+resources:
+  methods:
+    RobertLemke_Plugin_Blog_PostController: 'method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())'
+
+acls:
+  Editor:
+    methods:
+      RobertLemke_Plugin_Blog_PostController: GRANT
