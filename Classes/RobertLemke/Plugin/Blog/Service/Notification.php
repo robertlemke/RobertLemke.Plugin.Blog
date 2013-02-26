@@ -66,6 +66,7 @@ class Notification {
 
 		if (!class_exists('TYPO3\SwiftMailer\Message')) {
 			$this->systemLogger->logException(new \TYPO3\Flow\Exception('The package "TYPO3.SwiftMailer" is required to send notifications!', 1359473932));
+			return;
 		}
 
 		try {
