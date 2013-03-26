@@ -34,12 +34,6 @@ class CommentController extends ActionController {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\TYPO3CR\Domain\Service\ContentTypeManager
-	 */
-	protected $contentTypeManager;
-
-	/**
-	 * @Flow\Inject
 	 * @var \RobertLemke\Akismet\Service
 	 */
 	protected $akismetService;

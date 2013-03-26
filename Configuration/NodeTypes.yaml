@@ -1,0 +1,140 @@
+'RobertLemke.Plugin.Blog:Post':
+  superTypes: ['TYPO3.Neos.ContentTypes:Folder']
+  ui:
+    label: 'Blog Post'
+    icon:
+      light: 'Images/Icons/White/doc_empty_icon-16.png'
+      dark: 'Images/Icons/Black/doc_empty_icon-16.png'
+    inspector:
+      groups:
+        page:
+          label: 'Blog Post'
+        moreinfo:
+          label: 'More Info'
+  childNodes:
+    main:
+      type: 'TYPO3.Neos.ContentTypes:Section'
+    comments:
+      type: 'TYPO3.Neos.ContentTypes:Section'
+  properties:
+    datePublished:
+      type: 'date'
+      ui:
+        label: 'Publication Date'
+        reloadIfChanged: true
+        inspector:
+          group: 'page'
+    relatedPosts:
+      type: 'string'
+      ui:
+        label: 'Related Posts'
+        inspector:
+          group: 'moreinfo'
+    category:
+      type: string
+      ui:
+        label: 'Category'
+        inspector:
+          group: 'moreinfo'
+    tags:
+      type: string
+      ui:
+        label: 'Tags'
+        inspector:
+          group: 'moreinfo'
+
+'RobertLemke.Plugin.Blog:Comment':
+  superTypes: ['TYPO3.Neos.ContentTypes:ContentObject']
+  ui:
+    label: 'Blog Comment'
+    group: 'General'
+    inspector:
+      groups:
+        comment:
+          label: 'Blog Comment'
+  properties:
+    datePublished:
+      type: date
+      ui:
+        label: 'Publication Date'
+        reloadIfChanged: true
+        inspector:
+          group: 'comment'
+    author:
+      type: string
+      ui:
+        label: 'Author'
+        reloadIfChanged: true
+        inspector:
+          group: 'comment'
+    emailAddress:
+      type: string
+      ui:
+        label: 'Email Address'
+        reloadIfChanged: true
+        inspector:
+          group: 'comment'
+    spam:
+      type: boolean
+      ui:
+        label: 'Spam'
+        inspector:
+          group: 'comment'
+    text:
+      type: string
+      defaultValue: '<p>Your Comment Here</p>'
+      ui:
+        inlineEditable: true
+
+'RobertLemke.Plugin.Blog:Quote':
+  superTypes: ['TYPO3.Neos.ContentTypes:ContentObject']
+  ui:
+    group: 'General'
+    label: 'Blog Quote'
+    inspector:
+      groups:
+        quote:
+          label: 'Blog Quote'
+  properties:
+    citeAuthor:
+      type: string
+      ui:
+        label: 'Cite Author'
+        reloadIfChanged: true
+        inspector:
+          group: 'quote'
+    citeAuthorUri:
+      type: string
+      ui:
+        label: 'Cite Author URI'
+        reloadIfChanged: true
+        inspector:
+          group: 'quote'
+    citeUri:
+      type: string
+      ui:
+        label: 'Cite URI'
+        reloadIfChanged: true
+        inspector:
+          group: 'quote'
+    citeUriLabel:
+      type: string
+      ui:
+        label: 'Cite URI Label'
+        reloadIfChanged: true
+        inspector:
+          group: 'quote'
+    text:
+      type: string
+      defaultValue: '<p>Enter quote here</p>'
+      ui:
+        inlineEditable: true
+
+'RobertLemke.Plugin.Blog:PostPlugin':
+  superTypes: ['TYPO3.Neos.ContentTypes:Plugin']
+  ui:
+    label: 'Blog Post Overview'
+    group: 'Plugins'
+
+    # make links in the overview clickable:
+    inlineEditable: true

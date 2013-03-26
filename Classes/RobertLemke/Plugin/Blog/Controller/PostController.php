@@ -41,9 +41,9 @@ class PostController extends ActionController {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\TYPO3CR\Domain\Service\ContentTypeManager
+	 * @var \TYPO3\TYPO3CR\Domain\Service\NodeTypeManager
 	 */
-	protected $contentTypeManager;
+	protected $nodeTypeManager;
 
 	/**
 	 * Displays a list of most recent blog posts
@@ -77,7 +77,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(NodeTemplate $nodeTemplate) {
-		$shortcutContentType = $this->contentTypeManager->getContentType('TYPO3.Neos.ContentTypes:Shortcut');
+		$shortcutContentType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.ContentTypes:Shortcut');
 		$parentNode = $this->nodeRepository->getContext()->getCurrentNode();
 
 		$slug = uniqid('post');
