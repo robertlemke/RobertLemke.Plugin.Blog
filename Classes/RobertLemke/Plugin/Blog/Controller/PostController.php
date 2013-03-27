@@ -77,7 +77,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(NodeTemplate $nodeTemplate) {
-		$shortcutContentType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.ContentTypes:Shortcut');
+		$shortcutContentType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.NodeTypes:Shortcut');
 		$parentNode = $this->nodeRepository->getContext()->getCurrentNode();
 
 		$slug = uniqid('post');
