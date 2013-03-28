@@ -52,22 +52,7 @@ class PostController extends ActionController {
 	 */
 	public function indexAction() {
 		$currentNode = $this->nodeRepository->getContext()->getCurrentNode();
-		$posts = array();
-		$counter = 0;
-		foreach ($currentNode->getChildNodes() as $yearNode) {
-			foreach ($yearNode->getChildNodes() as $monthNode) {
-				foreach ($monthNode->getChildNodes() as $dayNode) {
-					foreach ($dayNode->getChildNodes() as $postNode) {
-						$posts[] = $postNode;
-						$counter ++;
-						if ($counter > 15) {
-							break 4;
-						}
-					}
-				}
-			}
-		}
-		$this->view->assign('posts', $posts);
+		$this->view->assign('postsNode', $currentNode);
 	}
 
 	/**
@@ -77,40 +62,20 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(NodeTemplate $nodeTemplate) {
-		$shortcutContentType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.NodeTypes:Shortcut');
 		$parentNode = $this->nodeRepository->getContext()->getCurrentNode();
 
 		$slug = uniqid('post');
 		$date = new \DateTime();
 
-		$yearNode = $parentNode->getNode($date->format('Y'));
-		if ($yearNode === NULL) {
-			$yearNode = $parentNode->createNode($date->format('Y'), $shortcutContentType);
-			$yearNode->setProperty('title', $date->format('Y'));
-		}
-
-		$monthNode = $yearNode->getNode($date->format('m'));
-		if ($monthNode === NULL) {
-			$monthNode = $yearNode->createNode($date->format('m'), $shortcutContentType);
-			$monthNode->setProperty('title', $date->format('m'));
-		}
-
-		$dayNode = $monthNode->getNode($date->format('d'));
-		if ($dayNode === NULL) {
-			$dayNode = $monthNode->createNode($date->format('d'), $shortcutContentType);
-			$dayNode->setProperty('title', $date->format('d'));
-		}
-
-		$postNode = $dayNode->createNodeFromTemplate($nodeTemplate, $slug);
+		$postNode = $parentNode->createNodeFromTemplate($nodeTemplate, $slug);
 		$postNode->setProperty('datePublished', $date);
 		$postNode->setProperty('category', '');
 		$postNode->setProperty('tags', '');
 
-		# $this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
-		#
-		# The above redirect won't work as it is using the nested action request instead
-		# of the main request. That may be an unwanted behavior. For now use this
-		# workaround:
+		$currentlyFirstPostNode = $parentNode->getPrimaryChildNode();
+		if ($currentlyFirstPostNode !== NULL) {
+			$postNode->moveBefore($currentlyFirstPostNode);
+		}
 
 		$mainRequest = $this->request->getMainRequest();
 		$mainUriBuilder = new UriBuilder();

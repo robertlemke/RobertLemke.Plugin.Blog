@@ -1,23 +1,26 @@
 {namespace blog=RobertLemke\Plugin\Blog\ViewHelpers}
 {namespace neos=TYPO3\Neos\ViewHelpers}
+{namespace typo3cr=TYPO3\TYPO3CR\ViewHelpers}
 <div class="robertlemke-plugin-blog">
-	<f:if condition="{posts}">
+	<f:if condition="{postsNode}">
 		<f:then>
-			<ol class="posts">
-				<f:for each="{posts}" as="post">
-					<li class="post">
-						<h2>
-							<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
-						</h2>
-						<p class="content">
-							<neos:link.node node="{post}" class="invisible-link">
-								{post.primaryChildNode.primaryChildNode.properties.text -> f:format.raw() -> blog:readMore()}
-							</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate>Read more</f:translate></neos:link.node>
-						</p>
-					</li>
-					<hr/>
-				</f:for>
-			</ol>
+			<typo3cr:widget.paginate parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+				<ol class="posts">
+					<f:for each="{paginatedPosts}" as="post">
+						<li class="post">
+							<h2>
+								<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
+							</h2>
+							<p class="content">
+								<neos:link.node node="{post}" class="invisible-link">
+									{post.primaryChildNode.primaryChildNode.properties.text -> f:format.raw() -> blog:readMore()}
+								</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate>Read more</f:translate></neos:link.node>
+							</p>
+						</li>
+						<hr/>
+					</f:for>
+				</ol>
+			</typo3cr:widget.paginate>
 		</f:then>
 		<f:else>
 			<p><f:translate>This blog currently doesn't contain any posts.</f:translate></p>
