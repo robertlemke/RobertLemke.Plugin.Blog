@@ -4,12 +4,13 @@
 <div class="robertlemke-plugin-blog">
 	<f:if condition="{postsNode}">
 		<f:then>
-			<typo3cr:widget.paginate parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+			<typo3cr:widget.paginate parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 10, insertBelow: 1, maximumNumberOfLinks: 15}">
 				<ol class="posts">
 					<f:for each="{paginatedPosts}" as="post">
 						<li class="post">
 							<h2>
 								<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
+								<f:if condition="{post.removed}"> (removed)</f:if>
 							</h2>
 							<p class="content">
 								<neos:link.node node="{post}" class="invisible-link">
@@ -27,9 +28,9 @@
 		</f:else>
 	</f:if>
 	<f:security.ifAuthenticated>
+		<hr/>
 		<f:form controller="Post" action="create" objectName="nodeTemplate">
-			Title: <f:form.textfield property="title" /><br />
-			<f:form.submit class="button" value="Create new post"/>
+			Blog post title: <f:form.textfield property="title" /><f:form.submit class="button" value="create"/>
 		</f:form>
 	</f:security.ifAuthenticated>
 </div>
