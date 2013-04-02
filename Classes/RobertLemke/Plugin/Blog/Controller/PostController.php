@@ -117,7 +117,9 @@ class PostController extends ActionController {
 		}
 
 			// This won't work yet (plugin sub responses can't set headers yet) but keep that as a reminder:
-		$this->response->getHeaders()->setCacheControlDirective('s-max-age', 3600);
+		$headers = $this->response->getHeaders();
+		$headers->setCacheControlDirective('s-max-age', 3600);
+		$headers->set('Content-Type', 'application/rss+xml');
 
 		$feed = new Feed();
 		$feed->addChannel($channel);
