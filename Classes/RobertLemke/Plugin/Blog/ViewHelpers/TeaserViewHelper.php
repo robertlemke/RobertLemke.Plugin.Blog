@@ -21,51 +21,30 @@ namespace RobertLemke\Plugin\Blog\ViewHelpers;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use TYPO3\Flow\Annotations as Flow;
+use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
+
 /**
  * This view helper crops the text of a blog post in a meaningful way.
  *
  * @api
  */
-class ReadMoreViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TeaserViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * Render the read more text
+	 * @Flow\Inject
+	 * @var \RobertLemke\Plugin\Blog\Service\ContentService
+	 */
+	protected $contentService;
+
+	/**
+	 * Render a teaser
 	 *
+	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $node
 	 * @return string cropped text
 	 */
-	public function render() {
-		$stringToTruncate = $this->renderChildren();
-		$jumpPosition = strpos($stringToTruncate, '<!-- read more -->');
-
-		if ($jumpPosition !== FALSE) {
-			return $this->stripUnwantedTags(substr($stringToTruncate, 0, ($jumpPosition - 1)));
-		}
-
-		$jumpPosition = strpos($stringToTruncate, '</p>');
-		if ($jumpPosition !== FALSE && $jumpPosition < 200) {
-			return $this->stripUnwantedTags(substr($stringToTruncate, 0, $jumpPosition + 3));
-		}
-
-		if (strlen($stringToTruncate) > 200) {
-			return $this->stripUnwantedTags(substr($stringToTruncate, 0, 200) . ' ...');
-		} else {
-			return $this->stripUnwantedTags($stringToTruncate);
-		}
-	}
-
-	/**
-	 * If the content starts with <p> and ends with </p> these tags are stripped.
-	 *
-	 * @param string $content The original content
-	 * @return string The stripped content
-	 */
-	protected function stripUnwantedTags($content) {
-		$content = trim($content);
-		$content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/'), '', $content);
-		if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {
-			$content = substr($content, 3, -4);
-		}
-		return $content;
+	public function render(PersistentNodeInterface $node) {
+		return $this->contentService->renderTeaser($node);
 	}
 }
 

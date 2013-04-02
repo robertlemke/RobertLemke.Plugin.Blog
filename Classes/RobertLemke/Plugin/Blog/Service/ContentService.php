@@ -22,66 +22,63 @@ namespace RobertLemke\Plugin\Blog\Service;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\SwiftMailer\Message;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
 
 /**
- * A notification service
+ * A service which can render specific views of blog related content
  *
  * @Flow\Scope("singleton")
  */
-class Notification {
+class ContentService {
 
 	/**
-	 * @var array
+	 * @param PersistentNodeInterface $node
+	 * @return mixed
 	 */
-	protected $settings;
+	public function renderTeaser(PersistentNodeInterface $node) {
+		$stringToTruncate = '';
 
-	/**
-	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Log\SystemLoggerInterface
-	 */
-	protected $systemLogger;
+		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos.NodeTypes:ContentObject') as $contentNode) {
+			foreach ($contentNode->getProperties() as $propertyValue) {
+				if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
+					$stringToTruncate .= $propertyValue;
+				}
+			}
+		}
 
-	/**
-	 * @param array $settings
-	 * @return void
-	 */
-	public function injectSettings(array $settings) {
-		$this->settings = $settings;
+		$jumpPosition = strpos($stringToTruncate, '<!-- read more -->');
+
+		if ($jumpPosition !== FALSE) {
+			return $this->stripUnwantedTags(substr($stringToTruncate, 0, ($jumpPosition - 1)));
+		}
+
+		$jumpPosition = strpos($stringToTruncate, '</p>');
+		if ($jumpPosition !== FALSE && $jumpPosition < 600) {
+			return $this->stripUnwantedTags(substr($stringToTruncate, 0, $jumpPosition + 4));
+		}
+
+		if (strlen($stringToTruncate) > 500) {
+			return $this->stripUnwantedTags(substr($stringToTruncate, 0, 500) . ' ...');
+		} else {
+			return $this->stripUnwantedTags($stringToTruncate);
+		}
+
 	}
 
 	/**
-	 * Send a new notification that a comment has been created
+	 * If the content starts with <p> and ends with </p> these tags are stripped.
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $commentNode The comment node
-	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $postNode The post node
-	 * @return void
+	 * @param string $content The original content
+	 * @return string The stripped content
 	 */
-	public function sendNewCommentNotification(PersistentNodeInterface $commentNode, PersistentNodeInterface $postNode) {
-		if ($this->settings['notifications']['to']['email'] === '') {
-			return;
+	protected function stripUnwantedTags($content) {
+		$content = trim($content);
+		$content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/'), '', $content);
+		if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {
+			$content = substr($content, 3, -4);
 		}
-
-		if (!class_exists('TYPO3\SwiftMailer\Message')) {
-			$this->systemLogger->logException(new \TYPO3\Flow\Exception('The package "TYPO3.SwiftMailer" is required to send notifications!', 1359473932));
-			return;
-		}
-
-		try {
-			$mail = new Message();
-			$mail
-				->setFrom(array($commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')))
-				->setTo(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
-				->setSubject('New comment on blog post "' . $postNode->getProperty('title') . '"' . ($commentNode->getProperty('spam') ? ' (SPAM)' : ''))
-				->setBody($commentNode->getProperty('text'))
-				->send();
-		} catch (\Exception $e) {
-			$this->systemLogger->logException($e);
-		}
+		return $content;
 	}
-
 }
 
 ?>

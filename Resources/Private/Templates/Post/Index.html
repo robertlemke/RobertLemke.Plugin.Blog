@@ -25,7 +25,7 @@
 <div class="robertlemke-plugin-blog" id="scrolling-container">
 	<f:if condition="{postsNode}">
 		<f:then>
-			<typo3cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 10, insertBelow: 1, maximumNumberOfLinks: 15}">
+			<typo3cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
 				<ol class="posts">
 					<f:for each="{paginatedPosts}" as="post">
 						<li class="post">
@@ -35,7 +35,7 @@
 							</h2>
 							<p class="content">
 								<neos:link.node node="{post}" class="invisible-link">
-									{post.primaryChildNode.primaryChildNode.properties.text -> f:format.raw() -> blog:readMore()}
+									<blog:teaser node="{post}"/>
 								</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate>Read more</f:translate></neos:link.node>
 							</p>
 						</li>

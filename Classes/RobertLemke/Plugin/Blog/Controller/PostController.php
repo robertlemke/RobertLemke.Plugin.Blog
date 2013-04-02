@@ -50,6 +50,12 @@ class PostController extends ActionController {
 	protected $i18nService;
 
 	/**
+	 * @Flow\Inject
+	 * @var \RobertLemke\Plugin\Blog\Service\ContentService
+	 */
+	protected $contentService;
+
+	/**
 	 * Displays a list of most recent blog posts
 	 *
 	 * @return void
@@ -112,7 +118,8 @@ class PostController extends ActionController {
 			$item->setCreator($author);
 
 #			$item->setCategories(array('test'));
-			$item->setDescription($postNode->getNode('main')->getPrimaryChildNode()->getProperty('text'));
+			$description = $this->contentService->renderTeaser($postNode) . ' <a href="' . $postUri . '">Read more</a>';
+			$item->setDescription($description);
 			$channel->addItem($item);
 		}
 

@@ -37,7 +37,7 @@ class Package extends BasePackage {
 	 */
 	public function boot(\TYPO3\Flow\Core\Bootstrap $bootstrap) {
 		$dispatcher = $bootstrap->getSignalSlotDispatcher();
-		$dispatcher->connect('RobertLemke\Plugin\Blog\Controller\CommentController', 'commentCreated', 'RobertLemke\Plugin\Blog\Service\Notification', 'sendNewCommentNotification');
+		$dispatcher->connect('RobertLemke\Plugin\Blog\Controller\CommentController', 'commentCreated', 'RobertLemke\Plugin\Blog\Service\NotificationService', 'sendNewCommentNotification');
 	}
 
 }
