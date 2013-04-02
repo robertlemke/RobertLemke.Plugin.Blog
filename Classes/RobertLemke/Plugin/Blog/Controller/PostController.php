@@ -74,11 +74,15 @@ class PostController extends ActionController {
 		$uriBuilder = new UriBuilder();
 		$uriBuilder->setRequest($this->request->getMainRequest());
 
-		$feedUri = $uriBuilder
-			->setLinkProtectionEnabled(FALSE)
-			->setCreateAbsoluteUri(TRUE)
-			->setFormat($this->request->getFormat())
-			->uriFor('show', array('node' => $this->nodeRepository->getContext()->getCurrentNode()), 'Frontend\Node', 'TYPO3.Neos');
+		if ($this->settings['feed']['uri'] !== '') {
+			$feedUri = $this->settings['feed']['uri'];
+		} else {
+			$feedUri = $uriBuilder
+				->setLinkProtectionEnabled(FALSE)
+				->setCreateAbsoluteUri(TRUE)
+				->setFormat('xml')
+				->uriFor('show', array('node' => $this->nodeRepository->getContext()->getCurrentNode()), 'Frontend\Node', 'TYPO3.Neos');
+		}
 
 		$channel = new Channel();
 		$channel->setTitle($this->settings['feed']['title']);
