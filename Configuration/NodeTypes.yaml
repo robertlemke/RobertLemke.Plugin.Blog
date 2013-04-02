@@ -24,6 +24,12 @@
         reloadIfChanged: true
         inspector:
           group: 'page'
+    author:
+      type: 'string'
+      ui:
+        label: 'Author'
+        inspector:
+          group: 'page'
     relatedPosts:
       type: 'string'
       ui:

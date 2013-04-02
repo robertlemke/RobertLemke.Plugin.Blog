@@ -65,3 +65,15 @@
     node:
       handler:    TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
   appendExceedingArguments: true
+
+-
+  name:          'RSS Feed special super extra workaround route (for until we can use different formats in plugins)'
+  uriPattern:    '{node}.xml'
+  defaults:
+    '@package':    'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format':     'xml'
+    '@action':     'show'
+  routeParts:
+    node:
+      handler:    TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
