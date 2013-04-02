@@ -79,15 +79,14 @@ class PostController extends ActionController {
 	public function rssAction() {
 		$uriBuilder = new UriBuilder();
 		$uriBuilder->setRequest($this->request->getMainRequest());
+		$uriBuilder->setLinkProtectionEnabled(FALSE);
+		$uriBuilder->setCreateAbsoluteUri(TRUE);
+		$uriBuilder->setFormat('xml');
 
 		if ($this->settings['feed']['uri'] !== '') {
 			$feedUri = $this->settings['feed']['uri'];
 		} else {
-			$feedUri = $uriBuilder
-				->setLinkProtectionEnabled(FALSE)
-				->setCreateAbsoluteUri(TRUE)
-				->setFormat('xml')
-				->uriFor('show', array('node' => $this->nodeRepository->getContext()->getCurrentNode()), 'Frontend\Node', 'TYPO3.Neos');
+			$feedUri = $uriBuilder->uriFor('show', array('node' => $this->nodeRepository->getContext()->getCurrentNode()), 'Frontend\Node', 'TYPO3.Neos');
 		}
 
 		$channel = new Channel();
