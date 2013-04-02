@@ -22,6 +22,24 @@
 # &--typo3_neos_nodetypes_typoscript_pluginimplementation[--typo3-typo3cr-viewhelpers-widget-paginateviewhelper][currentPage]=2
 
 -
+  name: 'Blog post creation'
+  uriPattern:    '{node}/post/create'
+  defaults:
+    '@package':    'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format':     'html'
+    '@action':     'show'
+    '--typo3_neos_nodetypes_typoscript_pluginimplementation':
+      '@package': 'RobertLemke.Plugin.Blog'
+      '@controller': 'Post'
+      '@action': 'create'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler:    TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: true
+
+-
   name: 'Blog post pagination default'
   uriPattern:    '{node}'
   defaults:

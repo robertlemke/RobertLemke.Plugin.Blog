@@ -22,6 +22,9 @@
 		});
 	});
 </script>
+<f:security.ifAuthenticated>
+	<f:form controller="Post" action="create" style="float:right"><f:form.submit class="button" value="+"/></f:form>
+</f:security.ifAuthenticated>
 <div class="robertlemke-plugin-blog" id="scrolling-container">
 	<f:if condition="{postsNode}">
 		<f:then>
@@ -49,10 +52,4 @@
 			<p><f:translate>This blog currently doesn't contain any posts.</f:translate></p>
 		</f:else>
 	</f:if>
-	<f:security.ifAuthenticated>
-		<hr/>
-		<f:form controller="Post" action="create" objectName="nodeTemplate">
-			Blog post title: <f:form.textfield property="title" /><f:form.submit class="button" value="create"/>
-		</f:form>
-	</f:security.ifAuthenticated>
 </div>

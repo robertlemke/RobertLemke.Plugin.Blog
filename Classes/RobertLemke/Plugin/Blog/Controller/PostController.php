@@ -45,6 +45,12 @@ class PostController extends ActionController {
 
 	/**
 	 * @Flow\Inject
+	 * @var \TYPO3\TYPO3CR\Domain\Service\NodeTypeManager
+	 */
+	protected $nodeTypeManager;
+
+	/**
+	 * @Flow\Inject
 	 * @var \TYPO3\Flow\I18n\Service
 	 */
 	protected $i18nService;
@@ -140,20 +146,19 @@ class PostController extends ActionController {
 	/**
 	 * Creates a new blog post node
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeTemplate<RobertLemke.Plugin.Blog:Post> $nodeTemplate
 	 * @return void
 	 */
-	public function createAction(NodeTemplate $nodeTemplate) {
+	public function createAction() {
 		$contentContext = $this->nodeRepository->getContext();
 		$parentNode = $contentContext->getCurrentNode();
 
-		$slug = uniqid('post');
-		$date = $contentContext->getCurrentDateTime();
+		$nodeTemplate = new NodeTemplate();
+		$nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Post'));
+		$nodeTemplate->setProperty('title', 'A new blog post');
+		$nodeTemplate->setProperty('datePublished', $contentContext->getCurrentDateTime());
 
+		$slug = uniqid('post');
 		$postNode = $parentNode->createNodeFromTemplate($nodeTemplate, $slug);
-		$postNode->setProperty('datePublished', $date);
-		$postNode->setProperty('category', '');
-		$postNode->setProperty('tags', '');
 
 		$currentlyFirstPostNode = $parentNode->getPrimaryChildNode();
 		if ($currentlyFirstPostNode !== NULL) {
