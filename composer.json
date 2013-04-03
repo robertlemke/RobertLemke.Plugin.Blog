@@ -1,6 +1,6 @@
 {
 	"name":"robertlemke/plugin-blog",
-	"type":"typo3-flow-plugins",
+	"type":"typo3-flow-plugin",
 	"description":"A blog plugin for TYPO3 Neos",
 	"license": ["MIT"],
 	"authors": [
