@@ -81,11 +81,11 @@ class PostController extends ActionController {
 		$uriBuilder->setRequest($this->request->getMainRequest());
 		$uriBuilder->setLinkProtectionEnabled(FALSE);
 		$uriBuilder->setCreateAbsoluteUri(TRUE);
-		$uriBuilder->setFormat('xml');
 
 		if ($this->settings['feed']['uri'] !== '') {
 			$feedUri = $this->settings['feed']['uri'];
 		} else {
+			$uriBuilder->setFormat('xml');
 			$feedUri = $uriBuilder->uriFor('show', array('node' => $this->nodeRepository->getContext()->getCurrentNode()), 'Frontend\Node', 'TYPO3.Neos');
 		}
 
@@ -101,6 +101,7 @@ class PostController extends ActionController {
 		foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
 			/* @var $postNode PersistentNodeInterface */
 
+			$uriBuilder->setFormat('html');
 			$postUri = $uriBuilder->uriFor('show', array('node' => $postNode), 'Frontend\Node', 'TYPO3.Neos');
 
 			$item = new Item();
@@ -167,6 +168,7 @@ class PostController extends ActionController {
 		$mainRequest = $this->request->getMainRequest();
 		$mainUriBuilder = new UriBuilder();
 		$mainUriBuilder->setRequest($mainRequest);
+		$mainUriBuilder->setFormat('html');
 		$uri = $mainUriBuilder
 			->reset()
 			->setCreateAbsoluteUri(TRUE)
