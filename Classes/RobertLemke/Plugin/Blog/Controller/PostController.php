@@ -69,6 +69,7 @@ class PostController extends ActionController {
 	public function indexAction() {
 		$currentNode = $this->nodeRepository->getContext()->getCurrentNode();
 		$this->view->assign('postsNode', $currentNode);
+		$this->view->assign('hasPostNodes', $currentNode->hasChildNodes('RobertLemke.Plugin.Blog:Post'));
 	}
 
 	/**
