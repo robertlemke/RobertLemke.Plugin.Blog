@@ -26,7 +26,7 @@
 	<f:form controller="Post" action="create" style="float:right"><f:form.submit class="button" value="+"/></f:form>
 </f:security.ifAuthenticated>
 <div class="robertlemke-plugin-blog" id="scrolling-container">
-	<f:if condition="{postsNode}">
+	<f:if condition="{hasPostNodes}">
 		<f:then>
 			<typo3cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
 				<ol class="posts">
