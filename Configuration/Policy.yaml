@@ -3,6 +3,6 @@ resources:
     RobertLemke_Plugin_Blog_PostController: 'method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())'
 
 acls:
-  Editor:
+  TYPO3.Neos:Editor:
     methods:
       RobertLemke_Plugin_Blog_PostController: GRANT
