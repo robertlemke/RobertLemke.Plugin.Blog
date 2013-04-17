@@ -80,7 +80,6 @@ class PostController extends ActionController {
 	public function rssAction() {
 		$uriBuilder = new UriBuilder();
 		$uriBuilder->setRequest($this->request->getMainRequest());
-		$uriBuilder->setLinkProtectionEnabled(FALSE);
 		$uriBuilder->setCreateAbsoluteUri(TRUE);
 
 		if ($this->settings['feed']['uri'] !== '') {
