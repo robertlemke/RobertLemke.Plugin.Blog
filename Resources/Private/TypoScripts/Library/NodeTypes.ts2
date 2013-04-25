@@ -1,23 +1,4 @@
 #
-# Make sure that if the section of a page needs to be rendered which in fact is
-# a Post node, use the RobertLemke.Plugin.Blog:Post TypoScript object to render
-# that part instead of the default content collection rendering
-#
-
-prototype(TYPO3.Neos.NodeTypes:Section).blogPost {
-	condition = ${q(node).is('[instanceof RobertLemke.Plugin.Blog:Post]')}
-	type = 'RobertLemke.Plugin.Blog:Post'
-}
-
-#
-# TYPO3.Neos.NodeTypes:Section is copied to TYPO3.Neos:Section by Neos in order
-# to access it through the default namespace by simply referring to "Section". If
-# the full name TYPO3.Neos.NodeTypes:Section is used, the above case will be
-# active. If the short name "Section" from "TYPO3.Neos" is used, we provide a copy
-
-prototype(TYPO3.Neos:Section).blogPost < prototype(TYPO3.Neos.NodeTypes:Section).blogPost
-
-#
 # Blog Post is rendered by a Template-based TypoScript object which contains some
 # properties on its own (title, ...) and renders sub nodes contained in two
 # separate sections, namely "main" for the actual post content and "comments" for
