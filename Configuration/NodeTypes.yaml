@@ -1,5 +1,5 @@
 'RobertLemke.Plugin.Blog:Post':
-  superTypes: ['TYPO3.Neos.NodeTypes:Folder']
+  superTypes: ['TYPO3.Neos.NodeTypes:Page']
   ui:
     label: 'Blog Post'
     icon:
