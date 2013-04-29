@@ -70,8 +70,9 @@ class AtomImportCommandController extends \TYPO3\Flow\Cli\CommandController {
 			$categories = $item->get_categories();
 			foreach ($categories as $category) {
 				if ($category->get_term() === 'http://schemas.google.com/blogger/2008/kind#comment') {
-					$t = current($item->get_item_tags('http://purl.org/syndication/thread/1.0', 'in-reply-to')[0]['attribs']);
-					$comments[$t['ref']][$item->get_date('U')] = $item;
+					$inReplyTo = current($item->get_item_tags('http://purl.org/syndication/thread/1.0', 'in-reply-to'));
+					$inReplyTo = current($inReplyTo[0]['attribs']);
+					$comments[$inReplyTo['ref']][$item->get_date('U')] = $item;
 				}
 			}
 		}
