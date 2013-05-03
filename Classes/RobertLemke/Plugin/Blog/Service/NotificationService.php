@@ -71,7 +71,8 @@ class NotificationService {
 		try {
 			$mail = new Message();
 			$mail
-				->setFrom(array($commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')))
+				->setFrom(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
+				->setReplyTo(array($commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')))
 				->setTo(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
 				->setSubject('New comment on blog post "' . $postNode->getProperty('title') . '"' . ($commentNode->getProperty('spam') ? ' (SPAM)' : ''))
 				->setBody($commentNode->getProperty('text'))
