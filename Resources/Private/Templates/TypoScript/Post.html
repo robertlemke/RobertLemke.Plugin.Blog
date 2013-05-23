@@ -14,14 +14,14 @@
 		</div><br />
 	</header>
 	<div itemprop="articleBody">
-		<ts:renderTypoScript path="main" />
+		<ts:render path="main" />
 	</div>
 	<hr />
 	<div id="comments" class="comments">
 		<f:if condition="{numberOfComments}">
 			<h3><f:translate>Comments</f:translate></h3>
 			<ol class="commentlist">
-				<ts:renderTypoScript path="comments" />
+				<ts:render path="comments" />
 			</ol>
 			<div class="clear"></div>
 		</f:if>

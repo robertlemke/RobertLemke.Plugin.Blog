@@ -1,10 +1,12 @@
+
 'RobertLemke.Plugin.Blog:Post':
-  superTypes: ['TYPO3.Neos.NodeTypes:Page']
+  superTypes:
+    - 'TYPO3.Neos:Page'
   ui:
     label: 'Blog Post'
     icon:
-      light: 'Images/Icons/White/doc_empty_icon-16.png'
-      dark: 'Images/Icons/Black/doc_empty_icon-16.png'
+      light: Images/Icons/White/doc_empty_icon-16.png
+      dark: Images/Icons/Black/doc_empty_icon-16.png
     inspector:
       groups:
         page:
@@ -13,47 +15,47 @@
           label: 'More Info'
   childNodes:
     main:
-      type: 'TYPO3.Neos.NodeTypes:Section'
+      type: 'TYPO3.Neos:ContentCollection'
     comments:
-      type: 'TYPO3.Neos.NodeTypes:Section'
+      type: 'TYPO3.Neos:ContentCollection'
   properties:
     datePublished:
-      type: 'date'
+      type: date
       ui:
         label: 'Publication Date'
         reloadIfChanged: true
         inspector:
-          group: 'page'
+          group: page
     author:
-      type: 'string'
+      type: string
       ui:
-        label: 'Author'
+        label: Author
         inspector:
-          group: 'page'
+          group: page
     relatedPosts:
-      type: 'string'
+      type: string
       ui:
         label: 'Related Posts'
         inspector:
-          group: 'moreinfo'
+          group: moreinfo
     category:
       type: string
       ui:
-        label: 'Category'
+        label: Category
         inspector:
-          group: 'moreinfo'
+          group: moreinfo
     tags:
       type: string
       ui:
-        label: 'Tags'
+        label: Tags
         inspector:
-          group: 'moreinfo'
-
+          group: moreinfo
 'RobertLemke.Plugin.Blog:Comment':
-  superTypes: ['TYPO3.Neos.NodeTypes:ContentObject']
+  superTypes:
+    - 'TYPO3.Neos:Content'
   ui:
     label: 'Blog Comment'
-    group: 'General'
+    group: General
     inspector:
       groups:
         comment:
@@ -65,44 +67,44 @@
         label: 'Publication Date'
         reloadIfChanged: true
         inspector:
-          group: 'comment'
+          group: comment
     author:
       type: string
       ui:
-        label: 'Author'
+        label: Author
         reloadIfChanged: true
         inspector:
-          group: 'comment'
+          group: comment
     emailAddress:
       type: string
       ui:
         label: 'Email Address'
         reloadIfChanged: true
         inspector:
-          group: 'comment'
+          group: comment
     uri:
       type: string
       ui:
-        label: 'URI'
+        label: URI
         reloadIfChanged: true
         inspector:
-          group: 'comment'
+          group: comment
     spam:
       type: boolean
       ui:
-        label: 'Spam'
+        label: Spam
         inspector:
-          group: 'comment'
+          group: comment
     text:
       type: string
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
-
 'RobertLemke.Plugin.Blog:Quote':
-  superTypes: ['TYPO3.Neos.NodeTypes:ContentObject']
+  superTypes:
+    - 'TYPO3.Neos:Content'
   ui:
-    group: 'General'
+    group: General
     label: 'Blog Quote'
     inspector:
       groups:
@@ -115,39 +117,37 @@
         label: 'Cite Author'
         reloadIfChanged: true
         inspector:
-          group: 'quote'
+          group: quote
     citeAuthorUri:
       type: string
       ui:
         label: 'Cite Author URI'
         reloadIfChanged: true
         inspector:
-          group: 'quote'
+          group: quote
     citeUri:
       type: string
       ui:
         label: 'Cite URI'
         reloadIfChanged: true
         inspector:
-          group: 'quote'
+          group: quote
     citeUriLabel:
       type: string
       ui:
         label: 'Cite URI Label'
         reloadIfChanged: true
         inspector:
-          group: 'quote'
+          group: quote
     text:
       type: string
       defaultValue: '<p>Enter quote here</p>'
       ui:
         inlineEditable: true
-
 'RobertLemke.Plugin.Blog:PostPlugin':
-  superTypes: ['TYPO3.Neos.NodeTypes:Plugin']
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
   ui:
     label: 'Blog Post Overview'
-    group: 'Plugins'
-
-    # make links in the overview clickable:
+    group: Plugins
     inlineEditable: true
