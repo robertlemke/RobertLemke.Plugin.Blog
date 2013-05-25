@@ -38,7 +38,7 @@ class ContentService {
 	public function renderTeaser(PersistentNodeInterface $node) {
 		$stringToTruncate = '';
 
-		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos.NodeTypes:ContentObject') as $contentNode) {
+		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {
 			foreach ($contentNode->getProperties() as $propertyValue) {
 				if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
 					$stringToTruncate .= $propertyValue;
