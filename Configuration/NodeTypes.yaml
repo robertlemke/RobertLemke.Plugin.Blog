@@ -1,5 +1,5 @@
 'RobertLemke.Plugin.Blog:Post':
-  superTypes: ['TYPO3.Neos.NodeTypes:Folder']
+  superTypes: ['TYPO3.Neos:Document']
   ui:
     label: 'Blog Post'
     icon:
@@ -13,9 +13,9 @@
           label: 'More Info'
   childNodes:
     main:
-      type: 'TYPO3.Neos.NodeTypes:Section'
+      type: 'TYPO3.Neos:Section'
     comments:
-      type: 'TYPO3.Neos.NodeTypes:Section'
+      type: 'TYPO3.Neos:Section'
   properties:
     datePublished:
       type: 'date'
@@ -50,7 +50,7 @@
           group: 'moreinfo'
 
 'RobertLemke.Plugin.Blog:Comment':
-  superTypes: ['TYPO3.Neos.NodeTypes:ContentObject']
+  superTypes: ['TYPO3.Neos:Content']
   ui:
     label: 'Blog Comment'
     group: 'General'
@@ -93,7 +93,7 @@
         inlineEditable: true
 
 'RobertLemke.Plugin.Blog:Quote':
-  superTypes: ['TYPO3.Neos.NodeTypes:ContentObject']
+  superTypes: ['TYPO3.Neos:Content']
   ui:
     group: 'General'
     label: 'Blog Quote'
@@ -137,7 +137,7 @@
         inlineEditable: true
 
 'RobertLemke.Plugin.Blog:PostPlugin':
-  superTypes: ['TYPO3.Neos.NodeTypes:Plugin']
+  superTypes: ['TYPO3.Neos:Plugin']
   ui:
     label: 'Blog Post Overview'
     group: 'Plugins'
