@@ -1,7 +1,7 @@
+
 resources:
   methods:
-    'RobertLemke.Plugin.Blog:PostController': 'method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())'
-
+    'RobertLemke.Plugin.Blog:PostController': method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())
 acls:
   'TYPO3.Neos:Editor':
     methods:

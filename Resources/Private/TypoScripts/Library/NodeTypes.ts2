@@ -4,18 +4,18 @@
 # that part instead of the default content collection rendering
 #
 
-prototype(TYPO3.Neos.NodeTypes:Section).blogPost {
+prototype(TYPO3.Neos:ContentCollection).blogPost {
 	condition = ${q(node).is('[instanceof RobertLemke.Plugin.Blog:Post]')}
 	type = 'RobertLemke.Plugin.Blog:Post'
 }
 
 #
-# TYPO3.Neos.NodeTypes:Section is copied to TYPO3.Neos:Section by Neos in order
-# to access it through the default namespace by simply referring to "Section". If
-# the full name TYPO3.Neos.NodeTypes:Section is used, the above case will be
-# active. If the short name "Section" from "TYPO3.Neos" is used, we provide a copy
+# TYPO3.Neos:ContentCollection is copied to TYPO3.Neos:ContentCollection by Neos in order
+# to access it through the default namespace by simply referring to "ContentCollection". If
+# the full name TYPO3.Neos:ContentCollection is used, the above case will be
+# active. If the short name "ContentCollection" from "TYPO3.Neos" is used, we provide a copy
 
-prototype(TYPO3.Neos:Section).blogPost < prototype(TYPO3.Neos.NodeTypes:Section).blogPost
+prototype(TYPO3.Neos:ContentCollection).blogPost < prototype(TYPO3.Neos:ContentCollection).blogPost
 
 #
 # Blog Post is rendered by a Template-based TypoScript object which contains some
@@ -25,33 +25,33 @@ prototype(TYPO3.Neos:Section).blogPost < prototype(TYPO3.Neos.NodeTypes:Section)
 #
 # The blog post content is made of several content elements which are rendered
 # as a collection just like a page would render its content elements. Hence the
-# usage of Section.Default.
+# usage of ContentCollection.Default.
 #
 # The blog post comments are just several Text nodes which are as well rendered
 # through the TypoScript collection feature.
 #
 
-prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.TypoScript:Template)
+prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Template)
 prototype(RobertLemke.Plugin.Blog:Post) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Post.html'
 	title = ${q(node).property('title')}
 
-		# Create a new Section TypoScript object which inherits the behavior of the
+		# Create a new ContentCollection TypoScript object which inherits the behavior of the
 		# default section (which renders a collection of content elements).
-	main = TYPO3.Neos.NodeTypes:Section.Default
+	main = TYPO3.Neos:ContentCollection.Default
 
 		# The name of the section node to be rendered is also "main"
 	main.nodePath = 'main'
 
-		# Create a similar Section TypoScript object for comments, but set the
+		# Create a similar ContentCollection TypoScript object for comments, but set the
 		# node path leading to the section to "comments" because it is a sub node
 		# of the current node (which is a Post node)
-	comments = TYPO3.Neos.NodeTypes:Section.Default
+	comments = TYPO3.Neos:ContentCollection.Default
 	comments.nodePath = 'comments'
 
 		# Override the collection query for comments in order to filter out any
 		# entries flagged as spam
-	comments.collection = ${q(node).is('[instanceof TYPO3.Neos.NodeTypes:Section]') ? q(node).children("[spam = false]") : q(node).children(this.getNodePath()).children("[spam = false]")}
+	comments.collection = ${q(node).is('[instanceof TYPO3.Neos:ContentCollection]') ? q(node).children("[spam = false]") : q(node).children(this.getNodePath()).children("[spam = false]")}
 
 	numberOfComments = ${q(node).children('comments').children("[spam = false]").count()}
 }
@@ -60,7 +60,7 @@ prototype(RobertLemke.Plugin.Blog:Post) {
 # Blog Comment is rendered by a vanilla Template-based TypoScript object
 #
 
-prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.TypoScript:Template)
+prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.Neos:Template)
 prototype(RobertLemke.Plugin.Blog:Comment) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Comment.html'
 	text = ${q(node).property('text')}
@@ -71,7 +71,7 @@ prototype(RobertLemke.Plugin.Blog:Comment) {
 # TypoScript object is a regular Plugin content type.
 #
 
-prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos.NodeTypes:Plugin)
+prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos:Plugin)
 prototype(RobertLemke.Plugin.Blog:PostPlugin) {
 	package = 'RobertLemke.Plugin.Blog'
 	controller = 'Post'
@@ -82,7 +82,7 @@ prototype(RobertLemke.Plugin.Blog:PostPlugin) {
 # Quote is a straight-forward content type
 #
 
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.TypoScript:Template)
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Template)
 prototype(RobertLemke.Plugin.Blog:Quote) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Quote.html'
 	citeAuthor = ${q(node).property('citeAuthor')}
