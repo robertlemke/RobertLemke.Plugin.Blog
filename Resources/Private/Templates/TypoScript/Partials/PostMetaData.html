@@ -1,7 +1,7 @@
 <p class="metadata">
-	<f:translate arguments="{0: post.date}"><![CDATA[Published on {0,datetime}]]></f:translate>
+	<f:translate package="RobertLemke.Plugin.Blog" arguments="{0: post.date}"><![CDATA[Published on {0,datetime}]]></f:translate>
 	<br />
-	<f:if condition="{post.category}"><f:translate>Filed under:</f:translate> <f:link.action action="index" controller="Post" arguments="{category: post.category}" format="html">{post.category.name}</f:link.action></f:if>
+	<f:if condition="{post.category}"><f:translate package="RobertLemke.Plugin.Blog">Filed under:</f:translate> <f:link.action action="index" controller="Post" arguments="{category: post.category}" format="html">{post.category.name}</f:link.action></f:if>
 	<f:if condition="{post.tags}">
 		| <f:translate>Tags:</f:translate>
 		<f:for each="{post.tags}" as="tag">
