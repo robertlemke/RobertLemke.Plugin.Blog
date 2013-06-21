@@ -130,6 +130,9 @@ class PostController extends ActionController {
 #			$item->setCategories(array('test'));
 			$description = $this->contentService->renderTeaser($postNode) . ' <a href="' . $postUri . '">Read more</a>';
 			$item->setDescription($description);
+			if ($this->settings['feed']['includeContent'] === TRUE) {
+				$item->setContent($this->contentService->renderContent($postNode));
+			}
 			$channel->addItem($item);
 		}
 

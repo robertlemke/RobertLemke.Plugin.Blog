@@ -14,6 +14,7 @@ RobertLemke:
         title: 'The TYPO3 Neos Blog'
         description: 'A great, new - yet unconfigured - blog powered by TYPO3 Neos'
         uri: ''
+        includeContent: FALSE
 
 TYPO3:
   Flow:

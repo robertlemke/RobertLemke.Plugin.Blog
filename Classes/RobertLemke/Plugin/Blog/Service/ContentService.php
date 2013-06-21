@@ -32,6 +32,12 @@ use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
 class ContentService {
 
 	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Resource\Publishing\ResourcePublisher
+	 */
+	protected $resourcePublisher;
+
+	/**
 	 * @param PersistentNodeInterface $node
 	 * @return mixed
 	 */
@@ -63,6 +69,44 @@ class ContentService {
 			return $this->stripUnwantedTags($stringToTruncate);
 		}
 
+	}
+
+	/**
+	 * @param PersistentNodeInterface $node
+	 * @return mixed
+	 */
+	public function renderContent(PersistentNodeInterface $node) {
+		$content = '';
+
+		/** @var \TYPO3\TYPO3CR\Domain\Model\Node $contentNode */
+		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {
+			if ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:TextWithImage')) {
+					$propertyValue = $contentNode->getProperty('image');
+					$attributes = array(
+						'width="' . $propertyValue->getWidth() . '"',
+						'height="' . $propertyValue->getHeight() . '"',
+						'src="' . $this->resourcePublisher->getPersistentResourceWebUri($propertyValue->getResource()) . '"',
+					);
+					$content .= $contentNode->getProperty('text');
+					$content .= '<img ' . implode(' ', $attributes) . '/>';
+			} elseif ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:Image')) {
+				$propertyValue = $contentNode->getProperty('image');
+				$attributes = array(
+					'width="' . $propertyValue->getWidth() . '"',
+					'height="' . $propertyValue->getHeight() . '"',
+					'src="' . $this->resourcePublisher->getPersistentResourceWebUri($propertyValue->getResource()) . '"',
+				);
+				$content .= '<img ' . implode(' ', $attributes) . '/>';
+			} else {
+				foreach ($contentNode->getProperties() as $propertyValue) {
+					if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
+						$content .= $propertyValue;
+					}
+				}
+			}
+		}
+
+		return $this->stripUnwantedTags($content);
 	}
 
 	/**
