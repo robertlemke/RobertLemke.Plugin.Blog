@@ -154,8 +154,14 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction() {
-		$contentContext = $this->nodeRepository->getContext();
-		$parentNode = $contentContext->getCurrentNode();
+		/** @var NodeInterface $blogDocumentNode */
+
+		$blogDocumentNode = $this->request->getInternalArgument('__documentNode');
+		if ($blogDocumentNode === NULL) {
+			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
+		}
+
+		$contentContext = $blogDocumentNode->getContext();
 
 		$nodeTemplate = new NodeTemplate();
 		$nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Post'));
@@ -163,10 +169,11 @@ class PostController extends ActionController {
 		$nodeTemplate->setProperty('datePublished', $contentContext->getCurrentDateTime());
 
 		$slug = uniqid('post');
-		$postNode = $parentNode->createNodeFromTemplate($nodeTemplate, $slug);
+		$postNode = $blogDocumentNode->createNodeFromTemplate($nodeTemplate, $slug);
 
-		$currentlyFirstPostNode = $parentNode->getPrimaryChildNode();
+		$currentlyFirstPostNode = $blogDocumentNode->getPrimaryChildNode();
 		if ($currentlyFirstPostNode !== NULL) {
+				// FIXME This currently doesn't work, probably due to some TYPO3CR bug / misconception
 			$postNode->moveBefore($currentlyFirstPostNode);
 		}
 
