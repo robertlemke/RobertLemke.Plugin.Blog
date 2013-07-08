@@ -27,8 +27,8 @@ use RobertLemke\Rss\Item;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Mvc\Routing\UriBuilder;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
-use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
 
 /**
  * The posts controller for the Blog package
@@ -36,12 +36,6 @@ use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
  * @Flow\Scope("singleton")
  */
 class PostController extends ActionController {
-
-	/**
-	 * @Flow\Inject
-	 * @var \TYPO3\TYPO3CR\Domain\Repository\NodeRepository
-	 */
-	protected $nodeRepository;
 
 	/**
 	 * @Flow\Inject
@@ -64,12 +58,17 @@ class PostController extends ActionController {
 	/**
 	 * Displays a list of most recent blog posts
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function indexAction() {
-		$currentNode = $this->nodeRepository->getContext()->getCurrentNode();
-		$this->view->assign('postsNode', $currentNode);
-		$this->view->assign('hasPostNodes', $currentNode->hasChildNodes('RobertLemke.Plugin.Blog:Post'));
+		$blogDocumentNode = $this->request->getInternalArgument('__documentNode');
+		if ($blogDocumentNode !== NULL) {
+			/** @var NodeInterface $blogDocumentNode */
+			$this->view->assign('postsNode', $blogDocumentNode);
+			$this->view->assign('hasPostNodes', $blogDocumentNode->hasChildNodes('RobertLemke.Plugin.Blog:Post'));
+		} else {
+			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
+		}
 	}
 
 	/**
@@ -78,6 +77,14 @@ class PostController extends ActionController {
 	 * @return string
 	 */
 	public function rssAction() {
+		/** @var NodeInterface $blogDocumentNode */
+		$rssDocumentNode = $this->request->getInternalArgument('__documentNode');
+		if ($rssDocumentNode === NULL) {
+			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
+		}
+
+		$blogDocumentNode = $rssDocumentNode->getParent();
+
 		$uriBuilder = new UriBuilder();
 		$uriBuilder->setRequest($this->request->getMainRequest());
 		$uriBuilder->setCreateAbsoluteUri(TRUE);
@@ -86,7 +93,7 @@ class PostController extends ActionController {
 			$feedUri = $this->settings['feed']['uri'];
 		} else {
 			$uriBuilder->setFormat('xml');
-			$feedUri = $uriBuilder->uriFor('show', array('node' => $this->nodeRepository->getContext()->getCurrentNode()), 'Frontend\Node', 'TYPO3.Neos');
+			$feedUri = $uriBuilder->uriFor('show', array('node' => $rssDocumentNode), 'Frontend\Node', 'TYPO3.Neos');
 		}
 
 		$channel = new Channel();
@@ -96,10 +103,8 @@ class PostController extends ActionController {
 		$channel->setWebsiteUri($this->request->getHttpRequest()->getBaseUri());
 		$channel->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
-		$postsNode = $this->nodeRepository->getContext()->getCurrentNode()->getParent();
-
-		foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
-			/* @var $postNode PersistentNodeInterface */
+		foreach ($blogDocumentNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
+			/* @var $postNode NodeInterface */
 
 			$uriBuilder->setFormat('html');
 			$postUri = $uriBuilder->uriFor('show', array('node' => $postNode), 'Frontend\Node', 'TYPO3.Neos');
@@ -152,8 +157,14 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction() {
-		$contentContext = $this->nodeRepository->getContext();
-		$parentNode = $contentContext->getCurrentNode();
+		/** @var NodeInterface $blogDocumentNode */
+
+		$blogDocumentNode = $this->request->getInternalArgument('__documentNode');
+		if ($blogDocumentNode === NULL) {
+			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
+		}
+
+		$contentContext = $blogDocumentNode->getContext();
 
 		$nodeTemplate = new NodeTemplate();
 		$nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Post'));
@@ -161,10 +172,11 @@ class PostController extends ActionController {
 		$nodeTemplate->setProperty('datePublished', $contentContext->getCurrentDateTime());
 
 		$slug = uniqid('post');
-		$postNode = $parentNode->createNodeFromTemplate($nodeTemplate, $slug);
+		$postNode = $blogDocumentNode->createNodeFromTemplate($nodeTemplate, $slug);
 
-		$currentlyFirstPostNode = $parentNode->getPrimaryChildNode();
+		$currentlyFirstPostNode = $blogDocumentNode->getPrimaryChildNode();
 		if ($currentlyFirstPostNode !== NULL) {
+				// FIXME This currently doesn't work, probably due to some TYPO3CR bug / misconception
 			$postNode->moveBefore($currentlyFirstPostNode);
 		}
 

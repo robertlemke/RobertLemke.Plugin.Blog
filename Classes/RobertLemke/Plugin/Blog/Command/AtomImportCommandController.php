@@ -19,9 +19,9 @@ class AtomImportCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\TYPO3CR\Domain\Repository\NodeRepository
+	 * @var \TYPO3\TYPO3CR\Domain\Repository\NodeDataRepository
 	 */
-	protected $nodeRepository;
+	protected $nodeDataRepository;
 
 	/**
 	 * @Flow\Inject
@@ -78,7 +78,7 @@ class AtomImportCommandController extends \TYPO3\Flow\Cli\CommandController {
 		}
 
 		$context = new ContentContext($workspace);
-		$this->nodeRepository->setContext($context);
+		$this->nodeDataRepository->setContext($context);
 		$blogNode = $context->getCurrentSiteNode()->getNode('blog');
 		$textNodeType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.NodeTypes:Text');
 		$commentNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Comment');

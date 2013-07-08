@@ -22,7 +22,7 @@ namespace RobertLemke\Plugin\Blog\Service;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
  * A service which can render specific views of blog related content
@@ -38,10 +38,10 @@ class ContentService {
 	protected $resourcePublisher;
 
 	/**
-	 * @param PersistentNodeInterface $node
+	 * @param NodeInterface $node
 	 * @return mixed
 	 */
-	public function renderTeaser(PersistentNodeInterface $node) {
+	public function renderTeaser(NodeInterface $node) {
 		$stringToTruncate = '';
 
 		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {

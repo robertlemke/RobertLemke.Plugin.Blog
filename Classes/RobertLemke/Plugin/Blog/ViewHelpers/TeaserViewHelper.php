@@ -22,7 +22,7 @@ namespace RobertLemke\Plugin\Blog\ViewHelpers;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
  * This view helper crops the text of a blog post in a meaningful way.
@@ -40,10 +40,10 @@ class TeaserViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
 	 * Render a teaser
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $node
 	 * @return string cropped text
 	 */
-	public function render(PersistentNodeInterface $node) {
+	public function render(NodeInterface $node) {
 		return $this->contentService->renderTeaser($node);
 	}
 }

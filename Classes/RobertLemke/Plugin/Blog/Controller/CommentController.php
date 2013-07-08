@@ -24,7 +24,7 @@ namespace RobertLemke\Plugin\Blog\Controller;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
-use TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
  * Comments controller for the Blog package
@@ -49,20 +49,23 @@ class CommentController extends ActionController {
 	/**
 	 * Creates a new comment
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $postNode The post node which will contain the new comment
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node which will contain the new comment
 	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeTemplate<RobertLemke.Plugin.Blog:Comment> $nodeTemplate
 	 * @return void
 	 */
-	public function createAction(PersistentNodeInterface $postNode, NodeTemplate $newComment) {
+	public function createAction(NodeInterface $postNode, NodeTemplate $newComment) {
+
 			# Workaround until we can validate node templates properly:
 		if (strlen($newComment->getProperty('author')) < 2) {
-			$this->addFlashMessage('Your comment was NOT created - you need to specify your name.');
+			$this->addFlashMessage('Your comment was NOT created - please specify your name.');
 			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
 		}
+
 		if (strlen($newComment->getProperty('text')) < 5) {
 			$this->addFlashMessage('Your comment was NOT created - it was too short.');
 			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
 		}
+
 		if (filter_var($newComment->getProperty('emailAddress'), FILTER_VALIDATE_EMAIL) === FALSE) {
 			$this->addFlashMessage('Your comment was NOT created - you must specify a valid email address.');
 			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
@@ -125,12 +128,12 @@ class CommentController extends ActionController {
 	/**
 	 * Signal which informs about a newly created comment
 	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $commentNode The comment node
-	 * @param \TYPO3\TYPO3CR\Domain\Model\PersistentNodeInterface $postNode The post node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $commentNode The comment node
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node
 	 * @return void
 	 * @Flow\Signal
 	 */
-	protected function emitCommentCreated(PersistentNodeInterface $commentNode, PersistentNodeInterface $postNode) {}
+	protected function emitCommentCreated(NodeInterface $commentNode, NodeInterface $postNode) {}
 }
 
 ?>
