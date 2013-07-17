@@ -51,7 +51,7 @@ prototype(RobertLemke.Plugin.Blog:Post) {
 
 		# Override the collection query for comments in order to filter out any
 		# entries flagged as spam
-	comments.collection = ${q(node).is('[instanceof TYPO3.Neos:ContentCollection]') ? q(node).children("[spam = false]") : q(node).children(this.getNodePath()).children("[spam = false]")}
+	comments.collection = ${q(node).is('[instanceof TYPO3.Neos:ContentCollection]') ? q(node).children("[spam = false]") : q(node).children(this.nodePath).children("[spam = false]")}
 
 	numberOfComments = ${q(node).children('comments').children("[spam = false]").count()}
 }
