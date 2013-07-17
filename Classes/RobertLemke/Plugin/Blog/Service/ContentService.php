@@ -38,13 +38,15 @@ class ContentService {
 	protected $resourcePublisher;
 
 	/**
+	 * Renders the given Node as a teaser text with up to 600 characters, with all <p> and <a> tags removed.
+	 *
 	 * @param NodeInterface $node
 	 * @return mixed
 	 */
 	public function renderTeaser(NodeInterface $node) {
 		$stringToTruncate = '';
 
-		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {
+		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos.NodeTypes:Text') as $contentNode) {
 			foreach ($contentNode->getProperties() as $propertyValue) {
 				if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
 					$stringToTruncate .= $propertyValue;
@@ -64,7 +66,7 @@ class ContentService {
 		}
 
 		if (strlen($stringToTruncate) > 500) {
-			return $this->stripUnwantedTags(substr($stringToTruncate, 0, 500) . ' ...');
+			return substr($this->stripUnwantedTags($stringToTruncate), 0, 501) . ' ...';
 		} else {
 			return $this->stripUnwantedTags($stringToTruncate);
 		}
@@ -117,11 +119,13 @@ class ContentService {
 	 */
 	protected function stripUnwantedTags($content) {
 		$content = trim($content);
-		$content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/'), '', $content);
+		$content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/', '/\\<span style[^\\>]+\\>/'), '', $content);
+		$content = str_replace('&nbsp;', ' ', $content);
+
 		if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {
 			$content = substr($content, 3, -4);
 		}
-		return $content;
+		return trim($content);
 	}
 }
 
