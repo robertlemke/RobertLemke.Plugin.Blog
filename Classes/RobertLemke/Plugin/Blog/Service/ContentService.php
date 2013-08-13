@@ -74,10 +74,10 @@ class ContentService {
 	}
 
 	/**
-	 * @param PersistentNodeInterface $node
+	 * @param NodeInterface $node
 	 * @return mixed
 	 */
-	public function renderContent(PersistentNodeInterface $node) {
+	public function renderContent(NodeInterface $node) {
 		$content = '';
 
 		/** @var \TYPO3\TYPO3CR\Domain\Model\Node $contentNode */
