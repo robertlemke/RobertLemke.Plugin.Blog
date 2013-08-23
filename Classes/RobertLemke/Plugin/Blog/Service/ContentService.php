@@ -76,7 +76,7 @@ class ContentService {
 	 */
 	protected function stripUnwantedTags($content) {
 		$content = trim($content);
-		$content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/', '/\\<span style[^\\>]+\\>/'), '', $content);
+		$content = strip_tags($content, 'p');
 		$content = str_replace('&nbsp;', ' ', $content);
 
 		if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {

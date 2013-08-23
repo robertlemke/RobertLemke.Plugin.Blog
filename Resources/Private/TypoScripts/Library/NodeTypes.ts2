@@ -67,6 +67,18 @@ prototype(RobertLemke.Plugin.Blog:Comment) {
 }
 
 #
+# The TeaserPlugin provides a list of recent posts
+#
+
+prototype(RobertLemke.Plugin.Blog:TeaserPlugin) < prototype(TYPO3.Neos:Plugin)
+prototype(RobertLemke.Plugin.Blog:TeaserPlugin) {
+  package = 'RobertLemke.Plugin.Blog'
+  controller = 'Post'
+  action = 'teaser'
+  postsNodePath = '/sites/officialwebsite/blog'
+}
+
+#
 # The PostPlugin provides a few methods to display lists of blog posts. Its
 # TypoScript object is a regular Plugin content type.
 #
