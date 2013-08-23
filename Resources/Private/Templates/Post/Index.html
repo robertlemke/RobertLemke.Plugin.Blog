@@ -38,6 +38,7 @@
 									<f:if condition="{post.removed}"> (removed)</f:if>
 								</h2>
 							</header>
+							<blog:thumbnail node="{post}" alt="{post.properties.title}" maximumWidth="230" class="img-polaroid pull-left" />
 							<p class="content">
 								<neos:link.node node="{post}" class="invisible-link">
 									<blog:teaser node="{post}"/>

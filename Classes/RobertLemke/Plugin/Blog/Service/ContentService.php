@@ -69,6 +69,30 @@ class ContentService {
 	}
 
 	/**
+	 * Extract first image from the give Node
+	 *
+	 * @param NodeInterface $node
+	 * @return array
+	 */
+	public function extractFirstImage(NodeInterface $node) {
+		$images = $this->extractImages($node);
+
+		return $images === array() ? NULL : array_shift($images);
+	}
+
+	/**
+	 * Extract images from the give Node
+	 *
+	 * @param NodeInterface $node
+	 * @return array
+	 */
+	public function extractImages(NodeInterface $node) {
+		$path = $node->getPath() . '/main';
+
+		return $node->getNode($path)->getChildNodes('TYPO3.Neos.NodeTypes:Image');
+	}
+
+	/**
 	 * If the content starts with <p> and ends with </p> these tags are stripped.
 	 *
 	 * @param string $content The original content
