@@ -57,6 +57,18 @@ class PostController extends ActionController {
 	protected $contentService;
 
 	/**
+	 * @var array
+	 */
+	protected $settings;
+
+	/**
+	 * @param array $settings
+	 */
+	public function injectSettings(array $settings) {
+		$this->settings = $settings;
+	}
+
+	/**
 	 * Displays a list of most recent blog posts
 	 *
 	 * @return string
@@ -73,16 +85,16 @@ class PostController extends ActionController {
 	}
 
 	/**
-	 * @param string $postsNodePath
+	 * Displays a list of most recent published posts
 	 */
-	public function teaserAction($postsNodePath = '/sites/officialwebsite/blog') {
+	public function teaserAction() {
 		/** @var Node $currentNode */
 		$currentNode = $this->request->getInternalArgument('__node');
 
 		/** @var Node $currentDocumentNode */
 		$currentDocumentNode = $this->request->getInternalArgument('__documentNode');
 
-		$this->view->assign('posts', $currentDocumentNode->getNode($postsNodePath)->getChildNodes('RobertLemke.Plugin.Blog:Post'));
+		$this->view->assign('posts', $currentDocumentNode->getNode(\TYPO3\Flow\Utility\Arrays::getValueByPath($this->settings, 'teaser.postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post'));
 	}
 
 	/**
