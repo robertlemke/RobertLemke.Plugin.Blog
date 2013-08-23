@@ -35,9 +35,10 @@ class ContentService {
 	 * Renders the given Node as a teaser text with up to 600 characters, with all <p> and <a> tags removed.
 	 *
 	 * @param NodeInterface $node
+	 * @param integer $maxCharacters Place where to truncate the string
 	 * @return mixed
 	 */
-	public function renderTeaser(NodeInterface $node) {
+	public function renderTeaser(NodeInterface $node, $maxCharacters = 600) {
 		$stringToTruncate = '';
 
 		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos.NodeTypes:Text') as $contentNode) {
@@ -55,12 +56,12 @@ class ContentService {
 		}
 
 		$jumpPosition = strpos($stringToTruncate, '</p>');
-		if ($jumpPosition !== FALSE && $jumpPosition < 600) {
+		if ($jumpPosition !== FALSE && $jumpPosition < $maxCharacters) {
 			return $this->stripUnwantedTags(substr($stringToTruncate, 0, $jumpPosition + 4));
 		}
 
-		if (strlen($stringToTruncate) > 500) {
-			return substr($this->stripUnwantedTags($stringToTruncate), 0, 501) . ' ...';
+		if (strlen($stringToTruncate) > $maxCharacters) {
+			return substr($this->stripUnwantedTags($stringToTruncate), 0, $maxCharacters + 1) . ' ...';
 		} else {
 			return $this->stripUnwantedTags($stringToTruncate);
 		}

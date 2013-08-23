@@ -41,10 +41,11 @@ class TeaserViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
 	 * Render a teaser
 	 *
 	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $node
+	 * @param integer $maxCharacters Place where to truncate the string
 	 * @return string cropped text
 	 */
-	public function render(NodeInterface $node) {
-		return $this->contentService->renderTeaser($node);
+	public function render(NodeInterface $node, $maxCharacters = 600) {
+		return $this->contentService->renderTeaser($node, $maxCharacters);
 	}
 }
 
