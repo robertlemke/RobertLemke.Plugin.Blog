@@ -57,18 +57,6 @@ class PostController extends ActionController {
 	protected $contentService;
 
 	/**
-	 * @var array
-	 */
-	protected $settings;
-
-	/**
-	 * @param array $settings
-	 */
-	public function injectSettings(array $settings) {
-		$this->settings = $settings;
-	}
-
-	/**
 	 * Displays a list of most recent blog posts
 	 *
 	 * @return string
