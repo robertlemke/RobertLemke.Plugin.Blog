@@ -35,9 +35,10 @@ class ContentService {
 	 * Renders the given Node as a teaser text with up to 600 characters, with all <p> and <a> tags removed.
 	 *
 	 * @param NodeInterface $node
+	 * @param integer $maxCharacters Place where to truncate the string
 	 * @return mixed
 	 */
-	public function renderTeaser(NodeInterface $node) {
+	public function renderTeaser(NodeInterface $node, $maxCharacters = 600) {
 		$stringToTruncate = '';
 
 		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos.NodeTypes:Text') as $contentNode) {
@@ -55,16 +56,40 @@ class ContentService {
 		}
 
 		$jumpPosition = strpos($stringToTruncate, '</p>');
-		if ($jumpPosition !== FALSE && $jumpPosition < 600) {
+		if ($jumpPosition !== FALSE && $jumpPosition < $maxCharacters) {
 			return $this->stripUnwantedTags(substr($stringToTruncate, 0, $jumpPosition + 4));
 		}
 
-		if (strlen($stringToTruncate) > 500) {
-			return substr($this->stripUnwantedTags($stringToTruncate), 0, 501) . ' ...';
+		if (strlen($stringToTruncate) > $maxCharacters) {
+			return substr($this->stripUnwantedTags($stringToTruncate), 0, $maxCharacters + 1) . ' ...';
 		} else {
 			return $this->stripUnwantedTags($stringToTruncate);
 		}
 
+	}
+
+	/**
+	 * Extract first image from the give Node
+	 *
+	 * @param NodeInterface $node
+	 * @return array
+	 */
+	public function extractFirstImage(NodeInterface $node) {
+		$images = $this->extractImages($node);
+
+		return $images === array() ? NULL : array_shift($images);
+	}
+
+	/**
+	 * Extract images from the give Node
+	 *
+	 * @param NodeInterface $node
+	 * @return array
+	 */
+	public function extractImages(NodeInterface $node) {
+		$path = $node->getPath() . '/main';
+
+		return $node->getNode($path)->getChildNodes('TYPO3.Neos.NodeTypes:Image');
 	}
 
 	/**
@@ -75,7 +100,7 @@ class ContentService {
 	 */
 	protected function stripUnwantedTags($content) {
 		$content = trim($content);
-		$content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/', '/\\<span style[^\\>]+\\>/'), '', $content);
+		$content = strip_tags($content, '<p>');
 		$content = str_replace('&nbsp;', ' ', $content);
 
 		if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {

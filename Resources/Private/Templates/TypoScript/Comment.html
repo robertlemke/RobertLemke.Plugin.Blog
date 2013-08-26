@@ -2,13 +2,23 @@
 {namespace ts=TYPO3\TypoScript\ViewHelpers}
 {namespace blog=RobertLemke\Plugin\Blog\ViewHelpers}
 <f:if condition="{comment.spam} == 0">
-	<li class="comment">
-		<p class="metadata">
-		<strong>{node.properties.author}</strong> | <f:format.date format='d.m.Y'>{node.properties.datePublished}</f:format.date>
-		</p>
-		<blog:gravatar email="{node.properties.emailAddress}" default="{f:uri.resource(package:'RobertLemke.Plugin.Blog', path:'Icons/GravatarDefault.png')}" size="60" class="gravatar" />
-		<neos:contentElement node="{node}">
-			<p class="content"><neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br()}</neos:contentElement.editable></p>
-		</neos:contentElement>
-	</li>
+	<div class="comment media">
+		<div class="pull-left">
+			<blog:gravatar email="{node.properties.emailAddress}"
+						   default="{f:uri.resource(package:'RobertLemke.Plugin.Blog', path:'Icons/GravatarDefault.png')}"
+						   size="80" class="gravatar media"/>
+		</div>
+		<div class="media-body">
+			<p class="metadata">
+				<strong>{node.properties.author}</strong> |
+				<f:format.date forceLocale="fr" localeFormatType="date">{node.properties.datePublished}</f:format.date>
+			</p>
+			<neos:contentElement node="{node}">
+				<p class="content">
+					<neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br()}
+					</neos:contentElement.editable>
+				</p>
+			</neos:contentElement>
+		</div>
+	</div>
 </f:if>

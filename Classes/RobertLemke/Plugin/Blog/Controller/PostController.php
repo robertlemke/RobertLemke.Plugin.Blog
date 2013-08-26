@@ -27,6 +27,7 @@ use RobertLemke\Rss\Item;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Mvc\Routing\UriBuilder;
+use TYPO3\TYPO3CR\Domain\Model\Node;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
 
@@ -56,6 +57,18 @@ class PostController extends ActionController {
 	protected $contentService;
 
 	/**
+	 * @var array
+	 */
+	protected $settings;
+
+	/**
+	 * @param array $settings
+	 */
+	public function injectSettings(array $settings) {
+		$this->settings = $settings;
+	}
+
+	/**
 	 * Displays a list of most recent blog posts
 	 *
 	 * @return string
@@ -69,6 +82,19 @@ class PostController extends ActionController {
 		} else {
 			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
 		}
+	}
+
+	/**
+	 * Displays a list of most recent published posts
+	 */
+	public function teaserAction() {
+		/** @var Node $currentNode */
+		$currentNode = $this->request->getInternalArgument('__node');
+
+		/** @var Node $currentDocumentNode */
+		$currentDocumentNode = $this->request->getInternalArgument('__documentNode');
+
+		$this->view->assign('posts', $currentDocumentNode->getNode(\TYPO3\Flow\Utility\Arrays::getValueByPath($this->settings, 'teaser.postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post'));
 	}
 
 	/**

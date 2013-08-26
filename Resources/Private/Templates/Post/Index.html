@@ -29,22 +29,24 @@
 	<f:if condition="{hasPostNodes}">
 		<f:then>
 			<typo3cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
-				<ol class="posts">
+				<section class="posts">
 					<f:for each="{paginatedPosts}" as="post">
-						<li class="post">
-							<h2>
-								<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
-								<f:if condition="{post.removed}"> (removed)</f:if>
-							</h2>
+						<article class="post">
+							<header>
+								<h2>
+									<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
+									<f:if condition="{post.removed}"> (removed)</f:if>
+								</h2>
+							</header>
+							<blog:thumbnail node="{post}" alt="{post.properties.title}" maximumWidth="230" class="img-polaroid pull-left" />
 							<p class="content">
 								<neos:link.node node="{post}" class="invisible-link">
 									<blog:teaser node="{post}"/>
 								</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate package="RobertLemke.Plugin.Blog">Read more</f:translate></neos:link.node>
 							</p>
-						</li>
-						<hr/>
+						</article>
 					</f:for>
-				</ol>
+				</section>
 				{pagination.numberOfPages}
 			</typo3cr:widget.paginate>
 		</f:then>
