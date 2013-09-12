@@ -27,6 +27,7 @@ use RobertLemke\Rss\Item;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Mvc\Routing\UriBuilder;
+use TYPO3\Media\Domain\Model\ImageVariant;
 use TYPO3\TYPO3CR\Domain\Model\Node;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
@@ -76,13 +77,9 @@ class PostController extends ActionController {
 	 * Displays a list of most recent published posts
 	 */
 	public function teaserAction() {
-		/** @var Node $currentNode */
-		$currentNode = $this->request->getInternalArgument('__node');
-
 		/** @var Node $currentDocumentNode */
 		$currentDocumentNode = $this->request->getInternalArgument('__documentNode');
-
-		$this->view->assign('posts', $currentDocumentNode->getNode(\TYPO3\Flow\Utility\Arrays::getValueByPath($this->settings, 'teaser.postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post'));
+		$this->view->assign('posts', $currentDocumentNode->getNode($this->request->getInternalArgument('__postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post'));
 	}
 
 	/**

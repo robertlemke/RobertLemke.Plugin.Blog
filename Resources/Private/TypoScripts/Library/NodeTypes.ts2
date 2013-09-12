@@ -75,7 +75,7 @@ prototype(RobertLemke.Plugin.Blog:TeaserPlugin) {
   package = 'RobertLemke.Plugin.Blog'
   controller = 'Post'
   action = 'teaser'
-  postsNodePath = '/sites/officialwebsite/blog'
+  postsNodePath = '/sites/officialwebsite/fr/blog'
 }
 
 #

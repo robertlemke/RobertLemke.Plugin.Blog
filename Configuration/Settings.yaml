@@ -5,8 +5,6 @@
 RobertLemke:
   Plugin:
     Blog:
-      teaser:
-        postsNodePath: '/sites/officialwebsite/fr/blog'
       notifications:
         to:
           email: ''
