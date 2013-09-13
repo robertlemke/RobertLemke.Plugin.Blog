@@ -27,6 +27,8 @@ use RobertLemke\Rss\Item;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Mvc\Routing\UriBuilder;
+use TYPO3\Media\Domain\Model\ImageVariant;
+use TYPO3\TYPO3CR\Domain\Model\Node;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
 
@@ -68,6 +70,19 @@ class PostController extends ActionController {
 			$this->view->assign('hasPostNodes', $blogDocumentNode->hasChildNodes('RobertLemke.Plugin.Blog:Post'));
 		} else {
 			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
+		}
+	}
+
+	/**
+	 * Displays a list of most recent published posts
+	 */
+	public function teaserAction() {
+		/** @var Node $currentDocumentNode */
+		if ($this->request->getInternalArgument('__postsNodePath') !== NULL) {
+			$currentDocumentNode = $this->request->getInternalArgument('__documentNode');
+			$this->view->assign('posts', $currentDocumentNode->getNode($this->request->getInternalArgument('__postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post', $this->request->getInternalArgument('__limit') ?: 2));
+		} else {
+			return 'Error: Please configure the postsNodePath settings';
 		}
 	}
 
