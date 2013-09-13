@@ -78,8 +78,12 @@ class PostController extends ActionController {
 	 */
 	public function teaserAction() {
 		/** @var Node $currentDocumentNode */
-		$currentDocumentNode = $this->request->getInternalArgument('__documentNode');
-		$this->view->assign('posts', $currentDocumentNode->getNode($this->request->getInternalArgument('__postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post'));
+		if ($this->request->getInternalArgument('__postsNodePath') !== NULL) {
+			$currentDocumentNode = $this->request->getInternalArgument('__documentNode');
+			$this->view->assign('posts', $currentDocumentNode->getNode($this->request->getInternalArgument('__postsNodePath'))->getChildNodes('RobertLemke.Plugin.Blog:Post', $this->request->getInternalArgument('__limit') ?: 2));
+		} else {
+			return 'Error: Please configure the postsNodePath settings';
+		}
 	}
 
 	/**

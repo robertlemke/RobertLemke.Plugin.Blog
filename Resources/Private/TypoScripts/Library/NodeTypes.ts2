@@ -76,6 +76,7 @@ prototype(RobertLemke.Plugin.Blog:TeaserPlugin) {
   controller = 'Post'
   action = 'teaser'
   postsNodePath = '/sites/officialwebsite/fr/blog'
+  limit = 2
 }
 
 #
