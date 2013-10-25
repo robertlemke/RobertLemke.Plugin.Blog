@@ -1,8 +1,16 @@
 
 resources:
   methods:
-    'RobertLemke.Plugin.Blog:PostController': method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())
+    'RobertLemke.Plugin.Blog:PostController:index': method(RobertLemke\Plugin\Blog\Controller\PostController->indexAction())
+    'RobertLemke.Plugin.Blog:PostController:rss': method(RobertLemke\Plugin\Blog\Controller\PostController->rssAction())
+    'RobertLemke.Plugin.Blog:PostController:create': method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())
+    'RobertLemke.Plugin.Blog:CommentController': method(RobertLemke\Plugin\Blog\Controller\CommentController->.*Action())
 acls:
+  Everybody:
+    methods:
+      'RobertLemke.Plugin.Blog:PostController:index': GRANT
+      'RobertLemke.Plugin.Blog:PostController:rss': GRANT
+      'RobertLemke.Plugin.Blog:CommentController': GRANT
   'TYPO3.Neos:Editor':
     methods:
-      'RobertLemke.Plugin.Blog:PostController': GRANT
+      'RobertLemke.Plugin.Blog:PostController:create': GRANT
