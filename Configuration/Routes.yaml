@@ -11,16 +11,6 @@
     '@format': 'html'
     '@action': 'create'
 
-# http://example.dev/en/blog
-# ?--typo3_neos_typoscript_pluginimplementation[@package]=RobertLemke.Plugin.Blog
-# &--typo3_neos_typoscript_pluginimplementation[@controller]=Post
-# &--typo3_neos_typoscript_pluginimplementation[@action]=index
-# &--typo3_neos_typoscript_pluginimplementation[--typo3-typo3cr-viewhelpers-widget-paginateviewhelper][@package]=
-# &--typo3_neos_typoscript_pluginimplementation[--typo3-typo3cr-viewhelpers-widget-paginateviewhelper][@subpackage]=
-# &--typo3_neos_typoscript_pluginimplementation[--typo3-typo3cr-viewhelpers-widget-paginateviewhelper][@controller]=
-# &--typo3_neos_typoscript_pluginimplementation[--typo3-typo3cr-viewhelpers-widget-paginateviewhelper][@action]=index
-# &--typo3_neos_typoscript_pluginimplementation[--typo3-typo3cr-viewhelpers-widget-paginateviewhelper][currentPage]=2
-
 -
   name: 'Blog post creation'
   uriPattern:    '{node}/post/create'
@@ -29,7 +19,7 @@
     '@controller': 'Frontend\Node'
     '@format':     'html'
     '@action':     'show'
-    '--typo3_neos_typoscript_pluginimplementation':
+    '--robertlemke_plugin_blog-postplugin':
       '@package': 'RobertLemke.Plugin.Blog'
       '@controller': 'Post'
       '@action': 'create'
@@ -47,7 +37,7 @@
     '@controller': 'Frontend\Node'
     '@format':     'html'
     '@action':     'show'
-    '--typo3_neos_typoscript_pluginimplementation':
+    '--robertlemke_plugin_blog-postplugin':
       '@package': 'RobertLemke.Plugin.Blog'
       '@controller': 'Post'
       '@action': 'index'
@@ -64,13 +54,13 @@
 
 -
   name: 'Blog post pagination - page > 1'
-  uriPattern:    '{node}/page/{--typo3_neos_typoscript_pluginimplementation.--posts-paginator.currentPage}'
+  uriPattern:    '{node}/page/{--robertlemke_plugin_blog-postplugin.--posts-paginator.currentPage}'
   defaults:
     '@package':    'TYPO3.Neos'
     '@controller': 'Frontend\Node'
     '@format':     'html'
     '@action':     'show'
-    '--typo3_neos_typoscript_pluginimplementation':
+    '--robertlemke_plugin_blog-postplugin':
       '@package': 'RobertLemke.Plugin.Blog'
       '@controller': 'Post'
       '@action': 'index'
