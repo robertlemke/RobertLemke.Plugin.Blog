@@ -19,7 +19,7 @@ prototype(RobertLemke.Plugin.Blog:Post) {
 
 		# Create a new ContentCollection TypoScript object which inherits the behavior of the
 		# default section (which renders a collection of content elements).
-	main = TYPO3.Neos:ContentCollection.Default
+	main = TYPO3.Neos:ContentCollection
 
 		# The name of the section node to be rendered is also "main"
 	main.nodePath = 'main'
@@ -27,7 +27,7 @@ prototype(RobertLemke.Plugin.Blog:Post) {
 		# Create a similar ContentCollection TypoScript object for comments, but set the
 		# node path leading to the section to "comments" because it is a sub node
 		# of the current node (which is a Post node)
-	comments = TYPO3.Neos:ContentCollection.Default
+	comments = TYPO3.Neos:ContentCollection
 	comments.nodePath = 'comments'
 
 		# Override the collection query for comments in order to filter out any

@@ -42,7 +42,7 @@ class CommentController extends ActionController {
 	 *
 	 * @return void
 	 */
-	public function initializeAction() {
+	protected function initializeAction() {
 		$this->akismetService->setCurrentRequest($this->request->getHttpRequest());
 	}
 

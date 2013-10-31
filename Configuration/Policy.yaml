@@ -1,8 +1,15 @@
 
 resources:
   methods:
-    'RobertLemke.Plugin.Blog:PostController': method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())
+    'RobertLemke.Plugin.Blog:createPosts': method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())
+    'RobertLemke.Plugin.Blog:readPosts': method(RobertLemke\Plugin\Blog\Controller\PostController->(index|rss)Action())
+    'RobertLemke.Plugin.Blog:createComments': method(RobertLemke\Plugin\Blog\Controller\CommentController->createAction())
+
 acls:
+  'Anonymous':
+    methods:
+      'RobertLemke.Plugin.Blog:readPosts': GRANT
+      'RobertLemke.Plugin.Blog:createComments': GRANT
   'TYPO3.Neos:Editor':
     methods:
-      'RobertLemke.Plugin.Blog:PostController': GRANT
+       'RobertLemke.Plugin.Blog:createPosts': GRANT
