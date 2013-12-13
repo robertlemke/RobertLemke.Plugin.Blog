@@ -17,6 +17,12 @@ RobertLemke:
         includeContent: FALSE
 
 TYPO3:
+  Neos:
+    nodeTypes:
+      groups:
+        blog:
+          position: 'after plugins'
+          label: 'Blog'
   Flow:
     object:
       excludeClasses:

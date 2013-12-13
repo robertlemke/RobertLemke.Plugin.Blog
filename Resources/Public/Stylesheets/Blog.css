@@ -54,74 +54,76 @@
   border-radius: 50% 50% 50% 50%;
   float: left;
   margin: -25px 10px;
+  width: 60px;
+  height: 60px;
 }
-/* line 57, ../../Private/Sass/Blog.scss */
+/* line 59, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog ul.typo3-widget-paginator {
   list-style-type: none;
 }
-/* line 61, ../../Private/Sass/Blog.scss */
+/* line 63, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog ul.typo3-widget-paginator li {
   display: block;
   float: left;
   padding: 4px 6px;
   margin: 4px;
 }
-/* line 70, ../../Private/Sass/Blog.scss */
+/* line 72, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog input.typo3-form-error {
   border: 1px solid #8a1f11;
 }
-/* line 74, ../../Private/Sass/Blog.scss */
+/* line 76, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .errors {
   padding: .8em;
   margin-bottom: 1em;
   border: 1px solid #FBC2C4;
 }
-/* line 79, ../../Private/Sass/Blog.scss */
+/* line 81, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .errors dt {
   float: left;
   color: #8a1f11;
   width: 100px;
   font-weight: bold;
 }
-/* line 85, ../../Private/Sass/Blog.scss */
+/* line 87, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .errors dd {
   margin-left: 100px;
   color: #8a1f11;
 }
-/* line 90, ../../Private/Sass/Blog.scss */
+/* line 92, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .error, .robertlemke-plugin-blog .f3-form-error {
   background: #FBE3E4;
   border-color: #FBC2C4;
 }
-/* line 94, ../../Private/Sass/Blog.scss */
+/* line 96, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .error {
   color: #8a1f11;
 }
-/* line 97, ../../Private/Sass/Blog.scss */
+/* line 99, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .notice {
   background: #FFF6BF;
   color: #514721;
   border-color: #FFD324;
 }
-/* line 102, ../../Private/Sass/Blog.scss */
+/* line 104, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .success {
   background: #E6EFC2;
   color: #264409;
   border-color: #C6D880;
 }
-/* line 107, ../../Private/Sass/Blog.scss */
+/* line 109, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .error a {
   color: #8a1f11;
 }
-/* line 110, ../../Private/Sass/Blog.scss */
+/* line 112, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .notice a {
   color: #514721;
 }
-/* line 113, ../../Private/Sass/Blog.scss */
+/* line 115, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .success a {
   color: #264409;
 }
-/* line 117, ../../Private/Sass/Blog.scss */
+/* line 119, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog .required {
   color: #8a1f11;
 }

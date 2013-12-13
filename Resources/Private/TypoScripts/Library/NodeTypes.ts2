@@ -1,4 +1,14 @@
 #
+# Add a new matcher to the rendering of the main content (PrimaryContent) to check if the current node
+# is a blog post document. In this case we don't render a ContentCollection like the default matcher
+# but render the blog post TypoScript object.
+#
+prototype(TYPO3.Neos:PrimaryContent).blogPost {
+	condition = ${q(documentNode).is('[instanceof RobertLemke.Plugin.Blog:Post]')}
+	type = 'RobertLemke.Plugin.Blog:Post'
+}
+
+#
 # Blog Post is rendered by a Template-based TypoScript object which contains some
 # properties on its own (title, ...) and renders sub nodes contained in two
 # separate sections, namely "main" for the actual post content and "comments" for
@@ -11,36 +21,30 @@
 # The blog post comments are just several Text nodes which are as well rendered
 # through the TypoScript collection feature.
 #
-
-prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
+prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Template) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Post.html'
 	title = ${q(node).property('title')}
 
-		# Create a new ContentCollection TypoScript object which inherits the behavior of the
-		# default section (which renders a collection of content elements).
-	main = TYPO3.Neos:ContentCollection
+		# Render the main ContentCollection of the Post like a page would
+	main = TYPO3.Neos:ContentCollection {
+		nodePath = 'main'
+	}
 
-		# The name of the section node to be rendered is also "main"
-	main.nodePath = 'main'
+		# Render an additional ContentCollection for comments
+	comments = TYPO3.Neos:ContentCollection {
+		nodePath = 'comments'
 
-		# Create a similar ContentCollection TypoScript object for comments, but set the
-		# node path leading to the section to "comments" because it is a sub node
-		# of the current node (which is a Post node)
-	comments = TYPO3.Neos:ContentCollection
-	comments.nodePath = 'comments'
+			# Filter out any spam with a processor
+		collection.@process.spamFilter = ${value.filter('[spam = false]')}
+	}
 
-		# Override the collection query for comments in order to filter out any
-		# entries flagged as spam
-	comments.collection = ${q(node).is('[instanceof TYPO3.Neos:ContentCollection]') ? q(node).children("[spam = false]") : q(node).children(this.nodePath).children("[spam = false]")}
-
-	numberOfComments = ${q(node).children('comments').children("[spam = false]").count()}
+	numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
 }
 
 #
 # Blog Comment is rendered by a vanilla Template-based TypoScript object
 #
-
-prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.Neos:Content) {
+prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.Neos:Template) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Comment.html'
 	text = ${q(node).property('text')}
 }
@@ -49,7 +53,6 @@ prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.Neos:Content) {
 # The PostPlugin provides a few methods to display lists of blog posts. Its
 # TypoScript object is a regular Plugin content type.
 #
-
 prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos:Plugin) {
 	package = 'RobertLemke.Plugin.Blog'
 	controller = 'Post'
@@ -59,8 +62,7 @@ prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos:Plugin) {
 #
 # Quote is a straight-forward content type
 #
-
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Content) {
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Template) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Quote.html'
 	citeAuthor = ${q(node).property('citeAuthor')}
 	citeAuthorUri = ${q(node).property('citeAuthorUri')}
@@ -68,4 +70,3 @@ prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Content) {
 	citeUri = ${q(node).property('citeUri')}
 	text = ${q(node).property('text')}
 }
-

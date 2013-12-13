@@ -1,12 +1,11 @@
 
 'RobertLemke.Plugin.Blog:Post':
   superTypes:
-    - 'TYPO3.Neos:Page'
+    - 'TYPO3.Neos:Document'
   ui:
     label: 'Blog Post'
-    icon:
-      light: Images/Icons/White/doc_empty_icon-16.png
-      dark: Images/Icons/Black/doc_empty_icon-16.png
+    group: blog
+    icon: 'icon-file-text'
     inspector:
       groups:
         page:
@@ -50,12 +49,13 @@
         label: Tags
         inspector:
           group: moreinfo
+
 'RobertLemke.Plugin.Blog:Comment':
   superTypes:
     - 'TYPO3.Neos:Content'
   ui:
     label: 'Blog Comment'
-    group: General
+    group: blog
     inspector:
       groups:
         comment:
@@ -100,11 +100,12 @@
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
+
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
     - 'TYPO3.Neos:Content'
   ui:
-    group: General
+    group: blog
     label: 'Blog Quote'
     inspector:
       groups:
@@ -144,10 +145,11 @@
       defaultValue: '<p>Enter quote here</p>'
       ui:
         inlineEditable: true
+
 'RobertLemke.Plugin.Blog:PostPlugin':
   superTypes:
-    - 'TYPO3.Neos:Plugin'
+    - 'TYPO3.Neos:Content'
   ui:
     label: 'Blog Post Overview'
-    group: Plugins
-    inlineEditable: true
+    group: plugins
+    icon: 'icon-puzzle-piece'
