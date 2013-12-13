@@ -12,8 +12,7 @@
 # through the TypoScript collection feature.
 #
 
-prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Template)
-prototype(RobertLemke.Plugin.Blog:Post) {
+prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Post.html'
 	title = ${q(node).property('title')}
 
@@ -41,8 +40,7 @@ prototype(RobertLemke.Plugin.Blog:Post) {
 # Blog Comment is rendered by a vanilla Template-based TypoScript object
 #
 
-prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.Neos:Template)
-prototype(RobertLemke.Plugin.Blog:Comment) {
+prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.Neos:Content) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Comment.html'
 	text = ${q(node).property('text')}
 }
@@ -52,8 +50,7 @@ prototype(RobertLemke.Plugin.Blog:Comment) {
 # TypoScript object is a regular Plugin content type.
 #
 
-prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos:Plugin)
-prototype(RobertLemke.Plugin.Blog:PostPlugin) {
+prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos:Plugin) {
 	package = 'RobertLemke.Plugin.Blog'
 	controller = 'Post'
 	action = 'index'
@@ -63,8 +60,7 @@ prototype(RobertLemke.Plugin.Blog:PostPlugin) {
 # Quote is a straight-forward content type
 #
 
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Template)
-prototype(RobertLemke.Plugin.Blog:Quote) {
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Content) {
 	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Quote.html'
 	citeAuthor = ${q(node).property('citeAuthor')}
 	citeAuthorUri = ${q(node).property('citeAuthorUri')}
