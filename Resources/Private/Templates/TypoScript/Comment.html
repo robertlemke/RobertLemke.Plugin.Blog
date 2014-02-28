@@ -1,7 +1,7 @@
 {namespace neos=TYPO3\Neos\ViewHelpers}
 {namespace ts=TYPO3\TypoScript\ViewHelpers}
 {namespace blog=RobertLemke\Plugin\Blog\ViewHelpers}
-<f:if condition="{comment.spam} == 0">
+<f:if condition="{spam} == {false}">
 	<li class="comment">
 		<p class="metadata">
 		<strong>{node.properties.author}</strong> | <f:format.date format='d.m.Y'>{node.properties.datePublished}</f:format.date>

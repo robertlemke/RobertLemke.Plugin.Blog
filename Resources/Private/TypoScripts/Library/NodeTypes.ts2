@@ -33,9 +33,6 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 		# Render an additional ContentCollection for comments
 	comments = TYPO3.Neos:ContentCollection {
 		nodePath = 'comments'
-
-			# Filter out any spam with a processor
-		collection.@process.spamFilter = ${value.filter('[spam = false]')}
 	}
 
 	numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
