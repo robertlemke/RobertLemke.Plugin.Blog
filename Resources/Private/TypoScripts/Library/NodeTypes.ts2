@@ -30,6 +30,10 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.TypoScript:Template) {
 		# Render the main ContentCollection of the Post like a page would
 	main = TYPO3.Neos:ContentCollection {
 		nodePath = 'main'
+
+		@cache {
+			mode = 'cached'
+		}
 	}
 
 		# Render an additional ContentCollection for comments
@@ -38,6 +42,10 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.TypoScript:Template) {
 
 			# Filter out any spam with a processor
 		collection.@process.spamFilter = ${value.filter('[spam = false]')}
+
+		@cache {
+			mode = 'cached'
+		}
 	}
 
 	numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
