@@ -1,12 +1,18 @@
 
-resources:
-  methods:
-    'RobertLemke.Plugin.Blog:PostController': 'method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())'
-    'RobertLemke.Plugin.Blog:Frontend': 'method(RobertLemke\Plugin\Blog\Controller\PostController->(index|rss)Action()) || method(RobertLemke\Plugin\Blog\Controller\CommentController->(create|error)Action())'
-acls:
+privilegeTargets:
+  TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+    'RobertLemke.Plugin.Blog:PostController':
+      matcher: method(RobertLemke\Plugin\Blog\Controller\PostController->createAction())
+    'RobertLemke.Plugin.Blog:Frontend':
+      matcher: 'method(RobertLemke\Plugin\Blog\Controller\PostController->(index|rss)Action()) || method(RobertLemke\Plugin\Blog\Controller\CommentController->(create|error)Action())'
+roles:
   'TYPO3.Neos:Editor':
-    methods:
-      'RobertLemke.Plugin.Blog:PostController': GRANT
-  Everybody:
-    methods:
-      'RobertLemke.Plugin.Blog:Frontend': GRANT
+    privileges:
+      -
+        privilegeTarget: 'RobertLemke.Plugin.Blog:PostController'
+        permission: GRANT
+  'TYPO3.Flow:Everybody':
+    privileges:
+      -
+        privilegeTarget: 'RobertLemke.Plugin.Blog:Frontend'
+        permission: GRANT
