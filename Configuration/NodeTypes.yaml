@@ -19,7 +19,7 @@
       type: 'TYPO3.Neos:ContentCollection'
   properties:
     datePublished:
-      type: date
+      type: DateTime
       ui:
         label: 'Publication Date'
         reloadIfChanged: true
@@ -61,7 +61,7 @@
           label: 'Blog Comment'
   properties:
     datePublished:
-      type: date
+      type: DateTime
       ui:
         label: 'Publication Date'
         reloadIfChanged: true
