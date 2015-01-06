@@ -5,7 +5,7 @@
   ui:
     label: 'Blog Post'
     group: blog
-    icon: 'icon-file-text'
+    icon: icon-file-text
     inspector:
       groups:
         page:
@@ -49,7 +49,6 @@
         label: Tags
         inspector:
           group: moreinfo
-
 'RobertLemke.Plugin.Blog:Comment':
   superTypes:
     - 'TYPO3.Neos:Content'
@@ -93,7 +92,6 @@
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
-
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
     - 'TYPO3.Neos:Content'
@@ -138,11 +136,10 @@
       defaultValue: '<p>Enter quote here</p>'
       ui:
         inlineEditable: true
-
 'RobertLemke.Plugin.Blog:PostPlugin':
   superTypes:
     - 'TYPO3.Neos:Content'
   ui:
     label: 'Blog Post Overview'
     group: plugins
-    icon: 'icon-puzzle-piece'
+    icon: icon-puzzle-piece
