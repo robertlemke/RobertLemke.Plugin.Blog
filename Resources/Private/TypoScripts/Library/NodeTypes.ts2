@@ -16,7 +16,7 @@ prototype(TYPO3.Neos:PrimaryContent).blogPost {
 #
 # The blog post content is made of several content elements which are rendered
 # as a collection just like a page would render its content elements. Hence the
-# usage of ContentCollection.Default.
+# usage of ContentCollection.
 #
 # The blog post comments are just several Text nodes which are as well rendered
 # through the TypoScript collection feature.
