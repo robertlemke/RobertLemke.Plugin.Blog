@@ -21,7 +21,7 @@
 		<f:if condition="{numberOfComments}">
 			<h3><f:translate package="RobertLemke.Plugin.Blog">Comments</f:translate></h3>
 			<ol class="commentlist">
-				<ts:render path="comments" />
+				{comments -> f:format.raw()}
 			</ol>
 			<div class="clear"></div>
 		</f:if>

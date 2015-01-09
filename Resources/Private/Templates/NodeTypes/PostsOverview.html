@@ -22,9 +22,6 @@
 		});
 	});
 </script>
-<f:security.ifAuthenticated>
-	<f:form controller="Post" action="create" style="float:right"><f:form.submit class="button" value="+"/></f:form>
-</f:security.ifAuthenticated>
 <div class="robertlemke-plugin-blog" id="scrolling-container">
 	<f:if condition="{hasPostNodes}">
 		<f:then>

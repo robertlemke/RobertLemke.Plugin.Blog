@@ -21,8 +21,7 @@ prototype(TYPO3.Neos:PrimaryContent).blogPost {
 # The blog post comments are just several Text nodes which are as well rendered
 # through the TypoScript collection feature.
 #
-prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.TypoScript:Template) {
-	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Post.html'
+prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 	title = ${q(node).property('title')}
 
 	node = ${node}
@@ -40,9 +39,6 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.TypoScript:Template) {
 	comments = TYPO3.Neos:ContentCollection {
 		nodePath = 'comments'
 
-			# Filter out any spam with a processor
-		collection.@process.spamFilter = ${value.filter('[spam = false]')}
-
 		@cache {
 			mode = 'cached'
 		}
@@ -54,31 +50,19 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.TypoScript:Template) {
 #
 # Blog Comment is rendered by a vanilla Template-based TypoScript object
 #
-prototype(RobertLemke.Plugin.Blog:Comment) < prototype(TYPO3.TypoScript:Template) {
-	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Comment.html'
-	text = ${q(node).property('text')}
-	node = ${node}
+prototype(RobertLemke.Plugin.Blog:Comment) {
 }
 
 #
-# The PostPlugin provides a few methods to display lists of blog posts. Its
-# TypoScript object is a regular Plugin content type.
 #
-prototype(RobertLemke.Plugin.Blog:PostPlugin) < prototype(TYPO3.Neos:Plugin) {
-	package = 'RobertLemke.Plugin.Blog'
-	controller = 'Post'
-	action = 'index'
+prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content) {
+	hasPostNodes = true
+	postsNode = ${q(node).closest('[instanceof TYPO3.Neos:Document]').get(0)}
+	@exceptionHandler = 'TYPO3\\TypoScript\\Core\\ExceptionHandlers\\ThrowingHandler'
 }
 
 #
 # Quote is a straight-forward content type
 #
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.TypoScript:Template) {
-	templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/TypoScript/Quote.html'
-	citeAuthor = ${q(node).property('citeAuthor')}
-	citeAuthorUri = ${q(node).property('citeAuthorUri')}
-	citeUriLabel = ${q(node).property('citeUriLabel')}
-	citeUri = ${q(node).property('citeUri')}
-	text = ${q(node).property('text')}
-	node = ${node}
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Content) {
 }

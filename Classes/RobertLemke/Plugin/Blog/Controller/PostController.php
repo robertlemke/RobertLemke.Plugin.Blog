@@ -148,45 +148,5 @@ class PostController extends ActionController {
 		return $feed->render();
 	}
 
-	/**
-	 * Creates a new blog post node
-	 *
-	 * @return void
-	 */
-	public function createAction() {
-		/** @var NodeInterface $blogDocumentNode */
-
-		$blogDocumentNode = $this->request->getInternalArgument('__documentNode');
-		if ($blogDocumentNode === NULL) {
-			return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
-		}
-
-		$contentContext = $blogDocumentNode->getContext();
-
-		$nodeTemplate = new NodeTemplate();
-		$nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Post'));
-		$nodeTemplate->setProperty('title', 'A new blog post');
-		$nodeTemplate->setProperty('datePublished', $contentContext->getCurrentDateTime());
-
-		$slug = uniqid('post');
-		$postNode = $blogDocumentNode->createNodeFromTemplate($nodeTemplate, $slug);
-
-		$currentlyFirstPostNode = $blogDocumentNode->getPrimaryChildNode();
-		if ($currentlyFirstPostNode !== NULL) {
-				// FIXME This currently doesn't work, probably due to some TYPO3CR bug / misconception
-			$postNode->moveBefore($currentlyFirstPostNode);
-		}
-
-		$mainRequest = $this->request->getMainRequest();
-		$mainUriBuilder = new UriBuilder();
-		$mainUriBuilder->setRequest($mainRequest);
-		$mainUriBuilder->setFormat('html');
-		$uri = $mainUriBuilder
-			->reset()
-			->setCreateAbsoluteUri(TRUE)
-			->uriFor('show', array('node' => $postNode));
-		$this->redirectToUri($uri);
-	}
-
 }
 ?>
