@@ -1,4 +1,19 @@
 #
+# Add the paginator's "current page" value to cache entry identifiers in cache layers above the blog posts index.
+# Depending on your actual page structure you will have to add this identifier part to further TypoScript object
+# cache configurations.
+#
+root.@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
+
+prototype(TYPO3.Neos:Page) {
+	@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
+}
+
+prototype(TYPO3.Neos:PrimaryContent).default {
+	renderer.@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
+}
+
+#
 # Add a new matcher to the rendering of the main content (PrimaryContent) to check if the current node
 # is a blog post document. In this case we don't render a ContentCollection like the default matcher
 # but render the blog post TypoScript object.
@@ -54,11 +69,25 @@ prototype(RobertLemke.Plugin.Blog:Comment) {
 }
 
 #
+# List of most recent blog posts, including pagination
 #
 prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content) {
 	hasPostNodes = true
 	postsNode = ${q(node).closest('[instanceof TYPO3.Neos:Document]').get(0)}
-	@exceptionHandler = 'TYPO3\\TypoScript\\Core\\ExceptionHandlers\\ThrowingHandler'
+	currentPage = ${request.pluginArguments.posts-paginator.currentPage}
+
+	@cache {
+		mode = 'cached'
+		entryIdentifier {
+			documentNode = ${node}
+			currentPage = ${this.currentPage}
+		}
+		entryTags {
+			1 = ${'Node_' + node.identifier}
+			2 = ${'DescendantOf_' + q(node).property('_identifier')}
+		}
+	}
+
 }
 
 #
