@@ -44,22 +44,25 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 		# Render the main ContentCollection of the Post like a page would
 	main = TYPO3.Neos:ContentCollection {
 		nodePath = 'main'
-
-		@cache {
-			mode = 'cached'
-		}
 	}
 
 		# Render an additional ContentCollection for comments
 	comments = TYPO3.Neos:ContentCollection {
 		nodePath = 'comments'
-
-		@cache {
-			mode = 'cached'
-		}
 	}
 
 	numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
+
+	@cache {
+		entryIdentifier {
+			node = ${node}
+		}
+		entryTags {
+			1 = ${'Node_' + node.identifier}
+			2 = ${'DescendantOf_' + q(node).find('main').property('_identifier')}
+			3 = ${'DescendantOf_' + q(node).find('comments').property('_identifier')}
+		}
+	}
 }
 
 #

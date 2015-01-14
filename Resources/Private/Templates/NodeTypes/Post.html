@@ -1,5 +1,23 @@
 {namespace neos=TYPO3\Neos\ViewHelpers}
 {namespace ts=TYPO3\TypoScript\ViewHelpers}
+<script src="../../../Public/JavaScript/jquery-1.10.2.min.js"></script>
+<script>
+	$(function() {
+		$('#newCommentForm').submit(function(event) {
+			var form = $(this);
+			$.ajax({
+				type: form.attr('method'),
+				url: form.attr('action'),
+				data: form.serialize()
+			}).done(function(result) {
+				alert(result);
+			}).fail(function(result) {
+				alert(result.responseText.substring(4));
+			});
+			event.preventDefault();
+		});
+	});
+</script>
 <article itemscope="" itemtype="http://schema.org/Article" class="robertlemke-plugin-blog" xmlns:f="http://www.w3.org/1999/html">
 	<f:flashMessages class="flashmessages" />
 	<header>
@@ -27,14 +45,14 @@
 		</f:if>
 		<h3><f:translate package="RobertLemke.Plugin.Blog">Leave a reply</f:translate></h3>
 		<f:render partial="FormErrors" arguments="{for: 'newComment'}" />
-		<f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment">
+		<f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment" id="newCommentForm">
 			<f:form.hidden name="postNode" value="{node.path}" />
 			<label for="comment.author"><f:translate package="RobertLemke.Plugin.Blog">Name <span class="required">*</span></f:translate></label>
 			<f:form.textfield id="comment.author" property="author" />
 			<label for="comment.emailaddress"><f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate></label>
 			<f:form.textfield id="comment.emailaddress" property="emailAddress" />
 			<f:form.textarea id="comment.text" property="text" rows="10" cols="50"/>
-			<f:form.submit value="{f:translate(value: 'Submit', package: 'TYPO3.Flow')}" class="secondary button" />
+			<button class="secondary button">{f:translate(value: 'Submit', package: 'TYPO3.Flow')}</button>
 		</f:form>
 	</div>
 </article>

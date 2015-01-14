@@ -54,21 +54,17 @@ class CommentController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(NodeInterface $postNode, NodeTemplate $newComment) {
-
 			# Workaround until we can validate node templates properly:
 		if (strlen($newComment->getProperty('author')) < 2) {
-			$this->addFlashMessage('Your comment was NOT created - please specify your name.');
-			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
+			$this->throwStatus(400, 'Your comment was NOT created - please specify your name.');
 		}
 
 		if (strlen($newComment->getProperty('text')) < 5) {
-			$this->addFlashMessage('Your comment was NOT created - it was too short.');
-			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
+			$this->throwStatus(400, 'Your comment was NOT created - it was too short.');
 		}
 
 		if (filter_var($newComment->getProperty('emailAddress'), FILTER_VALIDATE_EMAIL) === FALSE) {
-			$this->addFlashMessage('Your comment was NOT created - you must specify a valid email address.');
-			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
+			$this->throwStatus(400, 'Your comment was NOT created - you must specify a valid email address.');
 		}
 
 		$commentNode = $postNode->getNode('comments')->createNodeFromTemplate($newComment, uniqid('comment-'));
@@ -79,50 +75,9 @@ class CommentController extends ActionController {
 			$commentNode->setProperty('spam', TRUE);
 		}
 
-		$this->addFlashMessage('Your new comment was created.');
 		$this->emitCommentCreated($commentNode, $postNode);
-		$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
-	}
-
-	/**
-	 * A special action which is called if the originally intended action could
-	 * not be called, for example if the arguments were not valid.
-	 *
-	 * @return string
-	 * @api
-	 */
-	protected function errorAction() {
-		$errorFlashMessage = $this->getErrorFlashMessage();
-		if ($errorFlashMessage !== FALSE) {
-			$this->flashMessageContainer->addMessage($errorFlashMessage);
-		}
-		$postNode = $this->arguments['postNode']->getValue();
-		if ($postNode !== NULL) {
-			$this->redirect('show', 'Frontend\Node', 'TYPO3.Neos', array('node' => $postNode));
-		}
-
-		$message = 'An error occurred while trying to call ' . get_class($this) . '->' . $this->actionMethodName . '().' . PHP_EOL;
-		foreach ($this->arguments->getValidationResults()->getFlattenedErrors() as $propertyPath => $errors) {
-			foreach ($errors as $error) {
-				$message .= 'Error for ' . $propertyPath . ':  ' . $error->render() . PHP_EOL;
-			}
-		}
-
-		return $message;
-	}
-
-	/**
-	 * Override getErrorFlashMessage to present nice flash error messages.
-	 *
-	 * @return \TYPO3\Flow\Error\Message
-	 */
-	protected function getErrorFlashMessage() {
-		switch ($this->actionMethodName) {
-			case 'createAction' :
-				return new \TYPO3\Flow\Error\Error('Could not create the new comment');
-			default :
-				return parent::getErrorFlashMessage();
-		}
+		$this->response->setStatus(201);
+		return 'Thank you for your comment! It may take a moment to become visible.';
 	}
 
 	/**
