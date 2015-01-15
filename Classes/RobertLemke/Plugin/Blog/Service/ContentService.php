@@ -33,9 +33,9 @@ class ContentService {
 
 	/**
 	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Resource\Publishing\ResourcePublisher
+	 * @var \TYPO3\Flow\Resource\ResourceManager
 	 */
-	protected $resourcePublisher;
+	protected $resourceManager;
 
 	/**
 	 * Renders the given Node as a teaser text with up to 600 characters, with all <p> and <a> tags removed.
@@ -87,7 +87,7 @@ class ContentService {
 					$attributes = array(
 						'width="' . $propertyValue->getWidth() . '"',
 						'height="' . $propertyValue->getHeight() . '"',
-						'src="' . $this->resourcePublisher->getPersistentResourceWebUri($propertyValue->getResource()) . '"',
+						'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
 					);
 					$content .= $contentNode->getProperty('text');
 					$content .= '<img ' . implode(' ', $attributes) . '/>';
@@ -96,7 +96,7 @@ class ContentService {
 				$attributes = array(
 					'width="' . $propertyValue->getWidth() . '"',
 					'height="' . $propertyValue->getHeight() . '"',
-					'src="' . $this->resourcePublisher->getPersistentResourceWebUri($propertyValue->getResource()) . '"',
+					'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
 				);
 				$content .= '<img ' . implode(' ', $attributes) . '/>';
 			} else {

@@ -18,7 +18,8 @@
 		"robertlemke/rss":"dev-master"
 	},
 	"suggest":{
-		"typo3/swiftmailer": "Allows sending notification emails on new comments"
+		"typo3/swiftmailer": "Allows sending notification emails on new comments",
+		"simplepie/simplepie": "For using the built-in ATOM import"
 	},
 	"autoload":{
 		"psr-0":{

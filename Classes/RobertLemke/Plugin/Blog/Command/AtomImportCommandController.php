@@ -53,8 +53,7 @@ class AtomImportCommandController extends \TYPO3\Flow\Cli\CommandController {
 
 		if ($atomFile !== NULL) {
 			$parser->set_raw_data(file_get_contents($atomFile));
-		}
-		if ($atomUrl !== NULL) {
+		} else {
 			$parser->set_feed_url($atomUrl);
 		}
 		$parser->strip_attributes();
