@@ -18,6 +18,10 @@ RobertLemke:
 
 TYPO3:
   Neos:
+    typoScript:
+      autoInclude:
+        'RobertLemke.Plugin.Blog': TRUE
+
     nodeTypes:
       groups:
         blog:

@@ -19,14 +19,6 @@ Quick start
       package: RobertLemke.Plugin.Blog
 ```
 
-* Include the plugin's TypoScript definitions to your own (located in, for example,
-`Packages/Sites/Your.Site/Resources/Private/TypoScript/Root.ts2`,
-with:
-
-```
-include: resource://RobertLemke.Plugin.Blog/Private/TypoScript/NodeTypes.ts2
-```
-
 * Add this to your TS, assuming your content should appear in section "main":
 
 ```
