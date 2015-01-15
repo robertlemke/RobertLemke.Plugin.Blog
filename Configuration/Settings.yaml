@@ -9,14 +9,21 @@ RobertLemke:
         to:
           email: ''
           name: 'Blog Admin'
+
       feed:
         title: 'The TYPO3 Neos Blog'
         description: 'A great, new - yet unconfigured - blog powered by TYPO3 Neos'
         uri: ''
+        includeContent: FALSE
+
 TYPO3:
   Neos:
     nodeTypes:
       groups:
         blog:
           position: 'after plugins'
-          label: Blog
+          label: 'Blog'
+  Flow:
+    object:
+      excludeClasses:
+        'simplepie.simplepie': ['.*']

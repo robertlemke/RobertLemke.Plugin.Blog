@@ -32,6 +32,12 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 class ContentService {
 
 	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Resource\Publishing\ResourcePublisher
+	 */
+	protected $resourcePublisher;
+
+	/**
 	 * Renders the given Node as a teaser text with up to 600 characters, with all <p> and <a> tags removed.
 	 *
 	 * @param NodeInterface $node
@@ -65,6 +71,44 @@ class ContentService {
 			return $this->stripUnwantedTags($stringToTruncate);
 		}
 
+	}
+
+	/**
+	 * @param NodeInterface $node
+	 * @return mixed
+	 */
+	public function renderContent(NodeInterface $node) {
+		$content = '';
+
+		/** @var \TYPO3\TYPO3CR\Domain\Model\Node $contentNode */
+		foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {
+			if ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:TextWithImage')) {
+					$propertyValue = $contentNode->getProperty('image');
+					$attributes = array(
+						'width="' . $propertyValue->getWidth() . '"',
+						'height="' . $propertyValue->getHeight() . '"',
+						'src="' . $this->resourcePublisher->getPersistentResourceWebUri($propertyValue->getResource()) . '"',
+					);
+					$content .= $contentNode->getProperty('text');
+					$content .= '<img ' . implode(' ', $attributes) . '/>';
+			} elseif ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:Image')) {
+				$propertyValue = $contentNode->getProperty('image');
+				$attributes = array(
+					'width="' . $propertyValue->getWidth() . '"',
+					'height="' . $propertyValue->getHeight() . '"',
+					'src="' . $this->resourcePublisher->getPersistentResourceWebUri($propertyValue->getResource()) . '"',
+				);
+				$content .= '<img ' . implode(' ', $attributes) . '/>';
+			} else {
+				foreach ($contentNode->getProperties() as $propertyValue) {
+					if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
+						$content .= $propertyValue;
+					}
+				}
+			}
+		}
+
+		return $this->stripUnwantedTags($content);
 	}
 
 	/**

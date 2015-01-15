@@ -112,29 +112,19 @@ class PostController extends ActionController {
 			$item = new Item();
 			$item->setTitle($postNode->getProperty('title'));
 			$item->setGuid($postNode->getIdentifier());
-
-				// TODO: Remove this once all old node properties are migrated:
-			$publicationDate = $postNode->getProperty('datePublished');
-			if (is_string($publicationDate)) {
-				$publicationDate = \DateTime::createFromFormat('Y-m-d', $publicationDate);
-				$postNode->setProperty('datePublished', $publicationDate);
-			}
-
 			$item->setPublicationDate($postNode->getProperty('datePublished'));
 			$item->setItemLink((string)$postUri);
 			$item->setCommentsLink((string)$postUri . '#comments');
-
-				// TODO: Remove this once all old node properties are migrated:
-			$author = $postNode->getProperty('author');
-			if ($author === NULL) {
-				$author = 'Robert Lemke';
-				$postNode->setProperty('author', $author);
-			}
-			$item->setCreator($author);
-
+			$item->setCreator($postNode->getProperty('author'));
 #			$item->setCategories(array('test'));
+
 			$description = $this->contentService->renderTeaser($postNode) . ' <a href="' . $postUri . '">Read more</a>';
 			$item->setDescription($description);
+
+			if ($this->settings['feed']['includeContent'] === TRUE) {
+				$item->setContent($this->contentService->renderContent($postNode));
+			}
+
 			$channel->addItem($item);
 		}
 
