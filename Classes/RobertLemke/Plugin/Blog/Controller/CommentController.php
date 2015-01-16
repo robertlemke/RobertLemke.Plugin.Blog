@@ -44,10 +44,6 @@ class CommentController extends ActionController {
 	 */
 	public function createAction(NodeInterface $postNode, NodeTemplate $newComment) {
 			# Workaround until we can validate node templates properly:
-		if ($newComment->getNodeType()->isOfType('RobertLemke.Plugin.Blog:Comment') === FALSE) {
-			$this->throwStatus(400, 'Your comment was NOT created - the request asked for the wrong node type.');
-		}
-
 		if (strlen($newComment->getProperty('author')) < 2) {
 			$this->throwStatus(400, 'Your comment was NOT created - please specify your name.');
 		}
