@@ -37,8 +37,6 @@ prototype(TYPO3.Neos:PrimaryContent).blogPost {
 # through the TypoScript collection feature.
 #
 prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
-	title = ${q(node).property('title')}
-
 	node = ${node}
 
 		# Render the main ContentCollection of the Post like a page would
@@ -54,8 +52,10 @@ prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 	numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
 
 	@cache {
+		mode = 'cached'
 		entryIdentifier {
 			node = ${node}
+			content = 'blogpost'
 		}
 		entryTags {
 			1 = ${'Node_' + node.identifier}
