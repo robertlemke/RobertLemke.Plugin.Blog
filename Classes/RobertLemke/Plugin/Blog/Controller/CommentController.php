@@ -40,21 +40,25 @@ class CommentController extends ActionController {
 	 * Creates a new comment
 	 *
 	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $postNode The post node which will contain the new comment
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeTemplate<RobertLemke.Plugin.Blog:Comment> $nodeTemplate
-	 * @return void
+	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeTemplate<RobertLemke.Plugin.Blog:Comment> $newComment
+	 * @return string
 	 */
 	public function createAction(NodeInterface $postNode, NodeTemplate $newComment) {
 			# Workaround until we can validate node templates properly:
+		if ($newComment->getNodeType()->isOfType('RobertLemke.Plugin.Blog:Comment') === FALSE) {
+			$this->throwStatus(400, 'Your comment was NOT created - the request asked for the wrong node type.');
+		}
+
 		if (strlen($newComment->getProperty('author')) < 2) {
 			$this->throwStatus(400, 'Your comment was NOT created - please specify your name.');
 		}
 
-		if (strlen($newComment->getProperty('text')) < 5) {
-			$this->throwStatus(400, 'Your comment was NOT created - it was too short.');
-		}
-
 		if (filter_var($newComment->getProperty('emailAddress'), FILTER_VALIDATE_EMAIL) === FALSE) {
 			$this->throwStatus(400, 'Your comment was NOT created - you must specify a valid email address.');
+		}
+
+		if (strlen($newComment->getProperty('text')) < 5) {
+			$this->throwStatus(400, 'Your comment was NOT created - it was too short.');
 		}
 
 		$commentNode = $postNode->getNode('comments')->createNodeFromTemplate($newComment, uniqid('comment-'));
