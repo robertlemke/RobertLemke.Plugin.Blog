@@ -95,6 +95,13 @@
         reloadIfChanged: true
         inspector:
           group: comment
+    uri:
+      type: string
+      ui:
+        label: URI
+        reloadIfChanged: true
+        inspector:
+          group: comment
     spam:
       type: boolean
       ui:

@@ -7,21 +7,29 @@ Note: this package is still experimental and may change heavily in the near futu
 
 Quick start
 -----------
-* include the Plugin's route definitions to your `Routes.yaml` file, just like
+
+* Include the Plugin's route definitions to your `Routes.yaml` file, just like
 
 ```yaml
 -
   name: 'RobertLemkeBlogPlugin'
   uriPattern: '<RobertLemkeBlogPluginSubroutes>'
   subRoutes:
-    RobertLemkeBlogPlugin:
+    RobertLemkeBlogPluginSubroutes:
       package: RobertLemke.Plugin.Blog
 ```
 
-* include the plugin's TypoScript definitions to your own one's (located in, for example, `Packages/Sites/Your.Site/Resources/Private/TypoScripts/Library/ContentElements.ts2`, with:
+* Add this to your TS, assuming your content should appear in section "main":
 
 ```
-include: resource://RobertLemke.Plugin.Blog/Private/TypoScripts/Library/NodeTypes.ts2
+blogPostPage < page {
+	body.content.main = RobertLemke.Plugin.Blog:Post
+}
+
+root.blogPostMatcher {
+	condition = ${q(node).is('[instanceof RobertLemke.Plugin.Blog:Post]')}
+	renderPath = 'blogPostPage'
+}
 ```
 
 * add the plugin content element "Blog Post Overview" to the position of your choice.
