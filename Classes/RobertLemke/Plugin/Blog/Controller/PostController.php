@@ -1,25 +1,14 @@
 <?php
 namespace RobertLemke\Plugin\Blog\Controller;
 
-/*                                                                        *
- * This script belongs to the FLOW3 package "Blog".                       *
- *                                                                        *
- * It is free software; you can redistribute it and/or modify it under    *
- * the terms of the GNU General Public License as published by the Free   *
- * Software Foundation, either version 3 of the License, or (at your      *
- * option) any later version.                                             *
- *                                                                        *
- * This script is distributed in the hope that it will be useful, but     *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
- * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
- * Public License for more details.                                       *
- *                                                                        *
- * You should have received a copy of the GNU General Public License      *
- * along with the script.                                                 *
- * If not, see http://www.gnu.org/licenses/gpl.html                       *
- *                                                                        *
- * The TYPO3 project - inspiring people to share!                         *
- *                                                                        */
+/*                                                                         *
+ * This script belongs to the TYPO3 Flow package "RobertLemke.Plugin.Blog" *
+ *                                                                         *
+ * It is free software; you can redistribute it and/or modify it under     *
+ * the terms of the MIT License.                                           *
+ *                                                                         *
+ * The TYPO3 project - inspiring people to share!                          *
+ *                                                                         */
 
 use RobertLemke\Rss\Channel;
 use RobertLemke\Rss\Feed;
@@ -28,7 +17,6 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Mvc\Routing\UriBuilder;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
-use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
 
 /**
  * The posts controller for the Blog package
@@ -139,4 +127,3 @@ class PostController extends ActionController {
 	}
 
 }
-?>
