@@ -66,7 +66,7 @@ class CommentController extends ActionController {
 
 		$this->emitCommentCreated($commentNode, $postNode);
 		$this->response->setStatus(201);
-		return 'Thank you for your comment! It may take a moment to become visible.';
+		return 'Thank you for your comment!';
 	}
 
 	/**

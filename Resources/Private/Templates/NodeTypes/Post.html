@@ -11,6 +11,7 @@
 				data: form.serialize()
 			}).done(function(result) {
 				alert(result);
+				location.reload(true);
 			}).fail(function(result) {
 				alert(result.responseText.substring(4));
 			});
