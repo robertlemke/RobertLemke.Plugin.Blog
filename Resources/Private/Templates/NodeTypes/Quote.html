@@ -1,5 +1,4 @@
 {namespace neos=TYPO3\Neos\ViewHelpers}
-<neos:contentElement node="{node}">
 <f:if condition="{node.properties.citeAuthor}">
 	<p>
 	<f:if condition="{node.properties.citeAuthorUri}">
@@ -17,4 +16,4 @@
 <blockquote {f:if(condition: node.properties.citeUri, then: 'cite="{node.properties.citeUri}"')}>
 	<neos:contentElement.editable property="text">{text -> f:format.raw()}
 	</neos:contentElement.editable>
-</neos:contentElement></blockquote>
+</blockquote>

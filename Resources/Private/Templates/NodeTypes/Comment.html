@@ -7,8 +7,6 @@
 		<strong>{author}</strong> | <f:format.date format='d.m.Y'>{datePublished}</f:format.date>
 		</p>
 		<blog:gravatar email="{emailAddress}" default="{f:uri.resource(package:'RobertLemke.Plugin.Blog', path:'Icons/GravatarDefault.png')}" size="60" class="gravatar" />
-		<neos:contentElement node="{node}">
-			<p class="content"><neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br() -> f:format.raw()}</neos:contentElement.editable></p>
-		</neos:contentElement>
+		<p class="content"><neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br() -> f:format.raw()}</neos:contentElement.editable></p>
 	</li>
 </f:if>

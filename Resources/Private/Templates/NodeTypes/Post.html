@@ -22,9 +22,7 @@
 <article itemscope="" itemtype="http://schema.org/Article" class="robertlemke-plugin-blog" xmlns:f="http://www.w3.org/1999/html">
 	<f:flashMessages class="flashmessages" />
 	<header>
-		<neos:contentElement node="{node}">
-			<h1 itemprop="name headline"><neos:contentElement.editable tag="span" property="title">{title}</neos:contentElement.editable></h1>
-		</neos:contentElement>
+		<h1 itemprop="name headline"><neos:contentElement.editable tag="span" property="title">{title}</neos:contentElement.editable></h1>
 		<div class="byline">
 			by
 			<span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{node.properties.author}</span></span>
