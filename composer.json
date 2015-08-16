@@ -1,29 +1,46 @@
 {
-	"name":"robertlemke/plugin-blog",
-	"type":"typo3-flow-plugin",
-	"description":"A blog plugin for TYPO3 Neos",
-	"license": ["MIT"],
-	"authors": [
-		{
-			"name": "Robert Lemke",
-			"email": "rl@robertlemke.com",
-			"homepage": "http://robertlemke.com",
-			"role": "Developer"
-		}
-	],
-	"require":{
-		"typo3/flow":">=2.0.0-beta1",
-		"typo3/neos":">=1.0.0-alpha3",
-		"robertlemke/akismet":"~1.0",
-		"robertlemke/rss":"dev-master"
-	},
-	"suggest":{
-		"typo3/swiftmailer": "Allows sending notification emails on new comments",
-		"simplepie/simplepie": "For using the built-in ATOM import"
-	},
-	"autoload":{
-		"psr-0":{
-			"RobertLemke\\Plugin\\Blog":"Classes"
-		}
-	}
+    "name": "robertlemke/plugin-blog",
+    "type": "typo3-flow-plugin",
+    "description": "A blog plugin for TYPO3 Neos",
+    "license": [
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Robert Lemke",
+            "email": "rl@robertlemke.com",
+            "homepage": "http://robertlemke.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "typo3/flow": ">=2.0.0-beta1",
+        "typo3/neos": ">=1.0.0-alpha3",
+        "robertlemke/akismet": "~1.0",
+        "robertlemke/rss": "dev-master"
+    },
+    "suggest": {
+        "typo3/swiftmailer": "Allows sending notification emails on new comments",
+        "simplepie/simplepie": "For using the built-in ATOM import"
+    },
+    "autoload": {
+        "psr-0": {
+            "RobertLemke\\Plugin\\Blog": "Classes"
+        }
+    },
+    "extra": {
+        "applied-flow-migrations": [
+            "TYPO3.Neos-20141218134700",
+            "TYPO3.Flow-20141113121400",
+            "TYPO3.Neos-201409071922",
+            "TYPO3.Neos-201407061038",
+            "TYPO3.Neos-201310021548",
+            "TYPO3.TYPO3CR-130523180140",
+            "TYPO3.Neos.NodeTypes-130516220640",
+            "TYPO3.TypoScript-130516234520",
+            "TYPO3.Flow-201212051340",
+            "TYPO3.Flow-201209251426",
+            "TYPO3.FLOW3-201209201112"
+        ]
+    }
 }
