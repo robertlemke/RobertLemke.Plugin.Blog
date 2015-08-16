@@ -1,7 +1,7 @@
 
 'RobertLemke.Plugin.Blog:PostsOverview':
   superTypes:
-    - 'TYPO3.Neos:Content'
+    'TYPO3.Neos:Content': true
   ui:
     group: blog
     label: 'Blog Posts Overview'
@@ -9,11 +9,9 @@
       groups:
         blog:
           label: 'Blog Posts Overview'
-
-
 'RobertLemke.Plugin.Blog:Post':
   superTypes:
-    - 'TYPO3.Neos:Document'
+    'TYPO3.Neos:Document': true
   ui:
     label: 'Blog Post'
     group: blog
@@ -62,10 +60,9 @@
         label: Tags
         inspector:
           group: moreinfo
-
 'RobertLemke.Plugin.Blog:Comment':
   superTypes:
-    - 'TYPO3.Neos:Content'
+    'TYPO3.Neos:Content': true
   ui:
     label: 'Blog Comment'
     group: blog
@@ -113,10 +110,9 @@
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
-
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
-    - 'TYPO3.Neos:Content'
+    'TYPO3.Neos:Content': true
   ui:
     group: blog
     label: 'Blog Quote'
