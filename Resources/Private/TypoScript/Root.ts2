@@ -83,14 +83,13 @@ prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content)
 		mode = 'cached'
 		entryIdentifier {
 			documentNode = ${node}
-			currentPage = ${this.currentPage}
+			currentPage = ${request.pluginArguments.posts-paginator.currentPage}
 		}
 		entryTags {
 			1 = ${'Node_' + node.identifier}
 			2 = ${'DescendantOf_' + q(node).property('_identifier')}
 		}
 	}
-
 }
 
 #
