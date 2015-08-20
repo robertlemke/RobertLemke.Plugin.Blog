@@ -1,9 +1,9 @@
-TYPO3 Neos Blog Plugin
-======================
+Neos CMS Blog Plugin
+====================
 
-This plugin provides a node-based plugin for TYPO3 Neos websites.
+This plugin provides a node-based plugin for Neos websites.
 
-Note: this package is still experimental and may change heavily in the near future.
+Note: Although this package is in use (for example on robertlemke.com) it is not a full-fledged blogging solution.
 
 Quick start
 -----------
@@ -19,7 +19,7 @@ Quick start
       package: RobertLemke.Plugin.Blog
 ```
 
-* Add this to your TS, assuming your content should appear in section "main":
+* Add this to your TypoScript, assuming your content should appear in section "main":
 
 ```
 blogPostPage < page {
