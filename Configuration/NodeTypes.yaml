@@ -9,6 +9,7 @@
       groups:
         blog:
           label: 'Blog Posts Overview'
+
 'RobertLemke.Plugin.Blog:Post':
   superTypes:
     'TYPO3.Neos:Document': true
@@ -110,6 +111,7 @@
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
+
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
     'TYPO3.Neos:Content': true

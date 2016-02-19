@@ -39,12 +39,12 @@ prototype(TYPO3.Neos:PrimaryContent).blogPost {
 prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 	node = ${node}
 
-		# Render the main ContentCollection of the Post like a page would
+	# Render the main ContentCollection of the Post like a page would
 	main = TYPO3.Neos:ContentCollection {
 		nodePath = 'main'
 	}
 
-		# Render an additional ContentCollection for comments
+	# Render an additional ContentCollection for comments
 	comments = TYPO3.Neos:ContentCollection {
 		nodePath = 'comments'
 	}
