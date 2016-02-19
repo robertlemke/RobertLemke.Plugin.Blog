@@ -99,6 +99,13 @@ prototype(RobertLemke.Plugin.Blog:Feed) < prototype(TYPO3.Neos:Plugin) {
 	package = 'RobertLemke.Plugin.Blog'
 	controller = 'Post'
 	action = 'rss'
+
+	postsNode = ${q(documentNode).parent().get(0)}
+
+	feedTitle = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.title')}
+	feedDescription = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.description')}
+	feedUri = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.uri')}
+	includeContent = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.includeContent')}
 }
 
 #

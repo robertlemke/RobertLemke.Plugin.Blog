@@ -32,23 +32,14 @@ If you configure the Akismet package comments will be checked for being spam and
 
 * add a page to serve the feed below your posts container node, it can be empty and should be hidden in menus
 
-* add this to your TS:
+* add this to your TS (configuration shows default values):
 
 ```
-xml = RobertLemke.Plugin.Blog:Feed
-```
-
-* configure the feed
-
-```yaml
-RobertLemke:
-  Plugin:
-    Blog:
-      feed:
-        title: 'The Neos Blog'
-        description: 'A great, new - yet unconfigured - blog powered by Neos'
-        uri: ''
-        includeContent: FALSE
+xml = RobertLemke.Plugin.Blog:Feed {
+  feedTitle = 'The Neos Blog'
+  feedDescription = 'A great, new - yet unconfigured - blog powered by Neos'
+  feedUri = ''
+  includeContent = ${false}
 ```
 
 Now when you visit the "feed node" and use xml instead of html in the URL, you should see an XML feed os the

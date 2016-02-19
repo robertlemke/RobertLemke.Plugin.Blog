@@ -10,6 +10,7 @@ RobertLemke:
           email: ''
           name: 'Blog Admin'
 
+      # this is deprecated and should be configured via TypoScript instead
       feed:
         title: 'The Neos Blog'
         description: 'A great, new - yet unconfigured - blog powered by Neos'

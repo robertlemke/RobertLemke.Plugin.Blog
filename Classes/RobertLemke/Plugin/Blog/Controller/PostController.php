@@ -55,34 +55,38 @@ class PostController extends ActionController
      */
     public function rssAction()
     {
-        /** @var NodeInterface $blogDocumentNode */
         $rssDocumentNode = $this->request->getInternalArgument('__documentNode');
         if ($rssDocumentNode === null) {
             return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
         }
 
-        $blogDocumentNode = $rssDocumentNode->getParent();
+        /** @var NodeInterface $postsNode */
+        $postsNode = $this->request->getInternalArgument('__postsNode');
 
         $uriBuilder = new UriBuilder();
         $uriBuilder->setRequest($this->request->getMainRequest());
         $uriBuilder->setCreateAbsoluteUri(true);
 
-        if ($this->settings['feed']['uri'] !== '') {
-            $feedUri = $this->settings['feed']['uri'];
+        $feedTitle = $this->request->getInternalArgument('__feedTitle');
+        $feedDescription = $this->request->getInternalArgument('__feedDescription');
+        $includeContent = $this->request->getInternalArgument('__includeContent');
+
+        if ($this->request->getInternalArgument('__feedUri')) {
+            $feedUri = $this->request->getInternalArgument('__feedUri');
         } else {
             $uriBuilder->setFormat('xml');
             $feedUri = $uriBuilder->uriFor('show', array('node' => $rssDocumentNode), 'Frontend\Node', 'TYPO3.Neos');
         }
 
         $channel = new Channel();
-        $channel->setTitle($this->settings['feed']['title']);
-        $channel->setDescription($this->settings['feed']['description']);
+        $channel->setTitle($feedTitle);
+        $channel->setDescription($feedDescription);
         $channel->setFeedUri($feedUri);
         $channel->setWebsiteUri($this->request->getHttpRequest()->getBaseUri());
         $channel->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
-        foreach ($blogDocumentNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
-            /* @var $postNode NodeInterface */
+        /* @var $postNode NodeInterface */
+        foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
 
             $uriBuilder->setFormat('html');
             $postUri = $uriBuilder->uriFor('show', array('node' => $postNode), 'Frontend\Node', 'TYPO3.Neos');
@@ -99,7 +103,7 @@ class PostController extends ActionController
             $description = $this->contentService->renderTeaser($postNode) . ' <a href="' . $postUri . '">Read more</a>';
             $item->setDescription($description);
 
-            if ($this->settings['feed']['includeContent'] === true) {
+            if ($includeContent) {
                 $item->setContent($this->contentService->renderContent($postNode));
             }
 
