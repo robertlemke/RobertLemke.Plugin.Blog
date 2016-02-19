@@ -18,6 +18,7 @@ use TYPO3\Neos\Domain\Service\ContentContextFactory;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
 use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
+use TYPO3\TYPO3CR\Utility;
 
 /**
  * BlogCommand command controller for the RobertLemke.Plugin.Blog package
@@ -40,6 +41,16 @@ class AtomImportCommandController extends CommandController
     protected $contentContextFactory;
 
     /**
+     * @var NodeInterface
+     */
+    protected $blogNode;
+
+    /**
+     * @var array
+     */
+    protected $tagNodes = array();
+
+    /**
      * Imports atom data into the blog
      *
      * @param string $workspace The workspace to work in
@@ -56,8 +67,8 @@ class AtomImportCommandController extends CommandController
 
         $context = $this->contentContextFactory->create(['workspaceName' => $workspace]);
         $q = new FlowQuery([$context->getRootNode()]);
-        $blogNode = $q->find($targetNode)->get(0);
-        if (!($blogNode instanceof NodeInterface)) {
+        $this->blogNode = $q->find($targetNode)->get(0);
+        if (!($this->blogNode instanceof NodeInterface)) {
             $this->outputLine('<error>Target node not found.</error>');
             $this->quit(1);
         }
@@ -121,14 +132,16 @@ class AtomImportCommandController extends CommandController
             $published = new \DateTime();
             $published->setTimestamp($item->get_date('U'));
             $nodeTemplate->setProperty('datePublished', $published);
-            $nodeTemplate->setProperty('tags', implode(',', $tags));
+            $nodeTemplate->setProperty('tags', $this->getTagNodes($tags));
 
             $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $item->get_title()));
-            $postNode = $blogNode->createNodeFromTemplate($nodeTemplate, $slug);
+            /** @var NodeInterface $postNode */
+            $postNode = $this->blogNode->createNodeFromTemplate($nodeTemplate, $slug);
             $postNode->getNode('main')->createNode(uniqid('node'), $textNodeType)->setProperty('text', $item->get_content());
 
             $postComments = isset($comments[$item->get_id()]) ? $comments[$item->get_id()] : array();
             if ($postComments !== array()) {
+                /** @var NodeInterface $commentsNode */
                 $commentsNode = $postNode->getNode('comments');
                 /** @var $postComment \SimplePie_Item */
                 foreach ($postComments as $postComment) {
@@ -155,4 +168,25 @@ class AtomImportCommandController extends CommandController
         $this->outputLine('Imported %s blog posts.', array($counter));
     }
 
+    /**
+     * @param array $tags
+     * @return array<NodeInterface>
+     */
+    protected function getTagNodes(array $tags) {
+        $tagNodes = array();
+
+        foreach ($tags as $tag) {
+            if (!isset($this->tagNodes[$tag])) {
+                $tagNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Tag');
+
+                $tagNode = $this->blogNode->createNode(Utility::renderValidNodeName($tag), $tagNodeType);
+                $tagNode->setProperty('title', $tag);
+                $this->tagNodes[$tag] = $tagNode;
+            }
+
+            $tagNodes[] = $this->tagNodes[$tag];
+        }
+
+        return $tagNodes;
+    }
 }
