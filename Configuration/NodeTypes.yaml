@@ -52,17 +52,22 @@
           editorOptions:
             nodeTypes: ['RobertLemke.Plugin.Blog:Post']
     category:
-      type: string
+      type: reference
       ui:
         label: Category
         inspector:
           group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Category']
     tags:
-      type: string
+      type: references
       ui:
         label: Tags
         inspector:
           group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Tag']
+
 'RobertLemke.Plugin.Blog:Comment':
   superTypes:
     'TYPO3.Neos:Content': true
@@ -113,6 +118,20 @@
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
+
+'RobertLemke.Plugin.Blog:Category':
+  superTypes:
+    'TYPO3.Neos:Document': true
+  ui:
+    label: 'Blog Category'
+    group: blog
+
+'RobertLemke.Plugin.Blog:Tag':
+  superTypes:
+    'TYPO3.Neos:Document': true
+  ui:
+    label: 'Blog Tag'
+    group: blog
 
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
