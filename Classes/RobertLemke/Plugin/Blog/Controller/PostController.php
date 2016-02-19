@@ -103,7 +103,10 @@ class PostController extends ActionController
                 $categories = array();
                 /** @var NodeInterface $categoryNode */
                 foreach ($postNode->getProperty('categories') as $categoryNode) {
-                    $categories[] = $categoryNode->getProperty('title');
+                    $categories[] = array(
+                        'category' => $categoryNode->getProperty('title'),
+                        'domain' => $categoryNode->getProperty('domain')
+                    );
                 }
                 $item->setCategories($categories);
             }

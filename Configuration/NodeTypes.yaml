@@ -125,6 +125,13 @@
   ui:
     label: 'Blog Category'
     group: blog
+  properties:
+    domain:
+      type: string
+      ui:
+        label: 'Taxonomy domain'
+        inspector:
+          group: 'document'
 
 'RobertLemke.Plugin.Blog:Tag':
   superTypes:
