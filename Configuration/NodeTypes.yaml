@@ -51,10 +51,10 @@
           group: moreinfo
           editorOptions:
             nodeTypes: ['RobertLemke.Plugin.Blog:Post']
-    category:
-      type: reference
+    categories:
+      type: references
       ui:
-        label: Category
+        label: Categories
         inspector:
           group: moreinfo
           editorOptions:
