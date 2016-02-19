@@ -49,23 +49,6 @@ class PostController extends ActionController
     protected $contentService;
 
     /**
-     * Displays a list of most recent blog posts
-     *
-     * @return string
-     */
-    public function indexAction()
-    {
-        $blogDocumentNode = $this->request->getInternalArgument('__documentNode');
-        if ($blogDocumentNode !== null) {
-            /** @var NodeInterface $blogDocumentNode */
-            $this->view->assign('postsNode', $blogDocumentNode);
-            $this->view->assign('hasPostNodes', $blogDocumentNode->hasChildNodes('RobertLemke.Plugin.Blog:Post'));
-        } else {
-            return 'Error: The Blog Post Plugin cannot determine the current document node. Please make sure to include this plugin only by inserting it into a page / document.';
-        }
-    }
-
-    /**
      * Renders an RSS feed
      *
      * @return string
