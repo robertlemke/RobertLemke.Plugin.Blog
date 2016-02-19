@@ -97,7 +97,12 @@ class PostController extends ActionController
             $item->setPublicationDate($postNode->getProperty('datePublished'));
             $item->setItemLink((string)$postUri);
             $item->setCommentsLink((string)$postUri . '#comments');
-            $item->setCreator($postNode->getProperty('author'));
+
+            $author = $postNode->getProperty('author');
+            if ($author instanceof NodeInterface) {
+                $author = $author->getLabel();
+            }
+            $item->setCreator($author);
 
             if ($postNode->getProperty('categories')) {
                 $categories = array();
