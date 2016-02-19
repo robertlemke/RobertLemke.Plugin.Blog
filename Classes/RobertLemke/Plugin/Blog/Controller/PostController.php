@@ -98,7 +98,15 @@ class PostController extends ActionController
             $item->setItemLink((string)$postUri);
             $item->setCommentsLink((string)$postUri . '#comments');
             $item->setCreator($postNode->getProperty('author'));
-#            $item->setCategories(array('test'));
+
+            if ($postNode->getProperty('categories')) {
+                $categories = array();
+                /** @var NodeInterface $categoryNode */
+                foreach ($postNode->getProperty('categories') as $categoryNode) {
+                    $categories[] = $categoryNode->getProperty('title');
+                }
+                $item->setCategories($categories);
+            }
 
             $description = $this->contentService->renderTeaser($postNode) . ' <a href="' . $postUri . '">Read more</a>';
             $item->setDescription($description);
