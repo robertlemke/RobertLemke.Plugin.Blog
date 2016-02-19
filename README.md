@@ -27,3 +27,29 @@ will be sent whenever a comment is submitted.
 ## Akismet spam checking
 
 If you configure the Akismet package comments will be checked for being spam and marked as such.
+
+## RSS feed
+
+* add a page to serve the feed below your posts container node, it can be empty and should be hidden in menus
+
+* add this to your TS:
+
+```
+xml = RobertLemke.Plugin.Blog:Feed
+```
+
+* configure the feed
+
+```yaml
+RobertLemke:
+  Plugin:
+    Blog:
+      feed:
+        title: 'The Neos Blog'
+        description: 'A great, new - yet unconfigured - blog powered by Neos'
+        uri: ''
+        includeContent: FALSE
+```
+
+Now when you visit the "feed node" and use xml instead of html in the URL, you should see an XML feed os the
+blog.

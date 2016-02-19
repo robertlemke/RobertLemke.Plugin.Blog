@@ -93,6 +93,15 @@ prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content)
 }
 
 #
+# RSS feed
+#
+prototype(RobertLemke.Plugin.Blog:Feed) < prototype(TYPO3.Neos:Plugin) {
+	package = 'RobertLemke.Plugin.Blog'
+	controller = 'Post'
+	action = 'rss'
+}
+
+#
 # Quote is a straight-forward content type
 #
 prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Content) {
