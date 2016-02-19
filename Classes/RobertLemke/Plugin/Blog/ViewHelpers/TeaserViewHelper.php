@@ -39,10 +39,11 @@ class TeaserViewHelper extends AbstractViewHelper
      * Render a teaser
      *
      * @param NodeInterface $node
+     * @param integer $maximumLength
      * @return string cropped text
      */
-    public function render(NodeInterface $node)
+    public function render(NodeInterface $node, $maximumLength = 500)
     {
-        return $this->contentService->renderTeaser($node);
+        return $this->contentService->renderTeaser($node, $maximumLength);
     }
 }

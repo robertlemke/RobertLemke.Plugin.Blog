@@ -30,12 +30,16 @@ class ContentService
     protected $resourceManager;
 
     /**
-     * Renders the given Node as a teaser text with up to 600 characters, with all <p> and <a> tags removed.
+     * Renders a teaser text with up to $maximumLength characters, with an outermost <p> and some more tags removed,
+     * from the given Node (fetches the first TYPO3.Neos.NodeTypes:Text childNode as a base).
+     *
+     * If '<!-- read more -->' is found, the teaser will be the preceding content and $maximumLength is ignored.
      *
      * @param NodeInterface $node
+     * @param integer $maximumLength
      * @return mixed
      */
-    public function renderTeaser(NodeInterface $node)
+    public function renderTeaser(NodeInterface $node, $maximumLength = 500)
     {
         $stringToTruncate = '';
 
@@ -55,12 +59,12 @@ class ContentService
         }
 
         $jumpPosition = strpos($stringToTruncate, '</p>');
-        if ($jumpPosition !== false && $jumpPosition < 600) {
+        if ($jumpPosition !== false && $jumpPosition < ($maximumLength + 100)) {
             return $this->stripUnwantedTags(substr($stringToTruncate, 0, $jumpPosition + 4));
         }
 
-        if (strlen($stringToTruncate) > 500) {
-            return substr($this->stripUnwantedTags($stringToTruncate), 0, 501) . ' ...';
+        if (strlen($stringToTruncate) > $maximumLength) {
+            return substr($this->stripUnwantedTags($stringToTruncate), 0, $maximumLength + 1) . ' ...';
         } else {
             return $this->stripUnwantedTags($stringToTruncate);
         }
@@ -106,7 +110,11 @@ class ContentService
     }
 
     /**
-     * If the content starts with <p> and ends with </p> these tags are stripped.
+     * Removes a, span, strong, b, blockquote tags from $content.
+     *
+     * If the content starts with <p> and ends with </p> these tags are stripped as well.
+     *
+     * Non-breaking space entities are replaced by a single space character.
      *
      * @param string $content The original content
      * @return string The stripped content
@@ -114,7 +122,17 @@ class ContentService
     protected function stripUnwantedTags($content)
     {
         $content = trim($content);
-        $content = preg_replace(array('/\\<a [^\\>]+\\>/', '/\<\\/a\\>/', '/\\<span style[^\\>]+\\>/'), '', $content);
+        $content = preg_replace(
+            [
+                '/\\<a [^\\>]+\\>/',
+                '/\<\\/a\\>/',
+                '/\\<span[^\\>]+\\>/',
+                '/\\<\\/span>]+\\>/',
+                '/\\<\\\\?(strong|b|blockquote)\\>/'
+            ],
+            '',
+            $content
+        );
         $content = str_replace('&nbsp;', ' ', $content);
 
         if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {
