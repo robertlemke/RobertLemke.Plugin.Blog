@@ -111,7 +111,7 @@ class PostController extends ActionController
                 $item->setCategories($categories);
             }
 
-            $description = $this->contentService->renderTeaser($postNode) . ' <a href="' . $postUri . '">Read more</a>';
+            $description = $this->contentService->renderTeaser($postNode);
             $item->setDescription($description);
 
             if ($includeContent) {
