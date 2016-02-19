@@ -44,11 +44,13 @@
         inspector:
           group: page
     relatedPosts:
-      type: string
+      type: references
       ui:
         label: 'Related Posts'
         inspector:
           group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Post']
     category:
       type: string
       ui:
