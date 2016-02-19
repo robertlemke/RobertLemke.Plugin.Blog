@@ -18,3 +18,12 @@ Note: Although this package is in use (for example on robertlemke.com) it is not
 ```
 
 * add the plugin content element "Blog Post Overview" to the position of your choice.
+
+## Comment notifications
+
+As soon as the notifications.to.email setting is configured and TYPO3.SwiftMailer is installed, a notification
+will be sent whenever a comment is submitted.
+
+## Akismet spam checking
+
+If you configure the Akismet package comments will be checked for being spam and marked as such.
