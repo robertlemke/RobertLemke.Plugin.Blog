@@ -61,6 +61,10 @@ class CommentController extends ActionController
             $this->throwStatus(400, 'Your comment was NOT created - it was too short.');
         }
 
+        $newComment->setProperty('text', filter_var($newComment->getProperty('text'), FILTER_SANITIZE_STRIPPED));
+        $newComment->setProperty('author', filter_var($newComment->getProperty('author'), FILTER_SANITIZE_STRIPPED));
+        $newComment->setProperty('emailAddress', filter_var($newComment->getProperty('emailAddress'), FILTER_SANITIZE_STRIPPED));
+
         $commentNode = $postNode->getNode('comments')->createNodeFromTemplate($newComment, uniqid('comment-'));
         $commentNode->setProperty('spam', false);
         $commentNode->setProperty('datePublished', new \DateTime());
