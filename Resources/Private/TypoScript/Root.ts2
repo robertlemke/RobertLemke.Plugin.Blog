@@ -39,12 +39,12 @@ prototype(TYPO3.Neos:PrimaryContent).blogPost {
 prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
 	node = ${node}
 
-		# Render the main ContentCollection of the Post like a page would
+	# Render the main ContentCollection of the Post like a page would
 	main = TYPO3.Neos:ContentCollection {
 		nodePath = 'main'
 	}
 
-		# Render an additional ContentCollection for comments
+	# Render an additional ContentCollection for comments
 	comments = TYPO3.Neos:ContentCollection {
 		nodePath = 'comments'
 	}
@@ -90,6 +90,22 @@ prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content)
 			2 = ${'DescendantOf_' + q(node).property('_identifier')}
 		}
 	}
+}
+
+#
+# RSS feed
+#
+prototype(RobertLemke.Plugin.Blog:Feed) < prototype(TYPO3.Neos:Plugin) {
+	package = 'RobertLemke.Plugin.Blog'
+	controller = 'Post'
+	action = 'rss'
+
+	postsNode = ${q(documentNode).parent().get(0)}
+
+	feedTitle = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.title')}
+	feedDescription = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.description')}
+	feedUri = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.uri')}
+	includeContent = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.includeContent')}
 }
 
 #

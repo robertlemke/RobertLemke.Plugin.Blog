@@ -9,6 +9,7 @@
       groups:
         blog:
           label: 'Blog Posts Overview'
+
 'RobertLemke.Plugin.Blog:Post':
   superTypes:
     'TYPO3.Neos:Document': true
@@ -43,23 +44,30 @@
         inspector:
           group: page
     relatedPosts:
-      type: string
+      type: references
       ui:
         label: 'Related Posts'
         inspector:
           group: moreinfo
-    category:
-      type: string
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Post']
+    categories:
+      type: references
       ui:
-        label: Category
+        label: Categories
         inspector:
           group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Category']
     tags:
-      type: string
+      type: references
       ui:
         label: Tags
         inspector:
           group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Tag']
+
 'RobertLemke.Plugin.Blog:Comment':
   superTypes:
     'TYPO3.Neos:Content': true
@@ -110,6 +118,28 @@
       defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
+
+'RobertLemke.Plugin.Blog:Category':
+  superTypes:
+    'TYPO3.Neos:Document': true
+  ui:
+    label: 'Blog Category'
+    group: blog
+  properties:
+    domain:
+      type: string
+      ui:
+        label: 'Taxonomy domain'
+        inspector:
+          group: 'document'
+
+'RobertLemke.Plugin.Blog:Tag':
+  superTypes:
+    'TYPO3.Neos:Document': true
+  ui:
+    label: 'Blog Tag'
+    group: blog
+
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
     'TYPO3.Neos:Content': true

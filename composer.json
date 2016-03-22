@@ -2,9 +2,7 @@
     "name": "robertlemke/plugin-blog",
     "type": "typo3-flow-plugin",
     "description": "A blog plugin for Neos",
-    "license": [
-        "MIT"
-    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Robert Lemke",
@@ -14,9 +12,10 @@
         }
     ],
     "require": {
-        "typo3/neos": "2.*",
+        "typo3/neos": "~2.0",
         "robertlemke/akismet": "~1.0",
-        "robertlemke/rss": "~1.0"
+        "robertlemke/rss": "~1.1",
+        "flownative/gravatar": "~1.0"
     },
     "suggest": {
         "typo3/swiftmailer": "Allows sending notification emails on new comments",

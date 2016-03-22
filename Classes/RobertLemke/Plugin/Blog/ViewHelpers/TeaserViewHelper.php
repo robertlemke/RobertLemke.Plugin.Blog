@@ -1,16 +1,19 @@
 <?php
 namespace RobertLemke\Plugin\Blog\ViewHelpers;
 
-/*                                                                         *
- * This script belongs to the TYPO3 Flow package "RobertLemke.Plugin.Blog" *
- *                                                                         *
- * It is free software; you can redistribute it and/or modify it under     *
- * the terms of the MIT License.                                           *
- *                                                                         *
- * The TYPO3 project - inspiring people to share!                          *
- *                                                                         */
+/*
+ * This file is part of the RobertLemke.Plugin.Blog package.
+ *
+ * (c) Robert Lemke
+ *
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
+use RobertLemke\Plugin\Blog\Service\ContentService;
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 
 /**
@@ -18,29 +21,29 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  *
  * @api
  */
-class TeaserViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper {
+class TeaserViewHelper extends AbstractViewHelper
+{
 
-	
-	/**
-	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
-	 * @see AbstractViewHelper::isOutputEscapingEnabled()
-	 * @var boolean
-	 */
-	protected $escapeOutput = FALSE;
+    /**
+     * @var boolean
+     */
+    protected $escapeOutput = false;
 
-	/**
-	 * @Flow\Inject
-	 * @var \RobertLemke\Plugin\Blog\Service\ContentService
-	 */
-	protected $contentService;
+    /**
+     * @Flow\Inject
+     * @var ContentService
+     */
+    protected $contentService;
 
-	/**
-	 * Render a teaser
-	 *
-	 * @param \TYPO3\TYPO3CR\Domain\Model\NodeInterface $node
-	 * @return string cropped text
-	 */
-	public function render(NodeInterface $node) {
-		return $this->contentService->renderTeaser($node);
-	}
+    /**
+     * Render a teaser
+     *
+     * @param NodeInterface $node
+     * @param integer $maximumLength
+     * @return string cropped text
+     */
+    public function render(NodeInterface $node, $maximumLength = 500)
+    {
+        return $this->contentService->renderTeaser($node, $maximumLength);
+    }
 }

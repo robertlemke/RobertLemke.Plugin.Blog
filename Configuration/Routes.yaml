@@ -39,7 +39,7 @@
       'currentPage': '1'
   routeParts:
     node:
-      handler:    TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+      handler:    'TYPO3\Neos\Routing\FrontendNodeRoutePartHandler'
   appendExceedingArguments: true
 
 -
@@ -57,7 +57,7 @@
       '@action': 'index'
   routeParts:
     node:
-      handler:    TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+      handler:    'TYPO3\Neos\Routing\FrontendNodeRoutePartHandler'
   appendExceedingArguments: true
 
 -
@@ -70,4 +70,4 @@
     '@action':     'show'
   routeParts:
     node:
-      handler:    TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+      handler:    'TYPO3\Neos\Routing\FrontendNodeRoutePartHandler'
