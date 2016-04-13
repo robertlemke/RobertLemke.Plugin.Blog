@@ -40,6 +40,7 @@ xml = RobertLemke.Plugin.Blog:Feed {
   feedDescription = 'A great, new - yet unconfigured - blog powered by Neos'
   feedUri = ''
   includeContent = ${false}
+}
 ```
 
 Now when you visit the "feed node" and use xml instead of html in the URL, you should see an XML feed os the
