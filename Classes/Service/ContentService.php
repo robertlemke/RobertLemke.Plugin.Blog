@@ -22,7 +22,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  */
 class ContentService
 {
-
     /**
      * @Flow\Inject
      * @var ResourceManager
@@ -82,20 +81,20 @@ class ContentService
         foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {
             if ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:TextWithImage')) {
                 $propertyValue = $contentNode->getProperty('image');
-                $attributes = array(
+                $attributes = [
                     'width="' . $propertyValue->getWidth() . '"',
                     'height="' . $propertyValue->getHeight() . '"',
                     'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
-                );
+                ];
                 $content .= $contentNode->getProperty('text');
                 $content .= '<img ' . implode(' ', $attributes) . '/>';
             } elseif ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:Image')) {
                 $propertyValue = $contentNode->getProperty('image');
-                $attributes = array(
+                $attributes = [
                     'width="' . $propertyValue->getWidth() . '"',
                     'height="' . $propertyValue->getHeight() . '"',
                     'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
-                );
+                ];
                 $content .= '<img ' . implode(' ', $attributes) . '/>';
             } else {
                 foreach ($contentNode->getProperties() as $propertyValue) {

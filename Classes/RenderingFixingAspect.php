@@ -22,7 +22,6 @@ use TYPO3\Flow\Aop\JoinPointInterface;
  */
 class RenderingFixingAspect
 {
-
     /**
      * Makes sure that XML content (such as the RSS feed) is not wrapped with divs.
      *
@@ -39,5 +38,4 @@ class RenderingFixingAspect
 
         return $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
-
 }

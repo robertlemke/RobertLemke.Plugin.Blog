@@ -23,7 +23,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  */
 class TeaserViewHelper extends AbstractViewHelper
 {
-
     /**
      * @var boolean
      */

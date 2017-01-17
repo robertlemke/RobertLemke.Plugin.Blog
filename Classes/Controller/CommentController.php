@@ -22,7 +22,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
  */
 class CommentController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var Service

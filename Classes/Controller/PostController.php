@@ -29,7 +29,6 @@ use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
  */
 class PostController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var NodeTypeManager
@@ -75,7 +74,7 @@ class PostController extends ActionController
             $feedUri = $this->request->getInternalArgument('__feedUri');
         } else {
             $uriBuilder->setFormat('xml');
-            $feedUri = $uriBuilder->uriFor('show', array('node' => $rssDocumentNode), 'Frontend\Node', 'TYPO3.Neos');
+            $feedUri = $uriBuilder->uriFor('show', ['node' => $rssDocumentNode], 'Frontend\Node', 'TYPO3.Neos');
         }
 
         $channel = new Channel();
@@ -89,7 +88,7 @@ class PostController extends ActionController
         foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
 
             $uriBuilder->setFormat('html');
-            $postUri = $uriBuilder->uriFor('show', array('node' => $postNode), 'Frontend\Node', 'TYPO3.Neos');
+            $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'TYPO3.Neos');
 
             $item = new Item();
             $item->setTitle($postNode->getProperty('title'));
@@ -105,13 +104,13 @@ class PostController extends ActionController
             $item->setCreator($author);
 
             if ($postNode->getProperty('categories')) {
-                $categories = array();
+                $categories = [];
                 /** @var NodeInterface $categoryNode */
                 foreach ($postNode->getProperty('categories') as $categoryNode) {
-                    $categories[] = array(
+                    $categories[] = [
                         'category' => $categoryNode->getProperty('title'),
                         'domain' => $categoryNode->getProperty('domain')
-                    );
+                    ];
                 }
                 $item->setCategories($categories);
             }
@@ -135,5 +134,4 @@ class PostController extends ActionController
 
         return $feed->render();
     }
-
 }
