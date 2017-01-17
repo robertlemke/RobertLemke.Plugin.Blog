@@ -22,8 +22,8 @@
         "simplepie/simplepie": "For using the built-in ATOM import"
     },
     "autoload": {
-        "psr-0": {
-            "RobertLemke\\Plugin\\Blog": "Classes"
+        "psr-4": {
+            "RobertLemke\\Plugin\\Blog\\": "Classes"
         }
     },
     "extra": {
