@@ -11,10 +11,10 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Log\SystemLoggerInterface;
-use TYPO3\SwiftMailer\Message;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\SystemLoggerInterface;
+use Neos\SwiftMailer\Message;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 
 /**
  * A notification service
@@ -56,8 +56,8 @@ class NotificationService
             return;
         }
 
-        if (!class_exists('TYPO3\SwiftMailer\Message')) {
-            $this->systemLogger->log('The package "TYPO3.SwiftMailer" is required to send notifications!');
+        if (!class_exists('Neos\SwiftMailer\Message')) {
+            $this->systemLogger->log('The package "Neos.SwiftMailer" is required to send notifications!');
 
             return;
         }

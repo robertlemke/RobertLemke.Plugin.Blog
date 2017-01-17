@@ -1,10 +1,10 @@
 privilegeTargets:
-  TYPO3\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
+  Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege:
     'RobertLemke.Plugin.Blog:Frontend':
-      matcher: 'method(RobertLemke\Plugin\Blog\Controller\PostController->(index|rss)Action()) || method(RobertLemke\Plugin\Blog\Controller\CommentController->(create|error)Action()) || method(TYPO3\TYPO3CR\ViewHelpers\Widget\Controller\PaginateController->.*())'
+      matcher: 'method(RobertLemke\Plugin\Blog\Controller\PostController->(index|rss)Action()) || method(RobertLemke\Plugin\Blog\Controller\CommentController->(create|error)Action()) || method(Neos\ContentRepository\ViewHelpers\Widget\Controller\PaginateController->.*())'
 
 roles:
-  'TYPO3.Flow:Everybody':
+  'Neos.Flow:Everybody':
     privileges:
       -
         privilegeTarget: 'RobertLemke.Plugin.Blog:Frontend'

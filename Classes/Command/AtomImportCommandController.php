@@ -11,14 +11,14 @@ namespace RobertLemke\Plugin\Blog\Command;
  * source code.
  */
 
-use TYPO3\Eel\FlowQuery\FlowQuery;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Cli\CommandController;
-use TYPO3\Neos\Domain\Service\ContentContextFactory;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
-use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
-use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
-use TYPO3\TYPO3CR\Utility;
+use Neos\Eel\FlowQuery\FlowQuery;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Cli\CommandController;
+use Neos\Neos\Domain\Service\ContentContextFactory;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\NodeTemplate;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\ContentRepository\Utility;
 
 /**
  * BlogCommand command controller for the RobertLemke.Plugin.Blog package
@@ -101,7 +101,7 @@ class AtomImportCommandController extends CommandController
             }
         }
 
-        $textNodeType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.NodeTypes:Text');
+        $textNodeType = $this->nodeTypeManager->getNodeType('Neos.NodeTypes:Text');
         $commentNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Comment');
         $counter = 0;
         foreach ($parser->get_items() as $item) {

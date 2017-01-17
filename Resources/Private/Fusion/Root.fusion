@@ -5,11 +5,11 @@
 #
 root.@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
 
-prototype(TYPO3.Neos:Page) {
+prototype(Neos.Neos:Page) {
 	@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
 }
 
-prototype(TYPO3.Neos:PrimaryContent).default {
+prototype(Neos.Neos:PrimaryContent).default {
 	renderer.@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
 }
 
@@ -18,7 +18,7 @@ prototype(TYPO3.Neos:PrimaryContent).default {
 # is a blog post document. In this case we don't render a ContentCollection like the default matcher
 # but render the blog post TypoScript object.
 #
-prototype(TYPO3.Neos:PrimaryContent).blogPost {
+prototype(Neos.Neos:PrimaryContent).blogPost {
 	condition = ${q(documentNode).is('[instanceof RobertLemke.Plugin.Blog:Post]')}
 	type = 'RobertLemke.Plugin.Blog:Post'
 }
@@ -36,16 +36,16 @@ prototype(TYPO3.Neos:PrimaryContent).blogPost {
 # The blog post comments are just several Text nodes which are as well rendered
 # through the TypoScript collection feature.
 #
-prototype(RobertLemke.Plugin.Blog:Post) < prototype(TYPO3.Neos:Content) {
+prototype(RobertLemke.Plugin.Blog:Post) < prototype(Neos.Neos:Content) {
 	node = ${node}
 
 	# Render the main ContentCollection of the Post like a page would
-	main = TYPO3.Neos:ContentCollection {
+	main = Neos.Neos:ContentCollection {
 		nodePath = 'main'
 	}
 
 	# Render an additional ContentCollection for comments
-	comments = TYPO3.Neos:ContentCollection {
+	comments = Neos.Neos:ContentCollection {
 		nodePath = 'comments'
 	}
 
@@ -74,9 +74,9 @@ prototype(RobertLemke.Plugin.Blog:Comment) {
 #
 # List of most recent blog posts, including pagination
 #
-prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content) {
+prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(Neos.Neos:Content) {
 	hasPostNodes = true
-	postsNode = ${q(node).closest('[instanceof TYPO3.Neos:Document]').get(0)}
+	postsNode = ${q(node).closest('[instanceof Neos.Neos:Document]').get(0)}
 	currentPage = ${request.pluginArguments.posts-paginator.currentPage}
 
 	@cache {
@@ -95,7 +95,7 @@ prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(TYPO3.Neos:Content)
 #
 # RSS feed
 #
-prototype(RobertLemke.Plugin.Blog:Feed) < prototype(TYPO3.Neos:Plugin) {
+prototype(RobertLemke.Plugin.Blog:Feed) < prototype(Neos.Neos:Plugin) {
 	package = 'RobertLemke.Plugin.Blog'
 	controller = 'Post'
 	action = 'rss'
@@ -111,5 +111,5 @@ prototype(RobertLemke.Plugin.Blog:Feed) < prototype(TYPO3.Neos:Plugin) {
 #
 # Quote is a straight-forward content type
 #
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(TYPO3.Neos:Content) {
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(Neos.Neos:Content) {
 }

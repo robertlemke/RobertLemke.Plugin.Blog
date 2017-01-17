@@ -1,5 +1,5 @@
-{namespace neos=TYPO3\Neos\ViewHelpers}
-{namespace ts=TYPO3\TypoScript\ViewHelpers}
+{namespace neos=Neos\Neos\ViewHelpers}
+{namespace fusion=Neos\Fusion\ViewHelpers}
 <script src="../../../Public/JavaScript/jquery-1.10.2.min.js"></script>
 <script>
 	$(function() {
@@ -31,7 +31,7 @@
 		</div><br />
 	</header>
 	<div itemprop="articleBody">
-		<ts:render path="main" />
+		<fusion:render path="main" />
 	</div>
 	<hr />
 	<div id="comments" class="comments">
@@ -51,7 +51,7 @@
 			<label for="comment.emailaddress"><f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate></label>
 			<f:form.textfield id="comment.emailaddress" property="emailAddress" />
 			<f:form.textarea id="comment.text" property="text" rows="10" cols="50"/>
-			<button class="secondary button">{f:translate(value: 'Submit', package: 'TYPO3.Flow')}</button>
+			<button class="secondary button">{f:translate(value: 'Submit', package: 'Neos.Flow')}</button>
 		</f:form>
 	</div>
 </article>

@@ -11,8 +11,8 @@ namespace RobertLemke\Plugin\Blog;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Aop\JoinPointInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Aop\JoinPointInterface;
 
 /**
  * Aspect for hotfixing rendering issues with XML content
@@ -27,7 +27,7 @@ class RenderingFixingAspect
      *
      * @param JoinPointInterface $joinPoint
      * @return string
-     * @Flow\Around("method(TYPO3\Neos\Service\ContentElementWrappingService->wrapContentObject())")
+     * @Flow\Around("method(Neos\Neos\Service\ContentElementWrappingService->wrapContentObject())")
      */
     public function preventContentElementWraps(JoinPointInterface $joinPoint)
     {
