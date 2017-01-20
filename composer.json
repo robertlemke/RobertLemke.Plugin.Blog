@@ -14,7 +14,7 @@
     "require": {
         "neos/neos": "~3.0",
         "robertlemke/akismet": "~2.0",
-        "robertlemke/rss": "~1.1",
+        "robertlemke/rss": "~2.0",
         "flownative/gravatar": "~2.0"
     },
     "suggest": {
