@@ -27,7 +27,7 @@
   name: 'Blog post pagination default'
   uriPattern:    '{node}'
   defaults:
-    '@package':    'TYPO3.Neos'
+    '@package':    'Neos.Neos'
     '@controller': 'Frontend\Node'
     '@format':     'html'
     '@action':     'show'
@@ -39,14 +39,14 @@
       'currentPage': '1'
   routeParts:
     node:
-      handler:    'TYPO3\Neos\Routing\FrontendNodeRoutePartHandler'
+      handler:    'Neos\Neos\Routing\FrontendNodeRoutePartHandler'
   appendExceedingArguments: true
 
 -
   name: 'Blog post pagination - page > 1'
   uriPattern:    '{node}/page/{--posts-paginator.currentPage}'
   defaults:
-    '@package':    'TYPO3.Neos'
+    '@package':    'Neos.Neos'
     '@controller': 'Frontend\Node'
     '@format':     'html'
     '@action':     'show'
@@ -57,17 +57,17 @@
       '@action': 'index'
   routeParts:
     node:
-      handler:    'TYPO3\Neos\Routing\FrontendNodeRoutePartHandler'
+      handler:    'Neos\Neos\Routing\FrontendNodeRoutePartHandler'
   appendExceedingArguments: true
 
 -
   name:          'RSS Feed special super extra workaround route (for until we can use different formats in plugins)'
   uriPattern:    '{node}.xml'
   defaults:
-    '@package':    'TYPO3.Neos'
+    '@package':    'Neos.Neos'
     '@controller': 'Frontend\Node'
     '@format':     'xml'
     '@action':     'show'
   routeParts:
     node:
-      handler:    'TYPO3\Neos\Routing\FrontendNodeRoutePartHandler'
+      handler:    'Neos\Neos\Routing\FrontendNodeRoutePartHandler'

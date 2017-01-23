@@ -11,8 +11,8 @@ namespace RobertLemke\Plugin\Blog;
  * source code.
  */
 
-use TYPO3\Flow\Core\Bootstrap;
-use TYPO3\Flow\Package\Package as BasePackage;
+use Neos\Flow\Core\Bootstrap;
+use Neos\Flow\Package\Package as BasePackage;
 
 /**
  * The Blog Package
@@ -20,7 +20,6 @@ use TYPO3\Flow\Package\Package as BasePackage;
  */
 class Package extends BasePackage
 {
-
     /**
      * Invokes custom PHP code directly after the package manager has been initialized.
      *
@@ -32,5 +31,4 @@ class Package extends BasePackage
         $dispatcher = $bootstrap->getSignalSlotDispatcher();
         $dispatcher->connect('RobertLemke\Plugin\Blog\Controller\CommentController', 'commentCreated', 'RobertLemke\Plugin\Blog\Service\NotificationService', 'sendNewCommentNotification');
     }
-
 }

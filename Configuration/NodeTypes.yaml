@@ -1,7 +1,7 @@
 
 'RobertLemke.Plugin.Blog:PostsOverview':
   superTypes:
-    'TYPO3.Neos:Content': true
+    'Neos.Neos:Content': true
   ui:
     group: blog
     label: 'Blog Posts Overview'
@@ -12,7 +12,7 @@
 
 'RobertLemke.Plugin.Blog:Post':
   superTypes:
-    'TYPO3.Neos:Document': true
+    'Neos.Neos:Document': true
   ui:
     label: 'Blog Post'
     group: blog
@@ -25,9 +25,9 @@
           label: 'More Info'
   childNodes:
     main:
-      type: 'TYPO3.Neos:ContentCollection'
+      type: 'Neos.Neos:ContentCollection'
     comments:
-      type: 'TYPO3.Neos:ContentCollection'
+      type: 'Neos.Neos:ContentCollection'
   properties:
     datePublished:
       type: DateTime
@@ -70,7 +70,7 @@
 
 'RobertLemke.Plugin.Blog:Comment':
   superTypes:
-    'TYPO3.Neos:Content': true
+    'Neos.Neos:Content': true
   ui:
     label: 'Blog Comment'
     group: blog
@@ -121,7 +121,7 @@
 
 'RobertLemke.Plugin.Blog:Category':
   superTypes:
-    'TYPO3.Neos:Document': true
+    'Neos.Neos:Document': true
   ui:
     label: 'Blog Category'
     group: blog
@@ -135,14 +135,14 @@
 
 'RobertLemke.Plugin.Blog:Tag':
   superTypes:
-    'TYPO3.Neos:Document': true
+    'Neos.Neos:Document': true
   ui:
     label: 'Blog Tag'
     group: blog
 
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
-    'TYPO3.Neos:Content': true
+    'Neos.Neos:Content': true
   ui:
     group: blog
     label: 'Blog Quote'

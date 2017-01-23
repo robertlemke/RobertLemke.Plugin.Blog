@@ -15,20 +15,20 @@ RobertLemke:
         title: 'The Neos Blog'
         description: 'A great, new - yet unconfigured - blog powered by Neos'
         uri: ''
-        includeContent: FALSE
+        includeContent: false
 
-TYPO3:
-  Neos:
-    typoScript:
-      autoInclude:
-        'RobertLemke.Plugin.Blog': TRUE
-
-    nodeTypes:
-      groups:
-        blog:
-          position: 'after plugins'
-          label: 'Blog'
+Neos:
   Flow:
     object:
       excludeClasses:
         'simplepie.simplepie': ['.*']
+
+  Neos:
+    nodeTypes:
+      groups:
+        blog:
+          position: 'after plugins'
+          label: Blog
+    fusion:
+      autoInclude:
+        RobertLemke.Plugin.Blog: true

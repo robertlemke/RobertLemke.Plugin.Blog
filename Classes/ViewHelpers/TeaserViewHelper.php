@@ -12,9 +12,9 @@ namespace RobertLemke\Plugin\Blog\ViewHelpers;
  */
 
 use RobertLemke\Plugin\Blog\Service\ContentService;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 
 /**
  * This view helper crops the text of a blog post in a meaningful way.
@@ -23,7 +23,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  */
 class TeaserViewHelper extends AbstractViewHelper
 {
-
     /**
      * @var boolean
      */

@@ -15,12 +15,12 @@ use RobertLemke\Plugin\Blog\Service\ContentService;
 use RobertLemke\Rss\Channel;
 use RobertLemke\Rss\Feed;
 use RobertLemke\Rss\Item;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\I18n\Service;
-use TYPO3\Flow\Mvc\Controller\ActionController;
-use TYPO3\Flow\Mvc\Routing\UriBuilder;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
-use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\I18n\Service;
+use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Mvc\Routing\UriBuilder;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
 
 /**
  * The posts controller for the Blog package
@@ -29,7 +29,6 @@ use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
  */
 class PostController extends ActionController
 {
-
     /**
      * @Flow\Inject
      * @var NodeTypeManager
@@ -75,7 +74,7 @@ class PostController extends ActionController
             $feedUri = $this->request->getInternalArgument('__feedUri');
         } else {
             $uriBuilder->setFormat('xml');
-            $feedUri = $uriBuilder->uriFor('show', array('node' => $rssDocumentNode), 'Frontend\Node', 'TYPO3.Neos');
+            $feedUri = $uriBuilder->uriFor('show', ['node' => $rssDocumentNode], 'Frontend\Node', 'Neos.Neos');
         }
 
         $channel = new Channel();
@@ -89,7 +88,7 @@ class PostController extends ActionController
         foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
 
             $uriBuilder->setFormat('html');
-            $postUri = $uriBuilder->uriFor('show', array('node' => $postNode), 'Frontend\Node', 'TYPO3.Neos');
+            $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'Neos.Neos');
 
             $item = new Item();
             $item->setTitle($postNode->getProperty('title'));
@@ -105,13 +104,13 @@ class PostController extends ActionController
             $item->setCreator($author);
 
             if ($postNode->getProperty('categories')) {
-                $categories = array();
+                $categories = [];
                 /** @var NodeInterface $categoryNode */
                 foreach ($postNode->getProperty('categories') as $categoryNode) {
-                    $categories[] = array(
+                    $categories[] = [
                         'category' => $categoryNode->getProperty('title'),
                         'domain' => $categoryNode->getProperty('domain')
-                    );
+                    ];
                 }
                 $item->setCategories($categories);
             }
@@ -135,5 +134,4 @@ class PostController extends ActionController
 
         return $feed->render();
     }
-
 }

@@ -1,6 +1,6 @@
 {
     "name": "robertlemke/plugin-blog",
-    "type": "typo3-flow-plugin",
+    "type": "neos-plugin",
     "description": "A blog plugin for Neos",
     "license": "MIT",
     "authors": [
@@ -12,21 +12,24 @@
         }
     ],
     "require": {
-        "typo3/neos": "~2.0",
-        "robertlemke/akismet": "~1.0",
-        "robertlemke/rss": "~1.1",
-        "flownative/gravatar": "~1.0"
+        "neos/neos": "~3.0",
+        "robertlemke/akismet": "~2.0",
+        "robertlemke/rss": "~2.0",
+        "flownative/gravatar": "~2.0"
     },
     "suggest": {
         "typo3/swiftmailer": "Allows sending notification emails on new comments",
         "simplepie/simplepie": "For using the built-in ATOM import"
     },
     "autoload": {
-        "psr-0": {
-            "RobertLemke\\Plugin\\Blog": "Classes"
+        "psr-4": {
+            "RobertLemke\\Plugin\\Blog\\": "Classes"
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-master": "3.0.x-dev"
+        },
         "applied-flow-migrations": [
             "TYPO3.Neos-20141218134700",
             "TYPO3.Flow-20141113121400",
@@ -56,7 +59,41 @@
             "TYPO3.Fluid-20141121091700",
             "TYPO3.Fluid-20150214130800",
             "TYPO3.Neos-20150303231600",
-            "TYPO3.TYPO3CR-20150510103823"
+            "TYPO3.TYPO3CR-20150510103823",
+            "TYPO3.Flow-20151113161300",
+            "TYPO3.Flow-20161115140400",
+            "TYPO3.Flow-20161115140430",
+            "Neos.Flow-20161124204700",
+            "Neos.Flow-20161124204701",
+            "Neos.Twitter.Bootstrap-20161124204912",
+            "Neos.Flow-20161124224015",
+            "Neos.Party-20161124225257",
+            "Neos.Eel-20161124230101",
+            "Neos.Setup-20161124230842",
+            "Neos.Imagine-20161124231742",
+            "Neos.Media-20161124233100",
+            "Neos.NodeTypes-20161125002300",
+            "Neos.Neos-20161125002322",
+            "Neos.ContentRepository-20161125012000",
+            "Neos.Fusion-20161125013710",
+            "Neos.Setup-20161125014759",
+            "Neos.Fusion-20161125104701",
+            "Neos.NodeTypes-20161125104800",
+            "Neos.Neos-20161125104802",
+            "Neos.Neos-20161125122412",
+            "Neos.Flow-20161125124112",
+            "Neos.SwiftMailer-20161130105617",
+            "TYPO3.FluidAdaptor-20161130112935",
+            "Neos.Fusion-20161201202543",
+            "Neos.Neos-20161201222211",
+            "Neos.Fusion-20161202215034",
+            "Neos.Fusion-20161219092345",
+            "Neos.ContentRepository-20161219093512",
+            "Neos.Media-20161219094126",
+            "Neos.Neos-20161219094403",
+            "Neos.Neos-20161219122512",
+            "Neos.Fusion-20161219130100",
+            "Neos.Neos-20161220163741"
         ]
     }
 }

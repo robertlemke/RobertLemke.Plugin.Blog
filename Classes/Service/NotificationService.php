@@ -11,10 +11,10 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Log\SystemLoggerInterface;
-use TYPO3\SwiftMailer\Message;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\SystemLoggerInterface;
+use Neos\SwiftMailer\Message;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 
 /**
  * A notification service
@@ -23,7 +23,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  */
 class NotificationService
 {
-
     /**
      * @var array
      */
@@ -57,17 +56,18 @@ class NotificationService
             return;
         }
 
-        if (!class_exists('TYPO3\SwiftMailer\Message')) {
-            $this->systemLogger->log('The package "TYPO3.SwiftMailer" is required to send notifications!');
+        if (!class_exists('Neos\SwiftMailer\Message')) {
+            $this->systemLogger->log('The package "Neos.SwiftMailer" is required to send notifications!');
+
             return;
         }
 
         try {
             $mail = new Message();
             $mail
-                ->setFrom(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
-                ->setReplyTo(array($commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')))
-                ->setTo(array($this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']))
+                ->setFrom([$this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']])
+                ->setReplyTo([$commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')])
+                ->setTo([$this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']])
                 ->setSubject('New comment on blog post "' . $postNode->getProperty('title') . '"' . ($commentNode->getProperty('spam') ? ' (SPAM)' : ''))
                 ->setBody($commentNode->getProperty('text'))
                 ->send();
@@ -75,5 +75,4 @@ class NotificationService
             $this->systemLogger->logException($e);
         }
     }
-
 }

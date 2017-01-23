@@ -11,14 +11,14 @@ namespace RobertLemke\Plugin\Blog\Command;
  * source code.
  */
 
-use TYPO3\Eel\FlowQuery\FlowQuery;
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Cli\CommandController;
-use TYPO3\Neos\Domain\Service\ContentContextFactory;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
-use TYPO3\TYPO3CR\Domain\Model\NodeTemplate;
-use TYPO3\TYPO3CR\Domain\Service\NodeTypeManager;
-use TYPO3\TYPO3CR\Utility;
+use Neos\Eel\FlowQuery\FlowQuery;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Cli\CommandController;
+use Neos\Neos\Domain\Service\ContentContextFactory;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\NodeTemplate;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\ContentRepository\Utility;
 
 /**
  * BlogCommand command controller for the RobertLemke.Plugin.Blog package
@@ -27,7 +27,6 @@ use TYPO3\TYPO3CR\Utility;
  */
 class AtomImportCommandController extends CommandController
 {
-
     /**
      * @Flow\Inject
      * @var NodeTypeManager
@@ -48,7 +47,7 @@ class AtomImportCommandController extends CommandController
     /**
      * @var array
      */
-    protected $tagNodes = array();
+    protected $tagNodes = [];
 
     /**
      * Imports atom data into the blog
@@ -79,11 +78,11 @@ class AtomImportCommandController extends CommandController
 
         $parser->set_raw_data(file_get_contents($atomFile));
         $parser->strip_attributes();
-        $parser->strip_htmltags(array_merge($parser->strip_htmltags, array('span')));
+        $parser->strip_htmltags(array_merge($parser->strip_htmltags, ['span']));
         $parser->init();
         $items = $parser->get_items();
 
-        $comments = array();
+        $comments = [];
         /** @var $item \SimplePie_Item */
         foreach ($items as $item) {
             $categories = $item->get_categories();
@@ -102,7 +101,7 @@ class AtomImportCommandController extends CommandController
             }
         }
 
-        $textNodeType = $this->nodeTypeManager->getNodeType('TYPO3.Neos.NodeTypes:Text');
+        $textNodeType = $this->nodeTypeManager->getNodeType('Neos.NodeTypes:Text');
         $commentNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Comment');
         $counter = 0;
         foreach ($parser->get_items() as $item) {
@@ -111,7 +110,7 @@ class AtomImportCommandController extends CommandController
                 continue;
             }
 
-            $tags = array();
+            $tags = [];
             $itemIsPost = false;
             foreach ($categories as $category) {
                 if ($category->get_term() === 'http://schemas.google.com/blogger/2008/kind#post') {
@@ -134,13 +133,13 @@ class AtomImportCommandController extends CommandController
             $nodeTemplate->setProperty('datePublished', $published);
             $nodeTemplate->setProperty('tags', $this->getTagNodes($tags));
 
-            $slug = strtolower(str_replace(array(' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''), array('-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''), $item->get_title()));
+            $slug = strtolower(str_replace([' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''], ['-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''], $item->get_title()));
             /** @var NodeInterface $postNode */
             $postNode = $this->blogNode->createNodeFromTemplate($nodeTemplate, $slug);
             $postNode->getNode('main')->createNode(uniqid('node'), $textNodeType)->setProperty('text', $item->get_content());
 
-            $postComments = isset($comments[$item->get_id()]) ? $comments[$item->get_id()] : array();
-            if ($postComments !== array()) {
+            $postComments = isset($comments[$item->get_id()]) ? $comments[$item->get_id()] : [];
+            if ($postComments !== []) {
                 /** @var NodeInterface $commentsNode */
                 $commentsNode = $postNode->getNode('comments');
                 /** @var $postComment \SimplePie_Item */
@@ -165,15 +164,16 @@ class AtomImportCommandController extends CommandController
             $this->outputLine($postNode->getProperty('title') . ' by ' . $postNode->getProperty('author'));
         }
 
-        $this->outputLine('Imported %s blog posts.', array($counter));
+        $this->outputLine('Imported %s blog posts.', [$counter]);
     }
 
     /**
      * @param array $tags
      * @return array<NodeInterface>
      */
-    protected function getTagNodes(array $tags) {
-        $tagNodes = array();
+    protected function getTagNodes(array $tags)
+    {
+        $tagNodes = [];
 
         foreach ($tags as $tag) {
             if (!isset($this->tagNodes[$tag])) {

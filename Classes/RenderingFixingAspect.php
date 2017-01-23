@@ -11,8 +11,8 @@ namespace RobertLemke\Plugin\Blog;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Aop\JoinPointInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Aop\JoinPointInterface;
 
 /**
  * Aspect for hotfixing rendering issues with XML content
@@ -22,13 +22,12 @@ use TYPO3\Flow\Aop\JoinPointInterface;
  */
 class RenderingFixingAspect
 {
-
     /**
      * Makes sure that XML content (such as the RSS feed) is not wrapped with divs.
      *
      * @param JoinPointInterface $joinPoint
      * @return string
-     * @Flow\Around("method(TYPO3\Neos\Service\ContentElementWrappingService->wrapContentObject())")
+     * @Flow\Around("method(Neos\Neos\Service\ContentElementWrappingService->wrapContentObject())")
      */
     public function preventContentElementWraps(JoinPointInterface $joinPoint)
     {
@@ -39,5 +38,4 @@ class RenderingFixingAspect
 
         return $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
-
 }

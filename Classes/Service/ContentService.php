@@ -11,9 +11,9 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
-use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Resource\ResourceManager;
-use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\ResourceManagement\ResourceManager;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 
 /**
  * A service which can render specific views of blog related content
@@ -22,7 +22,6 @@ use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
  */
 class ContentService
 {
-
     /**
      * @Flow\Inject
      * @var ResourceManager
@@ -31,7 +30,7 @@ class ContentService
 
     /**
      * Renders a teaser text with up to $maximumLength characters, with an outermost <p> and some more tags removed,
-     * from the given Node (fetches the first TYPO3.Neos.NodeTypes:Text childNode as a base).
+     * from the given Node (fetches the first Neos.NodeTypes:Text childNode as a base).
      *
      * If '<!-- read more -->' is found, the teaser will be the preceding content and $maximumLength is ignored.
      *
@@ -44,7 +43,7 @@ class ContentService
         $stringToTruncate = '';
 
         /** @var NodeInterface $contentNode */
-        foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos.NodeTypes:Text') as $contentNode) {
+        foreach ($node->getNode('main')->getChildNodes('Neos.NodeTypes:Text') as $contentNode) {
             foreach ($contentNode->getProperties() as $propertyValue) {
                 if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
                     $stringToTruncate .= $propertyValue;
@@ -79,23 +78,23 @@ class ContentService
         $content = '';
 
         /** @var NodeInterface $contentNode */
-        foreach ($node->getNode('main')->getChildNodes('TYPO3.Neos:Content') as $contentNode) {
-            if ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:TextWithImage')) {
+        foreach ($node->getNode('main')->getChildNodes('Neos.Neos:Content') as $contentNode) {
+            if ($contentNode->getNodeType()->isOfType('Neos.NodeTypes:TextWithImage')) {
                 $propertyValue = $contentNode->getProperty('image');
-                $attributes = array(
+                $attributes = [
                     'width="' . $propertyValue->getWidth() . '"',
                     'height="' . $propertyValue->getHeight() . '"',
                     'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
-                );
+                ];
                 $content .= $contentNode->getProperty('text');
                 $content .= '<img ' . implode(' ', $attributes) . '/>';
-            } elseif ($contentNode->getNodeType()->isOfType('TYPO3.Neos.NodeTypes:Image')) {
+            } elseif ($contentNode->getNodeType()->isOfType('Neos.NodeTypes:Image')) {
                 $propertyValue = $contentNode->getProperty('image');
-                $attributes = array(
+                $attributes = [
                     'width="' . $propertyValue->getWidth() . '"',
                     'height="' . $propertyValue->getHeight() . '"',
                     'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
-                );
+                ];
                 $content .= '<img ' . implode(' ', $attributes) . '/>';
             } else {
                 foreach ($contentNode->getProperties() as $propertyValue) {
