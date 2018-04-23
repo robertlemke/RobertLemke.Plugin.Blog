@@ -25,13 +25,13 @@
 		<h1 itemprop="name headline"><neos:contentElement.editable tag="span" property="title">{title}</neos:contentElement.editable></h1>
 		<div class="byline">
 			by
-			<span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{node.properties.author}</span></span>
+			<span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{author}</span></span>
 			on
-			<time datetime="{f:format.date(date: node.properties.datePublished, format: 'c')}" itemprop="datePublished"><f:format.date format="F jS, Y">{node.properties.datePublished}</f:format.date></time>
+			<time datetime="{f:format.date(date: datePublished, format: 'c')}" itemprop="datePublished"><f:format.date format="F jS, Y">{datePublished}</f:format.date></time>
 		</div><br />
 	</header>
 	<div itemprop="articleBody">
-		<fusion:render path="main" />
+		{main -> f:format.raw()}
 	</div>
 	<hr />
 	<div id="comments" class="comments">

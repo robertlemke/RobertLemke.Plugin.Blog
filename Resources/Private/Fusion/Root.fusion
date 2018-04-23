@@ -1,27 +1,7 @@
 #
-# Add the paginator's "current page" value to cache entry identifiers in cache layers above the blog posts index.
-# Depending on your actual page structure you will have to add this identifier part to further TypoScript object
-# cache configurations.
+# Add the paginator's "current page" value to cache entry identifiers.
 #
-root.@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
-
-prototype(Neos.Neos:Page) {
-	@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
-}
-
-prototype(Neos.Neos:PrimaryContent).default {
-	renderer.@cache.entryIdentifier.blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
-}
-
-#
-# Add a new matcher to the rendering of the main content (PrimaryContent) to check if the current node
-# is a blog post document. In this case we don't render a ContentCollection like the default matcher
-# but render the blog post TypoScript object.
-#
-prototype(Neos.Neos:PrimaryContent).blogPost {
-	condition = ${q(documentNode).is('[instanceof RobertLemke.Plugin.Blog:Post]')}
-	type = 'RobertLemke.Plugin.Blog:Post'
-}
+prototype(Neos.Fusion:GlobalCacheIdentifiers).blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}
 
 #
 # Blog Post is rendered by a Template-based TypoScript object which contains some
@@ -36,80 +16,81 @@ prototype(Neos.Neos:PrimaryContent).blogPost {
 # The blog post comments are just several Text nodes which are as well rendered
 # through the TypoScript collection feature.
 #
-prototype(RobertLemke.Plugin.Blog:Post) < prototype(Neos.Neos:Content) {
-	node = ${node}
-
-	# Render the main ContentCollection of the Post like a page would
-	main = Neos.Neos:ContentCollection {
-		nodePath = 'main'
-	}
-
-	# Render an additional ContentCollection for comments
-	comments = Neos.Neos:ContentCollection {
-		nodePath = 'comments'
-	}
-
-	numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
-
-	@cache {
-		mode = 'cached'
-		entryIdentifier {
-			node = ${node}
-			content = 'blogpost'
-		}
-		entryTags {
-			1 = ${'Node_' + node.identifier}
-			2 = ${'DescendantOf_' + q(node).find('main').property('_identifier')}
-			3 = ${'DescendantOf_' + q(node).find('comments').property('_identifier')}
-		}
-	}
+prototype(RobertLemke.Plugin.Blog:Post) < prototype(Neos.NodeTypes:Page) {
+    body.content.main = RobertLemke.Plugin.Blog:PostRenderer
 }
 
-#
-# Blog Comment is rendered by a vanilla Template-based TypoScript object
-#
-prototype(RobertLemke.Plugin.Blog:Comment) {
+prototype(RobertLemke.Plugin.Blog:PostRenderer) < prototype(Neos.Fusion:Template) {
+    templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/NodeTypes/Post.html'
+    node = ${node}
+    title = ${q(node).property('title')}
+    author = ${q(node).property('author')}
+    datePublished = ${q(node).property('datePublished')}
+
+    # Render the main ContentCollection of the Post like a page would
+    main = Neos.Neos:ContentCollection {
+        nodePath = 'main'
+    }
+
+    # Render an additional ContentCollection for comments
+    comments = Neos.Neos:ContentCollection {
+        nodePath = 'comments'
+    }
+
+    numberOfComments = ${q(node).children('comments').children('[spam = false]').count()}
+
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            node = ${node}
+            content = 'blogpost'
+        }
+        entryTags {
+            1 = ${'Node_' + node.identifier}
+            2 = ${'DescendantOf_' + q(node).find('main').property('_identifier')}
+            3 = ${'DescendantOf_' + q(node).find('comments').property('_identifier')}
+        }
+    }
 }
 
 #
 # List of most recent blog posts, including pagination
 #
 prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(Neos.Neos:Content) {
-	hasPostNodes = true
-	postsNode = ${q(node).closest('[instanceof Neos.Neos:Document]').get(0)}
-	currentPage = ${request.pluginArguments.posts-paginator.currentPage}
+    postsNode = ${q(node).closest('[instanceof Neos.Neos:Document]').get(0)}
+    currentPage = ${request.pluginArguments.posts-paginator.currentPage}
 
-	@cache {
-		mode = 'cached'
-		entryIdentifier {
-			documentNode = ${node}
-			currentPage = ${request.pluginArguments.posts-paginator.currentPage}
-		}
-		entryTags {
-			1 = ${'Node_' + node.identifier}
-			2 = ${'DescendantOf_' + q(node).property('_identifier')}
-		}
-	}
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            documentNode = ${node}
+            currentPage = ${request.pluginArguments.posts-paginator.currentPage}
+        }
+        entryTags {
+            1 = ${'Node_' + node.identifier}
+            2 = ${'DescendantOf_' + q(node).property('_identifier')}
+        }
+    }
 }
 
 #
 # RSS feed
 #
 prototype(RobertLemke.Plugin.Blog:Feed) < prototype(Neos.Neos:Plugin) {
-	package = 'RobertLemke.Plugin.Blog'
-	controller = 'Post'
-	action = 'rss'
+    package = 'RobertLemke.Plugin.Blog'
+    controller = 'Post'
+    action = 'rss'
 
-	postsNode = ${q(documentNode).parent().get(0)}
+    postsNode = ${q(documentNode).parent().get(0)}
 
-	feedTitle = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.title')}
-	feedDescription = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.description')}
-	feedUri = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.uri')}
-	includeContent = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.includeContent')}
+    feedTitle = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.title')}
+    feedDescription = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.description')}
+    feedUri = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.uri')}
+    includeContent = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.includeContent')}
 }
 
 #
 # Quote is a straight-forward content type
 #
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(Neos.Neos:Content) {
-}
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(Neos.Neos:Content)
+
