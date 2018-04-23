@@ -16,7 +16,7 @@
   ui:
     label: 'Blog Post'
     group: blog
-    icon: icon-file-text
+    icon: 'icon-file-text'
     inspector:
       groups:
         page:
@@ -125,6 +125,7 @@
   ui:
     label: 'Blog Category'
     group: blog
+    icon: 'icon-folder-close'
   properties:
     domain:
       type: string
@@ -139,6 +140,7 @@
   ui:
     label: 'Blog Tag'
     group: blog
+    icon: 'icon-tag'
 
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
