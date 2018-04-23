@@ -19,9 +19,9 @@ RobertLemke:
 
 Neos:
   Flow:
-    object:
-      excludeClasses:
-        'simplepie.simplepie': ['.*']
+    mvc:
+      routes:
+        'RobertLemke.Plugin.Blog': true
 
   Neos:
     nodeTypes:
