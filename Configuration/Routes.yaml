@@ -36,11 +36,10 @@
       '@subpackage': ''
       '@controller': ''
       '@action': 'index'
-      'currentPage': '1'
+      '@format': 'html'
   routeParts:
     node:
       handler:    'Neos\Neos\Routing\FrontendNodeRoutePartHandler'
-  appendExceedingArguments: true
 
 -
   name: 'Blog post pagination - page > 1'
@@ -55,10 +54,10 @@
       '@subpackage': ''
       '@controller': ''
       '@action': 'index'
+      '@format': 'html'
   routeParts:
     node:
       handler:    'Neos\Neos\Routing\FrontendNodeRoutePartHandler'
-  appendExceedingArguments: true
 
 -
   name:          'RSS Feed special super extra workaround route (for until we can use different formats in plugins)'

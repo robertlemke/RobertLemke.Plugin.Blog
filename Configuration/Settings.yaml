@@ -21,7 +21,8 @@ Neos:
   Flow:
     mvc:
       routes:
-        'RobertLemke.Plugin.Blog': true
+        'RobertLemke.Plugin.Blog':
+          position: 'before Neos.Neos'
 
   Neos:
     nodeTypes:
