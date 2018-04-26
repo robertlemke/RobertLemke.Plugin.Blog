@@ -23,30 +23,23 @@
 	});
 </script>
 <div class="robertlemke-plugin-blog" id="scrolling-container">
-	<f:if condition="{hasPostNodes}">
-		<f:then>
-			<cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
-				<ol class="posts">
-					<f:for each="{paginatedPosts}" as="post">
-						<li class="post">
-							<h2>
-								<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
-								<f:if condition="{post.removed}"> (removed)</f:if>
-							</h2>
-							<p class="content">
-								<neos:link.node node="{post}" class="invisible-link">
-									<blog:teaser node="{post}"/>
-								</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate package="RobertLemke.Plugin.Blog">Read more</f:translate></neos:link.node>
-							</p>
-						</li>
-						<hr/>
-					</f:for>
-				</ol>
-				{pagination.numberOfPages}
-			</cr:widget.paginate>
-		</f:then>
-		<f:else>
-			<p><f:translate package="RobertLemke.Plugin.Blog">This blog currently doesn't contain any posts.</f:translate></p>
-		</f:else>
-	</f:if>
+	<cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+		<ol class="posts">
+			<f:for each="{paginatedPosts}" as="post">
+				<li class="post">
+					<h2>
+						<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
+						<f:if condition="{post.removed}"> (removed)</f:if>
+					</h2>
+					<p class="content">
+						<neos:link.node node="{post}" class="invisible-link">
+							<blog:teaser node="{post}"/>
+						</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate package="RobertLemke.Plugin.Blog">Read more</f:translate></neos:link.node>
+					</p>
+				</li>
+				<hr/>
+			</f:for>
+		</ol>
+		{pagination.numberOfPages}
+	</cr:widget.paginate>
 </div>

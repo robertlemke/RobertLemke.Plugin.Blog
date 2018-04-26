@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "neos/neos": "~3.0",
+        "neos/neos": "~4.0",
         "robertlemke/akismet": "~2.0",
         "robertlemke/rss": "~2.0",
         "flownative/gravatar": "~2.0"
@@ -93,7 +93,21 @@
             "Neos.Neos-20161219094403",
             "Neos.Neos-20161219122512",
             "Neos.Fusion-20161219130100",
-            "Neos.Neos-20161220163741"
+            "Neos.Neos-20161220163741",
+            "TYPO3.Form-20160601101500",
+            "Neos.Form-20161124205254",
+            "Neos.Kickstart-20161124230102",
+            "Neos.SiteKickstarter-20161125002311",
+            "Neos.SiteKickstarter-20161125095901",
+            "Neos.Kickstarter-20161125110814",
+            "Neos.Neos-20170115114620",
+            "Neos.Fusion-20170120013047",
+            "Neos.Flow-20170125103800",
+            "Neos.Seo-20170127154600",
+            "Neos.Flow-20170127183102",
+            "Neos.Fusion-20180211175500",
+            "Neos.Fusion-20180211184832",
+            "Neos.Flow-20180415105700"
         ]
     }
 }
