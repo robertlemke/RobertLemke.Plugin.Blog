@@ -46,9 +46,13 @@
 		<f:render partial="FormErrors" arguments="{for: 'newComment'}" />
 		<f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment" id="newCommentForm">
 			<f:form.hidden name="postNode" value="{node.path}" />
-			<label for="comment.author"><f:translate package="RobertLemke.Plugin.Blog">Name <span class="required">*</span></f:translate></label>
+			<label for="comment.author"><f:format.raw>
+				<f:translate package="RobertLemke.Plugin.Blog">Name <span class="required">*</span></f:translate>
+			</f:format.raw></label>
 			<f:form.textfield id="comment.author" property="author" />
-			<label for="comment.emailaddress"><f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate></label>
+			<label for="comment.emailaddress"><f:format.raw>
+					<f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate>
+			</f:format.raw></label>
 			<f:form.textfield id="comment.emailaddress" property="emailAddress" />
 			<f:form.textarea id="comment.text" property="text" rows="10" cols="50"/>
 			<button class="secondary button">{f:translate(value: 'Submit', package: 'Neos.Flow')}</button>
