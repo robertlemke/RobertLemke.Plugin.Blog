@@ -84,6 +84,16 @@ prototype(RobertLemke.Plugin.Blog:Category) < prototype(Neos.NodeTypes:Page) {
 }
 
 #
+# List posts in tag, including pagination
+#
+prototype(RobertLemke.Plugin.Blog:Tag) < prototype(Neos.NodeTypes:Page) {
+    body.content.main = RobertLemke.Plugin.Blog:PostsOverview {
+        postsNode >
+        postNodes = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Post]').filterByReference('tags', documentNode).get()}
+    }
+}
+
+#
 # RSS feed
 #
 prototype(RobertLemke.Plugin.Blog:Feed) < prototype(Neos.Neos:Plugin) {
