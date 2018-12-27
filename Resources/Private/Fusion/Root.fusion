@@ -73,10 +73,13 @@ prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(Neos.Neos:Content) 
     }
 }
 
+#
+# List posts in category, including pagination
+#
 prototype(RobertLemke.Plugin.Blog:Category) < prototype(Neos.NodeTypes:Page) {
     body.content.main = RobertLemke.Plugin.Blog:PostsOverview {
-        templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/NodeTypes/SpecifiedPostsOverview.html'
-        posts = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Post]').filterByReference('categories', documentNode).get()}
+        postsNode >
+        postNodes = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Post]').filterByReference('categories', documentNode).get()}
     }
 }
 
