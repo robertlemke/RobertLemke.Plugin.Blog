@@ -29,14 +29,13 @@
             by
             <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{author}</span></span>
             on
-            <time datetime="{f:format.date(date: datePublished, format: 'c')}" itemprop="datePublished">
-                <f:format.date format="F jS, Y">{datePublished}</f:format.date>
+            <time datetime="{f:format.date(date: datePublished, format: 'c')}" itemprop="datePublished">{f:format.date(date: datePublished, format: 'F jS, Y')}
             </time>
         </div>
         <br/>
     </header>
     <div itemprop="articleBody">
-        {main -> f:format.raw()}
+        <fusion:render path="main"/>
     </div>
     <hr/>
     <div id="comments" class="comments">
@@ -45,7 +44,7 @@
                 <f:translate package="RobertLemke.Plugin.Blog">Comments</f:translate>
             </h3>
             <ol class="commentlist">
-                {comments -> f:format.raw()}
+                <fusion:render path="comments"/>
             </ol>
             <div class="clear"></div>
         </f:if>
