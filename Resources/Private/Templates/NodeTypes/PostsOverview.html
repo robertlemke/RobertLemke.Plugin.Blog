@@ -23,23 +23,38 @@
 	});
 </script>
 <div class="robertlemke-plugin-blog" id="scrolling-container">
-	<cr:widget.paginate widgetId="posts-paginator" parentNode="{postsNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
-		<ol class="posts">
-			<f:for each="{paginatedPosts}" as="post">
-				<li class="post">
-					<h2>
-						<neos:link.node node="{post}">{post.properties.title}</neos:link.node>
-						<f:if condition="{post.removed}"> (removed)</f:if>
-					</h2>
-					<p class="content">
-						<neos:link.node node="{post}" class="invisible-link">
-							<blog:teaser node="{post}"/>
-						</neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate package="RobertLemke.Plugin.Blog">Read more</f:translate></neos:link.node>
-					</p>
-				</li>
-				<hr/>
-			</f:for>
-		</ol>
-		{pagination.numberOfPages}
-	</cr:widget.paginate>
+    <f:if condition="{postsNode}"><f:render section="fromParentNode" arguments="{parentNode: postsNode}"/></f:if>
+    <f:if condition="{postNodes}"><f:render section="fromNodes" arguments="{nodes: postNodes}"/></f:if>
 </div>
+
+<f:section name="fromParentNode">
+    <cr:widget.paginate widgetId="posts-paginator" parentNode="{parentNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+        <f:render section="paginatedPosts" arguments="{paginatedPosts: paginatedPosts}"/>
+    </cr:widget.paginate>
+</f:section>
+
+<f:section name="fromNodes">
+    <cr:widget.paginate widgetId="posts-paginator" nodes="{nodes}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+        <f:render section="paginatedPosts" arguments="{paginatedPosts: paginatedPosts}"/>
+    </cr:widget.paginate>
+</f:section>
+
+<f:section name="paginatedPosts">
+    <ol class="posts">
+        <f:for each="{paginatedPosts}" as="post">
+            <li class="post">
+                <h2>
+                    <neos:link.node node="{post}">{post.properties.title}</neos:link.node>
+                    <f:if condition="{post.removed}"> (removed)</f:if>
+                </h2>
+                <p class="content">
+                    <neos:link.node node="{post}" class="invisible-link">
+                        <blog:teaser node="{post}"/>
+                    </neos:link.node> <neos:link.node node="{post}" class="read-more"><f:translate package="RobertLemke.Plugin.Blog">Read more</f:translate></neos:link.node>
+                </p>
+            </li>
+            <hr/>
+        </f:for>
+    </ol>
+    {pagination.numberOfPages}
+</f:section>
