@@ -2,60 +2,73 @@
 {namespace fusion=Neos\Fusion\ViewHelpers}
 <script src="../../../Public/JavaScript/jquery-1.10.2.min.js"></script>
 <script>
-	$(function() {
-		$('#newCommentForm').submit(function(event) {
-			var form = $(this);
-			$.ajax({
-				type: form.attr('method'),
-				url: form.attr('action'),
-				data: form.serialize()
-			}).done(function(result) {
-				alert(result);
-				location.reload(true);
-			}).fail(function(result) {
-				alert(result.responseText.substring(4));
-			});
-			event.preventDefault();
-		});
-	});
+    $(function () {
+        $('#newCommentForm').submit(function (event) {
+            var form = $(this);
+            $.ajax({
+                type: form.attr('method'),
+                url: form.attr('action'),
+                data: form.serialize()
+            }).done(function (result) {
+                alert(result);
+                location.reload(true);
+            }).fail(function (result) {
+                alert(result.responseText.substring(4));
+            });
+            event.preventDefault();
+        });
+    });
 </script>
 <article itemscope="" itemtype="http://schema.org/Article" class="robertlemke-plugin-blog" xmlns:f="http://www.w3.org/1999/html">
-	<f:flashMessages class="flashmessages" />
-	<header>
-		<h1 itemprop="name headline"><neos:contentElement.editable tag="span" property="title">{title}</neos:contentElement.editable></h1>
-		<div class="byline">
-			by
-			<span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{author}</span></span>
-			on
-			<time datetime="{f:format.date(date: datePublished, format: 'c')}" itemprop="datePublished"><f:format.date format="F jS, Y">{datePublished}</f:format.date></time>
-		</div><br />
-	</header>
-	<div itemprop="articleBody">
-		{main -> f:format.raw()}
-	</div>
-	<hr />
-	<div id="comments" class="comments">
-		<f:if condition="{numberOfComments}">
-			<h3><f:translate package="RobertLemke.Plugin.Blog">Comments</f:translate></h3>
-			<ol class="commentlist">
-				{comments -> f:format.raw()}
-			</ol>
-			<div class="clear"></div>
-		</f:if>
-		<h3><f:translate package="RobertLemke.Plugin.Blog">Leave a reply</f:translate></h3>
-		<f:render partial="FormErrors" arguments="{for: 'newComment'}" />
-		<f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment" id="newCommentForm">
-			<f:form.hidden name="postNode" value="{node.path}" />
-			<label for="comment.author"><f:format.raw>
-				<f:translate package="RobertLemke.Plugin.Blog">Name <span class="required">*</span></f:translate>
-			</f:format.raw></label>
-			<f:form.textfield id="comment.author" property="author" />
-			<label for="comment.emailaddress"><f:format.raw>
-					<f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate>
-			</f:format.raw></label>
-			<f:form.textfield id="comment.emailaddress" property="emailAddress" />
-			<f:form.textarea id="comment.text" property="text" rows="10" cols="50"/>
-			<button class="secondary button">{f:translate(value: 'Submit', package: 'Neos.Flow')}</button>
-		</f:form>
-	</div>
+    <f:flashMessages class="flashmessages"/>
+    <header>
+        <h1 itemprop="name headline">
+            <neos:contentElement.editable tag="span" property="title">{title}</neos:contentElement.editable>
+        </h1>
+        <div class="byline">
+            by
+            <span itemprop="author" itemscope="" itemtype="http://schema.org/Person"><span itemprop="name">{author}</span></span>
+            on
+            <time datetime="{f:format.date(date: datePublished, format: 'c')}" itemprop="datePublished">
+                <f:format.date format="F jS, Y">{datePublished}</f:format.date>
+            </time>
+        </div>
+        <br/>
+    </header>
+    <div itemprop="articleBody">
+        {main -> f:format.raw()}
+    </div>
+    <hr/>
+    <div id="comments" class="comments">
+        <f:if condition="{numberOfComments}">
+            <h3>
+                <f:translate package="RobertLemke.Plugin.Blog">Comments</f:translate>
+            </h3>
+            <ol class="commentlist">
+                {comments -> f:format.raw()}
+            </ol>
+            <div class="clear"></div>
+        </f:if>
+        <h3>
+            <f:translate package="RobertLemke.Plugin.Blog">Leave a reply</f:translate>
+        </h3>
+        <f:render partial="FormErrors" arguments="{for: 'newComment'}"/>
+        <f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment" id="newCommentForm">
+            <f:form.hidden name="postNode" value="{node.path}"/>
+            <label for="comment.author">
+                <f:format.raw>
+                    <f:translate package="RobertLemke.Plugin.Blog">Name <span class="required">*</span></f:translate>
+                </f:format.raw>
+            </label>
+            <f:form.textfield id="comment.author" property="author"/>
+            <label for="comment.emailaddress">
+                <f:format.raw>
+                    <f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate>
+                </f:format.raw>
+            </label>
+            <f:form.textfield id="comment.emailaddress" property="emailAddress"/>
+            <f:form.textarea id="comment.text" property="text" rows="10" cols="50"/>
+            <button class="secondary button">{f:translate(value: 'Submit', package: 'Neos.Flow')}</button>
+        </f:form>
+    </div>
 </article>

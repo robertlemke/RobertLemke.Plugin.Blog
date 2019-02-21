@@ -1,11 +1,14 @@
 {namespace neos=Neos\Neos\ViewHelpers}
 {namespace gravatar=Flownative\Gravatar\ViewHelpers}
 <f:if condition="{spam} != {true}">
-	<li class="comment">
-		<p class="metadata">
-		<strong>{author}</strong> | <f:format.date format='d.m.Y'>{datePublished}</f:format.date>
-		</p>
-		<gravatar:gravatar email="{emailAddress}" default="{f:uri.resource(package:'RobertLemke.Plugin.Blog', path:'Icons/GravatarDefault.png')}" size="60" class="gravatar" />
-		<p class="content"><neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br() -> f:format.raw()}</neos:contentElement.editable></p>
-	</li>
+    <li class="comment">
+        <p class="metadata">
+            <strong>{author}</strong> |
+            <f:format.date format='d.m.Y'>{datePublished}</f:format.date>
+        </p>
+        <gravatar:gravatar class="gravatar" default="{f:uri.resource(package:'RobertLemke.Plugin.Blog', path:'Icons/GravatarDefault.png')}" email="{emailAddress}" size="60"/>
+        <p class="content">
+            <neos:contentElement.editable property="text" tag="span">{text -> f:format.nl2br() -> f:format.raw()}</neos:contentElement.editable>
+        </p>
+    </li>
 </f:if>

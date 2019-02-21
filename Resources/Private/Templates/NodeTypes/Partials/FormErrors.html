@@ -1,14 +1,14 @@
 <f:validation.results for="{for}">
-	<f:if condition="{validationResults.flattenedErrors}">
-		<dl class="errors">
-			<f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
-				<dt>
-					{propertyPath}:
-				</dt>
-				<dd>
-					<f:for each="{errors}" as="error">{error}</f:for>
-				</dd>
-			</f:for>
-		</dl>
-	</f:if>
+    <f:if condition="{validationResults.flattenedErrors}">
+        <dl class="errors">
+            <f:for as="errors" each="{validationResults.flattenedErrors}" key="propertyPath">
+                <dt>
+                    {propertyPath}:
+                </dt>
+                <dd>
+                    <f:for as="error" each="{errors}">{error}</f:for>
+                </dd>
+            </f:for>
+        </dl>
+    </f:if>
 </f:validation.results>
