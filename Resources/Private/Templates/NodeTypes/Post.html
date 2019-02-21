@@ -37,37 +37,4 @@
     <div itemprop="articleBody">
         <fusion:render path="main"/>
     </div>
-    <hr/>
-    <div id="comments" class="comments">
-        <f:if condition="{numberOfComments}">
-            <h3>
-                <f:translate package="RobertLemke.Plugin.Blog">Comments</f:translate>
-            </h3>
-            <ol class="commentlist">
-                <fusion:render path="comments"/>
-            </ol>
-            <div class="clear"></div>
-        </f:if>
-        <h3>
-            <f:translate package="RobertLemke.Plugin.Blog">Leave a reply</f:translate>
-        </h3>
-        <f:render partial="FormErrors" arguments="{for: 'newComment'}"/>
-        <f:form action="create" controller="Comment" package="RobertLemke.Plugin.Blog" object="{newComment}" name="newComment" class="newcomment" id="newCommentForm">
-            <f:form.hidden name="postNode" value="{node.path}"/>
-            <label for="comment.author">
-                <f:format.raw>
-                    <f:translate package="RobertLemke.Plugin.Blog">Name <span class="required">*</span></f:translate>
-                </f:format.raw>
-            </label>
-            <f:form.textfield id="comment.author" property="author"/>
-            <label for="comment.emailaddress">
-                <f:format.raw>
-                    <f:translate package="RobertLemke.Plugin.Blog">Email <span class="required">*</span> (won't be displayed)</f:translate>
-                </f:format.raw>
-            </label>
-            <f:form.textfield id="comment.emailaddress" property="emailAddress"/>
-            <f:form.textarea id="comment.text" property="text" rows="10" cols="50"/>
-            <button class="secondary button">{f:translate(value: 'Submit', package: 'Neos.Flow')}</button>
-        </f:form>
-    </div>
 </article>
