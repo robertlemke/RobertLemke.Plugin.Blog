@@ -12,9 +12,11 @@ namespace RobertLemke\Plugin\Blog\Service;
  */
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
+use Neos\Flow\Log\ThrowableStorageInterface;
+use Neos\Flow\Log\Utility\LogEnvironment;
 use Neos\SwiftMailer\Message;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * A notification service
@@ -30,9 +32,15 @@ class NotificationService
 
     /**
      * @Flow\Inject
-     * @var SystemLoggerInterface
+     * @var ThrowableStorageInterface
      */
-    protected $systemLogger;
+    protected $throwableStorage;
+
+    /**
+     * @Flow\Inject
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * @param array $settings
@@ -57,7 +65,7 @@ class NotificationService
         }
 
         if (!class_exists('Neos\SwiftMailer\Message')) {
-            $this->systemLogger->log('The package "Neos.SwiftMailer" is required to send notifications!');
+            $this->logger->info('The package "Neos.SwiftMailer" is required to send notifications!', LogEnvironment::fromMethodName(__METHOD__));
 
             return;
         }
@@ -72,7 +80,8 @@ class NotificationService
                 ->setBody($commentNode->getProperty('text'))
                 ->send();
         } catch (\Exception $e) {
-            $this->systemLogger->logException($e);
+            $message = $this->throwableStorage->logThrowable($e);
+            $this->logger->error($message, LogEnvironment::fromMethodName(__METHOD__));
         }
     }
 }
