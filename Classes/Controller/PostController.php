@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Controller;
 
 /*
@@ -11,16 +13,18 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\ContentRepository\Exception\NodeException;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\I18n\Service;
+use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
+use Neos\Flow\Mvc\Routing\UriBuilder;
 use RobertLemke\Plugin\Blog\Service\ContentService;
 use RobertLemke\Rss\Channel;
 use RobertLemke\Rss\Feed;
 use RobertLemke\Rss\Item;
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\I18n\Service;
-use Neos\Flow\Mvc\Controller\ActionController;
-use Neos\Flow\Mvc\Routing\UriBuilder;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\Service\NodeTypeManager;
 
 /**
  * The posts controller for the Blog package
@@ -51,8 +55,10 @@ class PostController extends ActionController
      * Renders an RSS feed
      *
      * @return string
+     * @throws NodeException
+     * @throws MissingActionNameException
      */
-    public function rssAction()
+    public function rssAction(): string
     {
         $rssDocumentNode = $this->request->getInternalArgument('__documentNode');
         if ($rssDocumentNode === null) {
@@ -86,7 +92,6 @@ class PostController extends ActionController
 
         /* @var $postNode NodeInterface */
         foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
-
             $uriBuilder->setFormat('html');
             $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'Neos.Neos');
 

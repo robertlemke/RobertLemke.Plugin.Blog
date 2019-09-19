@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Service;
 
 /*
@@ -11,11 +13,11 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Log\ThrowableStorageInterface;
 use Neos\Flow\Log\Utility\LogEnvironment;
 use Neos\SwiftMailer\Message;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -46,7 +48,7 @@ class NotificationService
      * @param array $settings
      * @return void
      */
-    public function injectSettings(array $settings)
+    public function injectSettings(array $settings): void
     {
         $this->settings = $settings;
     }
@@ -58,13 +60,13 @@ class NotificationService
      * @param NodeInterface $postNode The post node
      * @return void
      */
-    public function sendNewCommentNotification(NodeInterface $commentNode, NodeInterface $postNode)
+    public function sendNewCommentNotification(NodeInterface $commentNode, NodeInterface $postNode): void
     {
         if ($this->settings['notifications']['to']['email'] === '') {
             return;
         }
 
-        if (!class_exists('Neos\SwiftMailer\Message')) {
+        if (!class_exists(Message::class)) {
             $this->logger->info('The package "Neos.SwiftMailer" is required to send notifications!', LogEnvironment::fromMethodName(__METHOD__));
 
             return;

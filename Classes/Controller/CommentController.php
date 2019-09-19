@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Controller;
 
 /*
@@ -11,11 +13,14 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * source code.
  */
 
-use RobertLemke\Akismet\Service;
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Model\NodeTemplate;
+use Neos\ContentRepository\Exception\NodeException;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Mvc\Exception\UnsupportedRequestTypeException;
+use RobertLemke\Akismet\Exception\ConnectionException;
+use RobertLemke\Akismet\Service;
 
 /**
  * Comments controller for the Blog package
@@ -44,8 +49,11 @@ class CommentController extends ActionController
      * @param NodeInterface $postNode The post node which will contain the new comment
      * @param NodeTemplate<RobertLemke.Plugin.Blog:Comment> $newComment
      * @return string
+     * @throws NodeException
+     * @throws UnsupportedRequestTypeException
+     * @throws ConnectionException
      */
-    public function createAction(NodeInterface $postNode, NodeTemplate $newComment)
+    public function createAction(NodeInterface $postNode, NodeTemplate $newComment): string
     {
         # Workaround until we can validate node templates properly:
         if (strlen($newComment->getProperty('author')) < 2) {
@@ -64,7 +72,7 @@ class CommentController extends ActionController
         $newComment->setProperty('author', filter_var($newComment->getProperty('author'), FILTER_SANITIZE_STRIPPED));
         $newComment->setProperty('emailAddress', filter_var($newComment->getProperty('emailAddress'), FILTER_SANITIZE_STRIPPED));
 
-        $commentNode = $postNode->getNode('comments')->createNodeFromTemplate($newComment, uniqid('comment-'));
+        $commentNode = $postNode->getNode('comments')->createNodeFromTemplate($newComment, uniqid('comment-', true));
         $commentNode->setProperty('spam', false);
         $commentNode->setProperty('datePublished', new \DateTime());
 
@@ -86,7 +94,7 @@ class CommentController extends ActionController
      * @return void
      * @Flow\Signal
      */
-    protected function emitCommentCreated(NodeInterface $commentNode, NodeInterface $postNode)
+    protected function emitCommentCreated(NodeInterface $commentNode, NodeInterface $postNode): void
     {
     }
 }

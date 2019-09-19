@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace RobertLemke\Plugin\Blog\Eel;
@@ -12,8 +11,8 @@ use Neos\Eel\FlowQuery\Operations\AbstractOperation;
 /**
  * FlowQuery operation to filter by properties of type reference or references
  */
-class FilterByReferenceOperation extends AbstractOperation {
-
+class FilterByReferenceOperation extends AbstractOperation
+{
     /**
      * {@inheritdoc}
      */
@@ -30,7 +29,8 @@ class FilterByReferenceOperation extends AbstractOperation {
      * @param $context
      * @return bool
      */
-    public function canEvaluate($context) {
+    public function canEvaluate($context)
+    {
         return (!isset($context[0]) || ($context[0] instanceof NodeInterface));
     }
 
@@ -44,7 +44,8 @@ class FilterByReferenceOperation extends AbstractOperation {
      * @throws FlowQueryException
      * @throws \Neos\ContentRepository\Exception\NodeException
      */
-    public function evaluate(FlowQuery $flowQuery, array $arguments) {
+    public function evaluate(FlowQuery $flowQuery, array $arguments)
+    {
         if (empty($arguments[0])) {
             throw new FlowQueryException('filterByReference() needs reference property name by which nodes should be filtered', 1545778273);
         }
@@ -53,13 +54,13 @@ class FilterByReferenceOperation extends AbstractOperation {
         }
 
         /** @var NodeInterface $nodeReference */
-        list($filterByPropertyPath, $nodeReference) = $arguments;
+        [$filterByPropertyPath, $nodeReference] = $arguments;
 
         $filteredNodes = [];
         foreach ($flowQuery->getContext() as $node) {
             /** @var NodeInterface $node */
             $propertyValue = $node->getProperty($filterByPropertyPath);
-            if ($nodeReference === $propertyValue || (is_array($propertyValue) && in_array($nodeReference, $propertyValue, TRUE))) {
+            if ($nodeReference === $propertyValue || (is_array($propertyValue) && in_array($nodeReference, $propertyValue, true))) {
                 $filteredNodes[] = $node;
             }
         }

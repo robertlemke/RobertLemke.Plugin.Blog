@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\ViewHelpers;
 
 /*
@@ -11,10 +13,11 @@ namespace RobertLemke\Plugin\Blog\ViewHelpers;
  * source code.
  */
 
-use RobertLemke\Plugin\Blog\Service\ContentService;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\FluidAdaptor\Core\ViewHelper\Exception as ViewHelperException;
+use RobertLemke\Plugin\Blog\Service\ContentService;
 
 /**
  * This view helper crops the text of a blog post in a meaningful way.
@@ -35,14 +38,25 @@ class TeaserViewHelper extends AbstractViewHelper
     protected $contentService;
 
     /**
+     * Initialize arguments
+     *
+     * @return void
+     * @throws ViewHelperException
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('node', NodeInterface::class, 'Node to render the teaser for', true);
+        $this->registerArgument('maximumLength', 'int', 'Maximum length of teaser', false, 500);
+    }
+
+    /**
      * Render a teaser
      *
-     * @param NodeInterface $node
-     * @param integer $maximumLength
      * @return string cropped text
      */
-    public function render(NodeInterface $node, $maximumLength = 500)
+    public function render(): string
     {
-        return $this->contentService->renderTeaser($node, $maximumLength);
+        return $this->contentService->renderTeaser($this->arguments['node'], $this->arguments['maximumLength']);
     }
 }
