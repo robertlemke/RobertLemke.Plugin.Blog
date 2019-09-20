@@ -17,6 +17,8 @@ use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Service\NodeTypeManager;
 use Neos\ContentRepository\Exception\NodeException;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Http\BaseUriProvider;
+use Neos\Flow\Http\Component\SetHeaderComponent;
 use Neos\Flow\I18n\Service;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
@@ -33,6 +35,12 @@ use RobertLemke\Rss\Item;
  */
 class PostController extends ActionController
 {
+    /**
+     * @Flow\Inject
+     * @var BaseUriProvider
+     */
+    protected $baseUriProvider;
+
     /**
      * @Flow\Inject
      * @var NodeTypeManager
@@ -57,6 +65,7 @@ class PostController extends ActionController
      * @return string
      * @throws NodeException
      * @throws MissingActionNameException
+     * @throws \Neos\Flow\Http\Exception
      */
     public function rssAction(): string
     {
@@ -71,6 +80,7 @@ class PostController extends ActionController
         $uriBuilder = new UriBuilder();
         $uriBuilder->setRequest($this->request->getMainRequest());
         $uriBuilder->setCreateAbsoluteUri(true);
+        $uriBuilder->setFormat('html');
 
         $feedTitle = $this->request->getInternalArgument('__feedTitle');
         $feedDescription = $this->request->getInternalArgument('__feedDescription');
@@ -87,12 +97,11 @@ class PostController extends ActionController
         $channel->setTitle($feedTitle);
         $channel->setDescription($feedDescription);
         $channel->setFeedUri($feedUri);
-        $channel->setWebsiteUri($this->request->getHttpRequest()->getBaseUri());
+        $channel->setWebsiteUri($this->baseUriProvider->getConfiguredBaseUriOrFallbackToCurrentRequest());
         $channel->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
         /* @var $postNode NodeInterface */
         foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
-            $uriBuilder->setFormat('html');
             $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'Neos.Neos');
 
             $item = new Item();
@@ -130,9 +139,8 @@ class PostController extends ActionController
             $channel->addItem($item);
         }
 
-        $headers = $this->response->getHeaders();
-        $headers->setCacheControlDirective('s-max-age', 3600);
-        $headers->set('Content-Type', 'application/rss+xml');
+        $this->response->setComponentParameter(SetHeaderComponent::class, 'Cache-Control', ['s-max-age=3600']);
+        $this->response->setContentType('application/rss+xml');
 
         $feed = new Feed();
         $feed->addChannel($channel);

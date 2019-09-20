@@ -18,7 +18,6 @@ use Neos\ContentRepository\Domain\Model\NodeTemplate;
 use Neos\ContentRepository\Exception\NodeException;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
-use Neos\Flow\Mvc\Exception\UnsupportedRequestTypeException;
 use RobertLemke\Akismet\Exception\ConnectionException;
 use RobertLemke\Akismet\Service;
 
@@ -50,7 +49,6 @@ class CommentController extends ActionController
      * @param NodeTemplate<RobertLemke.Plugin.Blog:Comment> $newComment
      * @return string
      * @throws NodeException
-     * @throws UnsupportedRequestTypeException
      * @throws ConnectionException
      */
     public function createAction(NodeInterface $postNode, NodeTemplate $newComment): string
@@ -81,7 +79,7 @@ class CommentController extends ActionController
         }
 
         $this->emitCommentCreated($commentNode, $postNode);
-        $this->response->setStatus(201);
+        $this->response->setStatusCode(201);
 
         return 'Thank you for your comment!';
     }
