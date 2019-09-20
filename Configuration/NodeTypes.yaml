@@ -115,9 +115,11 @@
           group: comment
     text:
       type: string
-      defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Your Comment Here'
 
 'RobertLemke.Plugin.Blog:Category':
   superTypes:
@@ -183,6 +185,8 @@
           group: quote
     text:
       type: string
-      defaultValue: '<p>Enter quote here</p>'
       ui:
         inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Enter quote here'
