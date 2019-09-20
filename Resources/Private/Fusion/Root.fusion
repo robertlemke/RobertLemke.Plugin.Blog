@@ -78,7 +78,7 @@ prototype(RobertLemke.Plugin.Blog:PostsOverview) < prototype(Neos.Neos:Content) 
 #
 prototype(RobertLemke.Plugin.Blog:Category) < prototype(Neos.NodeTypes:Page) {
     body.content.main = RobertLemke.Plugin.Blog:PostsOverview {
-        postsNode >
+        postsNode = null
         postNodes = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Post]').filterByReference('categories', documentNode).get()}
     }
 }
@@ -88,7 +88,7 @@ prototype(RobertLemke.Plugin.Blog:Category) < prototype(Neos.NodeTypes:Page) {
 #
 prototype(RobertLemke.Plugin.Blog:Tag) < prototype(Neos.NodeTypes:Page) {
     body.content.main = RobertLemke.Plugin.Blog:PostsOverview {
-        postsNode >
+        postsNode = null
         postNodes = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Post]').filterByReference('tags', documentNode).get()}
     }
 }
