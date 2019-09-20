@@ -101,6 +101,7 @@ prototype(RobertLemke.Plugin.Blog:Feed) < prototype(Neos.Neos:Plugin) {
     controller = 'Post'
     action = 'rss'
 
+    documentNode = ${documentNode}
     postsNode = ${q(documentNode).parent().get(0)}
 
     feedTitle = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.title')}
@@ -110,7 +111,28 @@ prototype(RobertLemke.Plugin.Blog:Feed) < prototype(Neos.Neos:Plugin) {
 }
 
 #
+# Comment is a straight-forward content type
+#
+prototype(RobertLemke.Plugin.Blog:Comment)  < prototype(Neos.Neos:Content) {
+    templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/NodeTypes/Comment.html'
+
+    spam = ${q(node).property('spam')}
+    author = ${q(node).property('author')}
+    datePublished = ${q(node).property('datePublished')}
+    emailAddress = ${q(node).property('emailAddress')}
+    text = ${q(node).property('text')}
+}
+
+#
 # Quote is a straight-forward content type
 #
-prototype(RobertLemke.Plugin.Blog:Quote) < prototype(Neos.Neos:Content)
+prototype(RobertLemke.Plugin.Blog:Quote) < prototype(Neos.Neos:Content) {
+    templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/NodeTypes/Quote.html'
+
+    citeAuthor = ${q(node).property('citeAuthor')}
+    citeAuthorUri = ${q(node).property('citeAuthorUri')}
+    citeUri = ${q(node).property('citeUri')}
+    citeUriLabel = ${q(node).property('citeUriLabel')}
+    text = ${q(node).property('text')}
+}
 
