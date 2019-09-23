@@ -59,7 +59,6 @@ class PostController extends ActionController
      * @return string
      * @throws NodeException
      * @throws MissingActionNameException
-     * @throws \Neos\Flow\Http\Exception
      */
     public function rssAction(): string
     {
@@ -88,22 +87,22 @@ class PostController extends ActionController
         }
 
         $channel = new Channel();
-        $channel->setTitle($feedTitle);
-        $channel->setDescription($feedDescription);
-        $channel->setFeedUri($feedUri);
-        $channel->setWebsiteUri((string)RequestInformationHelper::generateBaseUri($this->request->getHttpRequest()));
-        $channel->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
+        $channel->setTitle($feedTitle)
+            ->setDescription($feedDescription)
+            ->setFeedUri($feedUri)
+            ->setWebsiteUri((string)RequestInformationHelper::generateBaseUri($this->request->getHttpRequest()))
+            ->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
         /* @var $postNode NodeInterface */
         foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
             $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'Neos.Neos');
 
             $item = new Item();
-            $item->setTitle($postNode->getProperty('title'));
-            $item->setGuid($postNode->getIdentifier());
-            $item->setPublicationDate($postNode->getProperty('datePublished'));
-            $item->setItemLink((string)$postUri);
-            $item->setCommentsLink((string)$postUri . '#comments');
+            $item->setTitle($postNode->getProperty('title'))
+                ->setGuid($postNode->getIdentifier())
+                ->setPublicationDate($postNode->getProperty('datePublished'))
+                ->setItemLink((string)$postUri)
+                ->setCommentsLink((string)$postUri . '#comments');
 
             $author = $postNode->getProperty('author');
             if ($author instanceof NodeInterface) {
