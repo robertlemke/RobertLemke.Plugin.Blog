@@ -17,8 +17,8 @@ use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Service\NodeTypeManager;
 use Neos\ContentRepository\Exception\NodeException;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Http\BaseUriProvider;
 use Neos\Flow\Http\Component\SetHeaderComponent;
+use Neos\Flow\Http\Helper\RequestInformationHelper;
 use Neos\Flow\I18n\Service;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
@@ -35,12 +35,6 @@ use RobertLemke\Rss\Item;
  */
 class PostController extends ActionController
 {
-    /**
-     * @Flow\Inject
-     * @var BaseUriProvider
-     */
-    protected $baseUriProvider;
-
     /**
      * @Flow\Inject
      * @var NodeTypeManager
@@ -97,7 +91,7 @@ class PostController extends ActionController
         $channel->setTitle($feedTitle);
         $channel->setDescription($feedDescription);
         $channel->setFeedUri($feedUri);
-        $channel->setWebsiteUri($this->baseUriProvider->getConfiguredBaseUriOrFallbackToCurrentRequest());
+        $channel->setWebsiteUri((string)RequestInformationHelper::generateBaseUri($this->request->getHttpRequest()));
         $channel->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
         /* @var $postNode NodeInterface */
