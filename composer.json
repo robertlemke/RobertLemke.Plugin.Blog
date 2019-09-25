@@ -13,9 +13,9 @@
     ],
     "require": {
         "neos/neos": "^5.0",
-        "robertlemke/akismet": "~2.0",
-        "robertlemke/rss": "~2.0",
-        "flownative/gravatar": "~2.0"
+        "robertlemke/akismet": "^3.0",
+        "robertlemke/rss": "^2.0",
+        "flownative/gravatar": "^2.0"
     },
     "suggest": {
         "neos/swiftmailer": "Allows sending notification emails on new comments",
