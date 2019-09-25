@@ -1,19 +1,18 @@
 {namespace neos=Neos\Neos\ViewHelpers}
-<f:if condition="{node.properties.citeAuthor}">
+<f:if condition="{citeAuthor}">
     <p>
-        <f:if condition="{node.properties.citeAuthorUri}">
+        <f:if condition="{citeAuthorUri}">
             <f:then>
-                <cite><a href="{node.properties.citeAuthorUri}">{node.properties.citeAuthor}</a></cite> wrote
-                <a href="{node.properties.citeUri}">{f:if(condition: node.properties.citeUriLabel, then: node.properties.citeUriLabel, else: 'here')}</a>:
+                <cite><a href="{citeAuthorUri}">{citeAuthor}</a></cite> wrote
+                <a href="{citeUri}">{f:if(condition: citeUriLabel, then: citeUriLabel, else: 'here')}</a>:
             </f:then>
             <f:else>
-                <cite>{node.properties.citeAuthor}</cite> wrote
-                <a href="{node.properties.citeUri}">{f:if(condition: node.properties.citeUriLabel, then: node.properties.citeUriLabel, else: 'here')}</a>:
+                <cite>{citeAuthor}</cite> wrote
+                <a href="{citeUri}">{f:if(condition: citeUriLabel, then: citeUriLabel, else: 'here')}</a>:
             </f:else>
         </f:if>
     </p>
 </f:if>
-<blockquote {f:if(condition: node.properties.citeUri, then: 'cite="{node.properties.citeUri}"')}>
-<neos:contentElement.editable property="text">{text -> f:format.raw()}
-</neos:contentElement.editable>
+<blockquote {f:if(condition: citeUri, then: 'cite="{citeUri}"')}>
+    <neos:contentElement.editable property="text">{text -> f:format.raw()}</neos:contentElement.editable>
 </blockquote>

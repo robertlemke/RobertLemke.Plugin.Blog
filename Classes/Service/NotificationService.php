@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Service;
 
 /*
@@ -11,10 +13,12 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
-use Neos\SwiftMailer\Message;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Log\ThrowableStorageInterface;
+use Neos\Flow\Log\Utility\LogEnvironment;
+use Neos\SwiftMailer\Message;
+use Psr\Log\LoggerInterface;
 
 /**
  * A notification service
@@ -30,15 +34,21 @@ class NotificationService
 
     /**
      * @Flow\Inject
-     * @var SystemLoggerInterface
+     * @var ThrowableStorageInterface
      */
-    protected $systemLogger;
+    protected $throwableStorage;
+
+    /**
+     * @Flow\Inject
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * @param array $settings
      * @return void
      */
-    public function injectSettings(array $settings)
+    public function injectSettings(array $settings): void
     {
         $this->settings = $settings;
     }
@@ -50,14 +60,14 @@ class NotificationService
      * @param NodeInterface $postNode The post node
      * @return void
      */
-    public function sendNewCommentNotification(NodeInterface $commentNode, NodeInterface $postNode)
+    public function sendNewCommentNotification(NodeInterface $commentNode, NodeInterface $postNode): void
     {
         if ($this->settings['notifications']['to']['email'] === '') {
             return;
         }
 
-        if (!class_exists('Neos\SwiftMailer\Message')) {
-            $this->systemLogger->log('The package "Neos.SwiftMailer" is required to send notifications!');
+        if (!class_exists(Message::class)) {
+            $this->logger->info('The package "Neos.SwiftMailer" is required to send notifications!', LogEnvironment::fromMethodName(__METHOD__));
 
             return;
         }
@@ -72,7 +82,8 @@ class NotificationService
                 ->setBody($commentNode->getProperty('text'))
                 ->send();
         } catch (\Exception $e) {
-            $this->systemLogger->logException($e);
+            $message = $this->throwableStorage->logThrowable($e);
+            $this->logger->error($message, LogEnvironment::fromMethodName(__METHOD__));
         }
     }
 }

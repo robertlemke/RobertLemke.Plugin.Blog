@@ -12,13 +12,13 @@
         }
     ],
     "require": {
-        "neos/neos": "~4.0",
-        "robertlemke/akismet": "~2.0",
-        "robertlemke/rss": "~2.0",
-        "flownative/gravatar": "~2.0"
+        "neos/neos": "^5.0",
+        "robertlemke/akismet": "^3.0",
+        "robertlemke/rss": "^2.0",
+        "flownative/gravatar": "^2.0"
     },
     "suggest": {
-        "typo3/swiftmailer": "Allows sending notification emails on new comments",
+        "neos/swiftmailer": "Allows sending notification emails on new comments",
         "simplepie/simplepie": "For using the built-in ATOM import"
     },
     "autoload": {
@@ -28,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         },
         "applied-flow-migrations": [
             "TYPO3.Neos-20141218134700",

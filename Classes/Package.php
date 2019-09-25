@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog;
 
 /*
@@ -13,6 +15,8 @@ namespace RobertLemke\Plugin\Blog;
 
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Package\Package as BasePackage;
+use RobertLemke\Plugin\Blog\Controller\CommentController;
+use RobertLemke\Plugin\Blog\Service\NotificationService;
 
 /**
  * The Blog Package
@@ -29,6 +33,6 @@ class Package extends BasePackage
     public function boot(Bootstrap $bootstrap)
     {
         $dispatcher = $bootstrap->getSignalSlotDispatcher();
-        $dispatcher->connect('RobertLemke\Plugin\Blog\Controller\CommentController', 'commentCreated', 'RobertLemke\Plugin\Blog\Service\NotificationService', 'sendNewCommentNotification');
+        $dispatcher->connect(CommentController::class, 'commentCreated', NotificationService::class, 'sendNewCommentNotification');
     }
 }

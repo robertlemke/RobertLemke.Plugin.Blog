@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog;
 
 /*
@@ -29,10 +31,10 @@ class RenderingFixingAspect
      * @return string
      * @Flow\Around("method(Neos\Neos\Service\ContentElementWrappingService->wrapContentObject())")
      */
-    public function preventContentElementWraps(JoinPointInterface $joinPoint)
+    public function preventContentElementWraps(JoinPointInterface $joinPoint): string
     {
         $content = $joinPoint->getMethodArgument('content');
-        if (substr($content, 0, 5) === '<?xml') {
+        if (strpos($content, '<?xml') === 0) {
             return $content;
         }
 

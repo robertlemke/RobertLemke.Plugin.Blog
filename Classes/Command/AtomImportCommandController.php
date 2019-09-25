@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Command;
 
 /*
@@ -11,14 +13,18 @@ namespace RobertLemke\Plugin\Blog\Command;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Model\NodeTemplate;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\ContentRepository\Exception\NodeException;
+use Neos\ContentRepository\Exception\NodeExistsException;
+use Neos\ContentRepository\Exception\NodeTypeNotFoundException;
+use Neos\ContentRepository\Utility;
+use Neos\Eel\Exception;
 use Neos\Eel\FlowQuery\FlowQuery;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 use Neos\Neos\Domain\Service\ContentContextFactory;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\Model\NodeTemplate;
-use Neos\ContentRepository\Domain\Service\NodeTypeManager;
-use Neos\ContentRepository\Utility;
 
 /**
  * BlogCommand command controller for the RobertLemke.Plugin.Blog package
@@ -56,8 +62,12 @@ class AtomImportCommandController extends CommandController
      * @param string $targetNode The target node (expressed as a FlowQuery find condition)
      * @param string $atomFile The atom file to import
      * @return void
+     * @throws NodeException
+     * @throws NodeExistsException
+     * @throws NodeTypeNotFoundException
+     * @throws Exception
      */
-    public function migrateCommand($workspace, $targetNode, $atomFile)
+    public function migrateCommand(string $workspace, string $targetNode, string $atomFile): void
     {
         if (!class_exists(\SimplePie::class)) {
             $this->outputLine('The Atom import needs simplepie/simplepie, which you can install using composer.');
@@ -138,13 +148,13 @@ class AtomImportCommandController extends CommandController
             $postNode = $this->blogNode->createNodeFromTemplate($nodeTemplate, $slug);
             $postNode->getNode('main')->createNode(uniqid('node'), $textNodeType)->setProperty('text', $item->get_content());
 
-            $postComments = isset($comments[$item->get_id()]) ? $comments[$item->get_id()] : [];
+            $postComments = $comments[$item->get_id()] ?? [];
             if ($postComments !== []) {
                 /** @var NodeInterface $commentsNode */
                 $commentsNode = $postNode->getNode('comments');
                 /** @var $postComment \SimplePie_Item */
                 foreach ($postComments as $postComment) {
-                    $commentNode = $commentsNode->createNode(uniqid('comment-'), $commentNodeType);
+                    $commentNode = $commentsNode->createNode(uniqid('comment-', true), $commentNodeType);
                     $commentNode->setProperty('author', html_entity_decode($postComment->get_author()->get_name(), ENT_QUOTES, 'utf-8'));
                     $commentNode->setProperty('emailAddress', $postComment->get_author()->get_email());
                     $commentNode->setProperty('uri', $postComment->get_author()->get_link());
@@ -170,8 +180,10 @@ class AtomImportCommandController extends CommandController
     /**
      * @param array $tags
      * @return array<NodeInterface>
+     * @throws NodeExistsException
+     * @throws NodeTypeNotFoundException
      */
-    protected function getTagNodes(array $tags)
+    protected function getTagNodes(array $tags): array
     {
         $tagNodes = [];
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Service;
 
 /*
@@ -11,9 +13,10 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Exception\NodeException;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ResourceManagement\ResourceManager;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
 
 /**
  * A service which can render specific views of blog related content
@@ -36,9 +39,9 @@ class ContentService
      *
      * @param NodeInterface $node
      * @param integer $maximumLength
-     * @return mixed
+     * @return string
      */
-    public function renderTeaser(NodeInterface $node, $maximumLength = 500)
+    public function renderTeaser(NodeInterface $node, $maximumLength = 500): string
     {
         $stringToTruncate = '';
 
@@ -64,16 +67,17 @@ class ContentService
 
         if (strlen($stringToTruncate) > $maximumLength) {
             return substr($this->stripUnwantedTags($stringToTruncate), 0, $maximumLength + 1) . ' ...';
-        } else {
-            return $this->stripUnwantedTags($stringToTruncate);
         }
+
+        return $this->stripUnwantedTags($stringToTruncate);
     }
 
     /**
      * @param NodeInterface $node
      * @return string
+     * @throws NodeException
      */
-    public function renderContent(NodeInterface $node)
+    public function renderContent(NodeInterface $node): string
     {
         $content = '';
 
@@ -118,7 +122,7 @@ class ContentService
      * @param string $content The original content
      * @return string The stripped content
      */
-    protected function stripUnwantedTags($content)
+    protected function stripUnwantedTags(string $content): string
     {
         $content = trim($content);
         $content = preg_replace(
@@ -134,7 +138,7 @@ class ContentService
         );
         $content = str_replace('&nbsp;', ' ', $content);
 
-        if (substr($content, 0, 3) === '<p>' && substr($content, -4, 4) === '</p>') {
+        if (strpos($content, '<p>') === 0 && substr($content, -4, 4) === '</p>') {
             $content = substr($content, 3, -4);
         }
 

@@ -5,6 +5,7 @@
   ui:
     group: blog
     label: 'Blog Posts Overview'
+    icon: 'bars'
     inspector:
       groups:
         blog:
@@ -16,7 +17,7 @@
   ui:
     label: 'Blog Post'
     group: blog
-    icon: 'icon-file-text'
+    icon: 'file-alt'
     inspector:
       groups:
         page:
@@ -73,6 +74,7 @@
     'Neos.Neos:Content': true
   ui:
     label: 'Blog Comment'
+    icon: 'comment'
     group: blog
     inspector:
       groups:
@@ -115,9 +117,11 @@
           group: comment
     text:
       type: string
-      defaultValue: '<p>Your Comment Here</p>'
       ui:
         inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Your Comment Here'
 
 'RobertLemke.Plugin.Blog:Category':
   superTypes:
@@ -125,7 +129,7 @@
   ui:
     label: 'Blog Category'
     group: blog
-    icon: 'icon-folder-close'
+    icon: 'folder'
   properties:
     domain:
       type: string
@@ -140,7 +144,7 @@
   ui:
     label: 'Blog Tag'
     group: blog
-    icon: 'icon-tag'
+    icon: 'tag'
 
 'RobertLemke.Plugin.Blog:Quote':
   superTypes:
@@ -148,6 +152,7 @@
   ui:
     group: blog
     label: 'Blog Quote'
+    icon: 'quote-right'
     inspector:
       groups:
         quote:
@@ -183,6 +188,8 @@
           group: quote
     text:
       type: string
-      defaultValue: '<p>Enter quote here</p>'
       ui:
         inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Enter quote here'

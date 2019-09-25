@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RobertLemke\Plugin\Blog\Controller;
 
 /*
@@ -11,16 +13,20 @@ namespace RobertLemke\Plugin\Blog\Controller;
  * source code.
  */
 
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\Service\NodeTypeManager;
+use Neos\ContentRepository\Exception\NodeException;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Http\Component\SetHeaderComponent;
+use Neos\Flow\Http\Helper\RequestInformationHelper;
+use Neos\Flow\I18n\Service;
+use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
+use Neos\Flow\Mvc\Routing\UriBuilder;
 use RobertLemke\Plugin\Blog\Service\ContentService;
 use RobertLemke\Rss\Channel;
 use RobertLemke\Rss\Feed;
 use RobertLemke\Rss\Item;
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\I18n\Service;
-use Neos\Flow\Mvc\Controller\ActionController;
-use Neos\Flow\Mvc\Routing\UriBuilder;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\Service\NodeTypeManager;
 
 /**
  * The posts controller for the Blog package
@@ -51,8 +57,10 @@ class PostController extends ActionController
      * Renders an RSS feed
      *
      * @return string
+     * @throws NodeException
+     * @throws MissingActionNameException
      */
-    public function rssAction()
+    public function rssAction(): string
     {
         $rssDocumentNode = $this->request->getInternalArgument('__documentNode');
         if ($rssDocumentNode === null) {
@@ -65,6 +73,7 @@ class PostController extends ActionController
         $uriBuilder = new UriBuilder();
         $uriBuilder->setRequest($this->request->getMainRequest());
         $uriBuilder->setCreateAbsoluteUri(true);
+        $uriBuilder->setFormat('html');
 
         $feedTitle = $this->request->getInternalArgument('__feedTitle');
         $feedDescription = $this->request->getInternalArgument('__feedDescription');
@@ -78,24 +87,22 @@ class PostController extends ActionController
         }
 
         $channel = new Channel();
-        $channel->setTitle($feedTitle);
-        $channel->setDescription($feedDescription);
-        $channel->setFeedUri($feedUri);
-        $channel->setWebsiteUri($this->request->getHttpRequest()->getBaseUri());
-        $channel->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
+        $channel->setTitle($feedTitle)
+            ->setDescription($feedDescription)
+            ->setFeedUri($feedUri)
+            ->setWebsiteUri((string)RequestInformationHelper::generateBaseUri($this->request->getHttpRequest()))
+            ->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
         /* @var $postNode NodeInterface */
         foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
-
-            $uriBuilder->setFormat('html');
             $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'Neos.Neos');
 
             $item = new Item();
-            $item->setTitle($postNode->getProperty('title'));
-            $item->setGuid($postNode->getIdentifier());
-            $item->setPublicationDate($postNode->getProperty('datePublished'));
-            $item->setItemLink((string)$postUri);
-            $item->setCommentsLink((string)$postUri . '#comments');
+            $item->setTitle($postNode->getProperty('title'))
+                ->setGuid($postNode->getIdentifier())
+                ->setPublicationDate($postNode->getProperty('datePublished'))
+                ->setItemLink((string)$postUri)
+                ->setCommentsLink((string)$postUri . '#comments');
 
             $author = $postNode->getProperty('author');
             if ($author instanceof NodeInterface) {
@@ -125,9 +132,8 @@ class PostController extends ActionController
             $channel->addItem($item);
         }
 
-        $headers = $this->response->getHeaders();
-        $headers->setCacheControlDirective('s-max-age', 3600);
-        $headers->set('Content-Type', 'application/rss+xml');
+        $this->response->setComponentParameter(SetHeaderComponent::class, 'Cache-Control', ['s-max-age=3600']);
+        $this->response->setContentType('application/rss+xml');
 
         $feed = new Feed();
         $feed->addChannel($channel);
