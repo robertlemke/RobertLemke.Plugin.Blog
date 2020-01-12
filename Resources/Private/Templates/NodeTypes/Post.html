@@ -1,3 +1,4 @@
+{namespace neosFluid=Neos\FluidAdaptor\ViewHelpers}
 {namespace neos=Neos\Neos\ViewHelpers}
 {namespace fusion=Neos\Fusion\ViewHelpers}
 <script src="../../../Public/JavaScript/jquery-1.10.2.min.js"></script>
@@ -20,7 +21,7 @@
     });
 </script>
 <article itemscope="" itemtype="http://schema.org/Article" class="robertlemke-plugin-blog" xmlns:f="http://www.w3.org/1999/html">
-    <f:flashMessages class="flashmessages"/>
+    <neosFluid:flashMessages class="flashmessages"/>
     <header>
         <h1 itemprop="name headline">
             <neos:contentElement.editable tag="span" property="title">{title}</neos:contentElement.editable>
