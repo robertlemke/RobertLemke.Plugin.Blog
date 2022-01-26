@@ -54,7 +54,7 @@ class CommentController extends ActionController
     public function createAction(NodeInterface $postNode, NodeTemplate $newComment): string
     {
         # Workaround until we can validate node templates properly:
-        if (strlen($newComment->getProperty('author')) < 2) {
+        if (strlen((string)$newComment->getProperty('author')) < 2) {
             $this->throwStatus(400, 'Your comment was NOT created - please specify your name.');
         }
 
@@ -62,7 +62,7 @@ class CommentController extends ActionController
             $this->throwStatus(400, 'Your comment was NOT created - you must specify a valid email address.');
         }
 
-        if (strlen($newComment->getProperty('text')) < 5) {
+        if (strlen((string)$newComment->getProperty('text')) < 5) {
             $this->throwStatus(400, 'Your comment was NOT created - it was too short.');
         }
 
