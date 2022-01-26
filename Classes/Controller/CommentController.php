@@ -51,8 +51,12 @@ class CommentController extends ActionController
      * @throws NodeException
      * @throws ConnectionException
      */
-    public function createAction(NodeInterface $postNode, NodeTemplate $newComment): string
+    public function createAction(NodeInterface $postNode = null, NodeTemplate $newComment = null): string
     {
+        if ($postNode === null || $newComment === null) {
+            $this->throwStatus(400, 'Required parameters missing');
+        }
+
         # Workaround until we can validate node templates properly:
         if (strlen($newComment->getProperty('author')) < 2) {
             $this->throwStatus(400, 'Your comment was NOT created - please specify your name.');
