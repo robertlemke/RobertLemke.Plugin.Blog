@@ -133,7 +133,7 @@ class PostController extends ActionController
             $channel->addItem($item);
         }
 
-        $this->response->setComponentParameter(SetHeaderComponent::class, 'Cache-Control', ['s-max-age=3600']);
+        $this->response->setHttpHeader('Cache-Control', 's-max-age=3600');
         $this->response->setContentType('application/rss+xml');
 
         $feed = new Feed();
