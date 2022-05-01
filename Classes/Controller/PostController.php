@@ -84,6 +84,7 @@ class PostController extends ActionController
         } else {
             $uriBuilder->setFormat('xml');
             $feedUri = $uriBuilder->uriFor('show', ['node' => $rssDocumentNode], 'Frontend\Node', 'Neos.Neos');
+            $uriBuilder->setFormat('html');
         }
 
         $channel = new Channel();
