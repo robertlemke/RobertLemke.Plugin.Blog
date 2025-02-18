@@ -12,13 +12,14 @@
         }
     ],
     "require": {
-        "neos/neos": "^7.0 || ^8.0",
+        "neos/neos": "^8.0",
         "robertlemke/akismet": "^3.0",
         "robertlemke/rss": "^2.0",
-        "flownative/gravatar": "^2.0"
+        "flownative/gravatar": "^2.0",
+        "flowpack/listable": "^3.6"
     },
     "suggest": {
-        "neos/swiftmailer": "Allows sending notification emails on new comments",
+        "neos/symfonymailer": "Allows sending notification emails on new comments",
         "simplepie/simplepie": "For using the built-in ATOM import"
     },
     "autoload": {
