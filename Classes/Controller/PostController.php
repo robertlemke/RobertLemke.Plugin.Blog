@@ -95,7 +95,7 @@ class PostController extends ActionController
             ->setLanguage((string)$this->i18nService->getConfiguration()->getCurrentLocale());
 
         /* @var $postNode NodeInterface */
-        foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Post') as $postNode) {
+        foreach ($postsNode->getChildNodes('RobertLemke.Plugin.Blog:Document.Post') as $postNode) {
             $postUri = $uriBuilder->uriFor('show', ['node' => $postNode], 'Frontend\Node', 'Neos.Neos');
 
             $item = new Item();

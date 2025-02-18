@@ -1,0 +1,12 @@
+#
+# Quote is a straight-forward content type
+#
+prototype(RobertLemke.Plugin.Blog:Content.Quote) < prototype(Neos.Neos:Content) {
+    templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/NodeTypes/Quote.html'
+
+    citeAuthor = ${q(node).property('citeAuthor')}
+    citeAuthorUri = ${q(node).property('citeAuthorUri')}
+    citeUri = ${q(node).property('citeUri')}
+    citeUriLabel = ${q(node).property('citeUriLabel')}
+    text = ${q(node).property('text')}
+}

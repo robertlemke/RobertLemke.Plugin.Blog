@@ -1,0 +1,8 @@
+'RobertLemke.Plugin.Blog:Document.Tag':
+  superTypes:
+    'Neos.Neos:Document': true
+    'RobertLemke.Plugin.Blog:Constraint.Document': true
+  ui:
+    label: 'Blog Tag'
+    group: blog
+    icon: 'tag'

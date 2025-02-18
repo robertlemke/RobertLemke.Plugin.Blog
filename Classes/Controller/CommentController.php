@@ -46,7 +46,7 @@ class CommentController extends ActionController
      * Creates a new comment
      *
      * @param NodeInterface $postNode The post node which will contain the new comment
-     * @param NodeTemplate<RobertLemke.Plugin.Blog:Comment> $newComment
+     * @param NodeTemplate<RobertLemke.Plugin.Blog:Content.Comment> $newComment
      * @return string
      * @throws NodeException
      * @throws ConnectionException

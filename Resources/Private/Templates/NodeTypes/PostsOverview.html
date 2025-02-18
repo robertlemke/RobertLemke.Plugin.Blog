@@ -32,13 +32,13 @@
 </div>
 
 <f:section name="fromParentNode">
-    <cr:widget.paginate widgetId="posts-paginator" parentNode="{parentNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+    <cr:widget.paginate widgetId="posts-paginator" parentNode="{parentNode}" nodeTypeFilter="RobertLemke.Plugin.Blog:Document.Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
         <f:render section="paginatedPosts" arguments="{paginatedPosts: paginatedPosts}"/>
     </cr:widget.paginate>
 </f:section>
 
 <f:section name="fromNodes">
-    <cr:widget.paginate widgetId="posts-paginator" nodes="{nodes}" nodeTypeFilter="RobertLemke.Plugin.Blog:Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
+    <cr:widget.paginate widgetId="posts-paginator" nodes="{nodes}" nodeTypeFilter="RobertLemke.Plugin.Blog:Document.Post" as="paginatedPosts" configuration="{itemsPerPage: 5, insertBelow: 1, maximumNumberOfLinks: 15}">
         <f:render section="paginatedPosts" arguments="{paginatedPosts: paginatedPosts}"/>
     </cr:widget.paginate>
 </f:section>

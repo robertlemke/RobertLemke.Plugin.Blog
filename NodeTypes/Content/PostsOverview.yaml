@@ -1,0 +1,11 @@
+'RobertLemke.Plugin.Blog:Content.PostsOverview':
+  superTypes:
+    'Neos.Neos:Content': true
+  ui:
+    group: blog
+    label: 'Blog Posts Overview'
+    icon: 'bars'
+    inspector:
+      groups:
+        blog:
+          label: 'Blog Posts Overview'
