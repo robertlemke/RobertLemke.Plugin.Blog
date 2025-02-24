@@ -1,129 +1,129 @@
-/* line 1, ../../Private/Sass/Blog.scss */
 .robertlemke-plugin-blog {
+  .metadata {
+    font-size: 0.8em;
+  }
+
+  li.post, li.comment {
+    list-style: none;
+    list-style-image: none;
+  }
+
+  ul.relatedpostslist {
+    clear: both;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    padding: 8px;
+  }
+
+  ul.relatedpostslist li {
+    list-style-type: square;
+    margin-left: 15px;
+  }
+
+  ol.commentlist {
+    clear: both;
+    margin-bottom: 10px;
+  }
+
+  li.comment {
+    clear: both;
+  }
+
+  li.spamcomment {
+    background-color: #efd3d5;
+  }
+
+  li.comment p.metadata {
+    margin: 10px 0 0 82px;
+  }
+
+  li.comment p.content {
+    padding: 8px;
+    margin: 0;
+    margin-left: 75px;
+    min-height: 85px;
+    font-size: 15px;
+  }
+
+  .comment img.gravatar {
+    border-radius: 50%;
+    float: left;
+    margin: -25px 10px;
+    width: 60px;
+    height: 60px;
+  }
+
   /*--------------- pagination ------------------*/
+
+  ul.typo3-widget-paginator {
+    list-style: none;
+  }
+
+  ul.typo3-widget-paginator li {
+    display: block;
+    float: left;
+    padding: 4px 6px;
+    margin: 4px;
+  }
+
   /*--------------- form validation ------------------*/
-}
-/* line 3, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .metadata {
-  font-size: 0.8em;
-}
-/* line 7, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog li.post, .robertlemke-plugin-blog li.comment {
-  list-style-type: none;
-  list-style-image: none;
-}
-/* line 12, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog ul.relatedpostslist {
-  clear: both;
-  margin-top: 8px;
-  margin-bottom: 10px;
-  padding: 8px;
-}
-/* line 19, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog ul.relatedpostslist li {
-  list-style-type: square;
-  margin-left: 15px;
-}
-/* line 24, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog ol.commentlist {
-  clear: both;
-  margin-bottom: 10px;
-}
-/* line 29, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog li.comment {
-  clear: both;
-}
-/* line 33, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog li.spamcomment {
-  background-color: #efd3d5;
-}
-/* line 37, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog li.comment p.metadata {
-  margin: 10px 0 0 82px;
-}
-/* line 41, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog li.comment p.content {
-  padding: 8px;
-  margin: 0;
-  margin-left: 75px;
-  min-height: 85px;
-  font-size: 15px;
-}
-/* line 49, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .comment img.gravatar {
-  border-radius: 50% 50% 50% 50%;
-  float: left;
-  margin: -25px 10px;
-  width: 60px;
-  height: 60px;
-}
-/* line 59, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog ul.typo3-widget-paginator {
-  list-style-type: none;
-}
-/* line 63, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog ul.typo3-widget-paginator li {
-  display: block;
-  float: left;
-  padding: 4px 6px;
-  margin: 4px;
-}
-/* line 72, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog input.typo3-form-error {
-  border: 1px solid #8a1f11;
-}
-/* line 76, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .errors {
-  padding: .8em;
-  margin-bottom: 1em;
-  border: 1px solid #FBC2C4;
-}
-/* line 81, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .errors dt {
-  float: left;
-  color: #8a1f11;
-  width: 100px;
-  font-weight: bold;
-}
-/* line 87, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .errors dd {
-  margin-left: 100px;
-  color: #8a1f11;
-}
-/* line 92, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .error, .robertlemke-plugin-blog .f3-form-error {
-  background: #FBE3E4;
-  border-color: #FBC2C4;
-}
-/* line 96, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .error {
-  color: #8a1f11;
-}
-/* line 99, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .notice {
-  background: #FFF6BF;
-  color: #514721;
-  border-color: #FFD324;
-}
-/* line 104, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .success {
-  background: #E6EFC2;
-  color: #264409;
-  border-color: #C6D880;
-}
-/* line 109, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .error a {
-  color: #8a1f11;
-}
-/* line 112, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .notice a {
-  color: #514721;
-}
-/* line 115, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .success a {
-  color: #264409;
-}
-/* line 119, ../../Private/Sass/Blog.scss */
-.robertlemke-plugin-blog .required {
-  color: #8a1f11;
+
+  input.typo3-form-error {
+    border: 1px solid #8a1f11;
+  }
+
+  .errors {
+    padding: 0.8em;
+    margin-bottom: 1em;
+    border: 1px solid #FBC2C4;
+  }
+
+  .errors dt {
+    float: left;
+    color: #8a1f11;
+    width: 100px;
+    font-weight: bold;
+  }
+
+  .errors dd {
+    margin-left: 100px;
+    color: #8a1f11;
+  }
+
+  .error, .f3-form-error {
+    background: #FBE3E4;
+    border-color: #FBC2C4;
+  }
+
+  .error {
+    color: #8a1f11;
+  }
+
+  .notice {
+    background: #FFF6BF;
+    color: #514721;
+    border-color: #FFD324;
+  }
+
+  .success {
+    background: #E6EFC2;
+    color: #264409;
+    border-color: #C6D880;
+  }
+
+  .error a {
+    color: #8a1f11;
+  }
+
+  .notice a {
+    color: #514721;
+  }
+
+  .success a {
+    color: #264409;
+  }
+
+  .required {
+    color: #8a1f11;
+  }
 }
