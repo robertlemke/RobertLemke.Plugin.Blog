@@ -1,1 +1,2 @@
-include: **/*
+include: **/*.fusion
+include: nodetypes://RobertLemke.Plugin.Blog/**/*.fusion

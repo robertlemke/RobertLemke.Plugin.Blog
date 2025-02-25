@@ -3,6 +3,33 @@
     font-size: 0.8em;
   }
 
+  ul.posts {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    a {
+      &.read-more {
+        font-size: 0.8rem;
+        text-decoration: underline;
+      }
+    }
+  }
+
   li.post, li.comment {
     list-style: none;
     list-style-image: none;
@@ -55,15 +82,33 @@
 
   /*--------------- pagination ------------------*/
 
-  ul.typo3-widget-paginator {
-    list-style: none;
+  ul.Pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
   }
 
-  ul.typo3-widget-paginator li {
-    display: block;
-    float: left;
-    padding: 4px 6px;
-    margin: 4px;
+  ul.Pagination li {
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    display: flex;
+
+    a {
+      padding: 0.5rem;
+    }
+
+    &:hover,
+    &.isCurrent {
+      border-color: #0f0f0f;
+    }
+
+    &.isCurrent {
+      font-weight: bold;
+    }
   }
 
   /*--------------- form validation ------------------*/

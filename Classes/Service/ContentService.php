@@ -14,22 +14,24 @@ namespace RobertLemke\Plugin\Blog\Service;
  */
 
 use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\NodeAggregate\NodeName;
+use Neos\ContentRepository\Domain\NodeType\NodeTypeConstraintFactory;
+use Neos\ContentRepository\Domain\Projection\Content\TraversableNodes;
 use Neos\ContentRepository\Exception\NodeException;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ResourceManagement\ResourceManager;
 
 /**
  * A service which can render specific views of blog related content
- *
- * @Flow\Scope("singleton")
  */
+#[Flow\Scope("singleton")]
 class ContentService
 {
-    /**
-     * @Flow\Inject
-     * @var ResourceManager
-     */
-    protected $resourceManager;
+    #[Flow\Inject]
+    protected ResourceManager $resourceManager;
+
+    #[Flow\Inject]
+    protected NodeTypeConstraintFactory $nodeTypeConstraintFactory;
 
     /**
      * Renders a teaser text with up to $maximumLength characters, with an outermost <p> and some more tags removed,
@@ -37,16 +39,15 @@ class ContentService
      *
      * If '<!-- read more -->' is found, the teaser will be the preceding content and $maximumLength is ignored.
      *
-     * @param NodeInterface $node
-     * @param integer $maximumLength
      * @return string
      */
-    public function renderTeaser(NodeInterface $node, $maximumLength = 500): string
+    public function renderTeaser(NodeInterface $node, int $maximumLength = 500): string
     {
         $stringToTruncate = '';
+        $contentNodes = $this->getContentNodesFromMainCollection($node);
 
         /** @var NodeInterface $contentNode */
-        foreach ($node->getNode('main')->getChildNodes('Neos.NodeTypes:Text') as $contentNode) {
+        foreach ($contentNodes as $contentNode) {
             foreach ($contentNode->getProperties() as $propertyValue) {
                 if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
                     $stringToTruncate .= $propertyValue;
@@ -80,9 +81,10 @@ class ContentService
     public function renderContent(NodeInterface $node): string
     {
         $content = '';
+        $childNodes = $this->getContentNodesFromMainCollection($node);
 
         /** @var NodeInterface $contentNode */
-        foreach ($node->getNode('main')->getChildNodes('Neos.Neos:Content') as $contentNode) {
+        foreach ($childNodes as $contentNode) {
             if ($contentNode->getNodeType()->isOfType('Neos.NodeTypes:TextWithImage')) {
                 $propertyValue = $contentNode->getProperty('image');
                 $attributes = [
@@ -110,6 +112,18 @@ class ContentService
         }
 
         return $this->stripUnwantedTags($content);
+    }
+
+    /**
+     * @param NodeInterface $node
+     * @return TraversableNodes
+     */
+    protected function getContentNodesFromMainCollection(NodeInterface $node): TraversableNodes
+    {
+        $childNodeConstraint = $this->nodeTypeConstraintFactory->parseFilterString('Neos.Neos:Content');
+        return $node
+            ->findNamedChildNode(NodeName::fromString('main'))
+            ->findChildNodes($childNodeConstraint);
     }
 
     /**

@@ -24,6 +24,10 @@ Neos:
         'RobertLemke.Plugin.Blog':
           position: 'before Neos.Neos'
 
+  Fusion:
+    defaultContext:
+      RobertLemke.Plugin.Blog.TeaserHelper: 'RobertLemke\Plugin\Blog\Eel\Helper\TeaserHelper'
+
   Neos:
     nodeTypes:
       groups:

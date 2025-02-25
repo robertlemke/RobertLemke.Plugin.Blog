@@ -1,0 +1,22 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.BlogTeaser) < prototype(Neos.Fusion:Component) {
+    title = null
+    teaserText = null
+    postUri = null
+    removed = false
+
+    @private {
+        titleWithFlag = ${props.title + (props.removed ? ' (removed)' : '')}
+    }
+
+    renderer = afx`
+        <Neos.Fusion:Fragment>
+            <h2>
+                <RobertLemke.Plugin.Blog:Presentation.Atom.Link uri={props.postUri} label={private.titleWithFlag}/>
+            </h2>
+            <p class="content">
+                {props.teaserText}
+            </p>
+            <RobertLemke.Plugin.Blog:Presentation.Atom.Link uri={props.postUri} label={I18n.translate('RobertLemke.Plugin.Blog:Main:10')} class="read-more"/>
+        </Neos.Fusion:Fragment>
+    `
+}
