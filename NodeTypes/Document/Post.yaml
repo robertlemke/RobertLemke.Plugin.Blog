@@ -32,6 +32,12 @@
         label: Author
         inspector:
           group: page
+    enableComments:
+      type: boolean
+      ui:
+        label: 'Enable Comments'
+        inspector:
+          group: page
     relatedPosts:
       type: references
       ui:

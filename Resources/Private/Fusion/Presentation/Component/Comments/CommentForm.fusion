@@ -1,0 +1,12 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Comments.CommentForm) < prototype(Neos.Neos:ContentComponent) {
+    form = null
+
+    renderer = afx`
+        <div id="commentCreateForm" class="commentCreateForm">
+            <h3>
+                {I18n.translate('RobertLemke.Plugin.Blog:Main:39')}
+            </h3>
+            {props.form}
+        </div>
+    `
+}

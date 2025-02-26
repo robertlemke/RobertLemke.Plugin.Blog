@@ -204,6 +204,14 @@
 				<source>Filed under:</source>
 				<target>Abgelegt in:</target>
 			</trans-unit>
+			<trans-unit id="createCommentForm.submit">
+				<source>Submit</source>
+				<target>Absenden</target>
+			</trans-unit>
+			<trans-unit id="createCommentForm.createdComment">
+				<source>Thank you {author} for your comment!</source>
+				<target>Vielen Dank für deinen Kommentar {Autor}!</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -4,11 +4,13 @@ prototype(RobertLemke.Plugin.Blog:Integration.Comments) < prototype(Neos.Neos:Co
         itemName = 'node'
         itemRenderer = RobertLemke.Plugin.Blog:Content.Comment
     }
-    enableReply = false
+
+    commentForm = RobertLemke.Plugin.Blog:Runtime.CommentForm
 
     renderer = afx`
         <div id="comments" class="comments">
             <RobertLemke.Plugin.Blog:Presentation.Component.Comments.CommentList comments={props.comments} />
+            <RobertLemke.Plugin.Blog:Presentation.Component.Comments.CommentForm form={props.commentForm} @if.enabledReply={props.enableReply} />
         </div>
     `
 }

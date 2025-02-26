@@ -15,7 +15,8 @@
         "neos/neos": "^8.0",
         "robertlemke/akismet": "^3.0",
         "robertlemke/rss": "^2.0",
-        "flowpack/listable": "^3.6"
+        "flowpack/listable": "^3.6",
+        "neos/fusion-form": "^2.0"
     },
     "suggest": {
         "neos/symfonymailer": "Allows sending notification emails on new comments",

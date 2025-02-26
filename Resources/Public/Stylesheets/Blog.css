@@ -111,6 +111,39 @@
     }
   }
 
+  /*--------------- form ------------------*/
+
+    form.newcomment {
+        display: flex;
+        margin: 2rem;
+        flex-direction: column;
+        gap: 1rem;
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+
+            input, textarea {
+                padding: 0.5rem;
+                border: 1px solid #000;
+                border-radius: 0.25rem;
+            }
+        }
+
+        button {
+            display: flex;
+            border: 1px solid #000;
+            border-radius: 0.25rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            width: fit-content;
+
+            &:hover {
+                background-color: lightgrey;
+            }
+        }
+    }
+
   /*--------------- form validation ------------------*/
 
   input.typo3-form-error {
@@ -118,25 +151,26 @@
   }
 
   .errors {
-    padding: 0.8em;
-    margin-bottom: 1em;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 0.25rem;
     border: 1px solid #FBC2C4;
-  }
+    background: #FBE3E4;
 
-  .errors dt {
-    float: left;
-    color: #8a1f11;
-    width: 100px;
-    font-weight: bold;
-  }
+      dt {
+          float: left;
+          color: #8a1f11;
+          width: 100px;
+          font-weight: bold;
+      }
 
-  .errors dd {
-    margin-left: 100px;
-    color: #8a1f11;
+      dd {
+          margin-left: 100px;
+          color: #8a1f11;
+      }
   }
 
   .error, .f3-form-error {
-    background: #FBE3E4;
     border-color: #FBC2C4;
   }
 
