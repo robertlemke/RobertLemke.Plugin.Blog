@@ -1,0 +1,18 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Comments.CommentList) < prototype(Neos.Fusion:Component) {
+    comments = ${[]}
+
+    renderer = afx`
+        <div itemprop="articleBody">
+            <h3>
+                {I18n.translate('RobertLemke.Plugin.Blog:Main:36')}
+            </h3>
+            <ol class="commentlist">
+                <Neos.Fusion:Loop items={props.comments} itemName="comment">
+                    <li class="comment">
+                        {comment}
+                    </li>
+                </Neos.Fusion:Loop>
+            </ol>
+        </div>
+    `
+}

@@ -1,0 +1,14 @@
+prototype(RobertLemke.Plugin.Blog:Integration.Comments) < prototype(Neos.Neos:ContentComponent) {
+    comments = Neos.Fusion:Map {
+        items = ${q(node).children('comments').children('[spam = false]')}
+        itemName = 'node'
+        itemRenderer = RobertLemke.Plugin.Blog:Content.Comment
+    }
+    enableReply = false
+
+    renderer = afx`
+        <div id="comments" class="comments">
+            <RobertLemke.Plugin.Blog:Presentation.Component.Comments.CommentList comments={props.comments} />
+        </div>
+    `
+}

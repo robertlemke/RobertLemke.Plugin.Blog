@@ -26,7 +26,8 @@ Neos:
 
   Fusion:
     defaultContext:
-      RobertLemke.Plugin.Blog.TeaserHelper: 'RobertLemke\Plugin\Blog\Eel\Helper\TeaserHelper'
+      RobertLemke.Plugin.Blog.Teaser: 'RobertLemke\Plugin\Blog\Eel\Helper\Teaser'
+      RobertLemke.Plugin.Blog.Gravatar: 'RobertLemke\Plugin\Blog\Eel\Helper\Gravatar'
 
   Neos:
     nodeTypes:

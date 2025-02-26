@@ -8,7 +8,7 @@ use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Eel\ProtectedContextAwareInterface;
 use RobertLemke\Plugin\Blog\Service\ContentService;
 
-class TeaserHelper implements ProtectedContextAwareInterface
+class Teaser implements ProtectedContextAwareInterface
 {
     /**
      * @Flow\Inject

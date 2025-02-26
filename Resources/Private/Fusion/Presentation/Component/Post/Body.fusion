@@ -1,0 +1,9 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Post.Body) < prototype(Neos.Fusion:Component) {
+    content = null
+
+    renderer = afx`
+        <div itemprop="articleBody">
+            {props.content}
+        </div>
+    `
+}

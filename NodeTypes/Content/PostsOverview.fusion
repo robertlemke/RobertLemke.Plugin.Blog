@@ -1,7 +1,7 @@
 #
 # List of most recent blog posts, including pagination
 #
-prototype(RobertLemke.Plugin.Blog:Content.PostsOverview) < prototype(Neos.Fusion:Component) {
+prototype(RobertLemke.Plugin.Blog:Content.PostsOverview) < prototype(Neos.Neos:ContentComponent) {
     paginatedPosts = Flowpack.Listable:PaginatedCollection {
         collection = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Document.Post]').get()}
         itemsPerPage = 5

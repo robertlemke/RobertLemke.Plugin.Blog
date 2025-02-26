@@ -1,12 +1,15 @@
 #
 # Comment is a straight-forward content type
 #
-prototype(RobertLemke.Plugin.Blog:Content.Comment)  < prototype(Neos.Neos:Content) {
-    templatePath = 'resource://RobertLemke.Plugin.Blog/Private/Templates/NodeTypes/Comment.html'
-
-    spam = ${q(node).property('spam')}
+prototype(RobertLemke.Plugin.Blog:Content.Comment) < prototype(Neos.Neos:ContentComponent) {
+    textContent = Neos.Neos:Editable {
+        property = 'text'
+    }
     author = ${q(node).property('author')}
     datePublished = ${q(node).property('datePublished')}
     emailAddress = ${q(node).property('emailAddress')}
-    text = ${q(node).property('text')}
+
+    renderer = afx`
+        <RobertLemke.Plugin.Blog:Presentation.Component.Comments.Comment {...props} />
+    `
 }
