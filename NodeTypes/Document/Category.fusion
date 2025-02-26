@@ -3,7 +3,8 @@
 #
 prototype(RobertLemke.Plugin.Blog:Document.Category) < prototype(Neos.NodeTypes:Page) {
     body.content.main = RobertLemke.Plugin.Blog:Content.PostsOverview {
-        postsNode = null
-        postNodes = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Document.Post]').filterByReference('categories', documentNode).get()}
+        paginatedPosts = Flowpack.Listable:PaginatedCollection {
+            collection = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Document.Post]').filterByReference('categories', documentNode).get()}
+        }
     }
 }
