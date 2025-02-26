@@ -10,20 +10,7 @@ RobertLemke:
           email: ''
           name: 'Blog Admin'
 
-      # this is deprecated and should be configured via Fusion instead
-      feed:
-        title: 'The Neos Blog'
-        description: 'A great, new - yet unconfigured - blog powered by Neos'
-        uri: ''
-        includeContent: false
-
 Neos:
-  Flow:
-    mvc:
-      routes:
-        'RobertLemke.Plugin.Blog':
-          position: 'before Neos.Neos'
-
   Fusion:
     defaultContext:
       RobertLemke.Plugin.Blog.Teaser: 'RobertLemke\Plugin\Blog\Eel\Helper\Teaser'

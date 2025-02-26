@@ -21,7 +21,7 @@ Note: Although this package is in use (for example on robertlemke.com) it is not
 
 ## Comment notifications
 
-As soon as the notifications.to.email setting is configured and neos/swiftmailer is installed, a notification
+As soon as the notifications.to.email setting is configured and neos/symfonymailer is installed, a notification
 will be sent whenever a comment is submitted.
 
 ## Akismet spam checking
