@@ -1,0 +1,32 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Atom.CiteAuthor) < prototype(Neos.Fusion:Component) {
+
+    citeAuthor = null
+
+    @private {
+        citeUriLabel = ${!String.isBlank(props.citeAuthor.citeUriLabel) ? props.citeAuthor.citeUriLabel : 'here'}
+        author = Neos.Fusion:Case {
+            withLink {
+                condition = ${!String.isBlank(props.citeAuthor.uri)}
+                renderer = afx`
+                    <a href={props.citeAuthor.uri}>{props.citeAuthor.name}</a>
+                `
+            }
+            isDefault {
+                condition = true
+                renderer = Neos.Fusion:Value {
+                    value = ${props.citeAuthor.name}
+                }
+            }
+        }
+    }
+
+    @if.hasAuthor = ${Array.length(props.citeAuthor)}
+
+    renderer = afx`
+        <p>
+            <cite>{private.author}</cite> {I18n.translate('RobertLemke.Plugin.Blog:Main:nodetype.quote.citeAuthor.wrote')}
+            <a href={props.citeAuthor.citeUri}>{private.citeUriLabel}</a>:
+        </p>
+    `
+    renderer.@if.hasAuthor = ${props.citeAuthor != null}
+}

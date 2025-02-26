@@ -212,6 +212,10 @@
 				<source>Thank you {author} for your comment!</source>
 				<target>Vielen Dank für deinen Kommentar {Autor}!</target>
 			</trans-unit>
+			<trans-unit id="nodetype.quote.citeAuthor.wrote">
+				<source>wrote </source>
+				<target>schrieb </target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

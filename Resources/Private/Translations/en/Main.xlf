@@ -160,6 +160,9 @@
 			<trans-unit id="createCommentForm.createdComment">
 				<source>Thank you {author} for your comment!</source>
 			</trans-unit>
+			<trans-unit id="nodetype.quote.citeAuthor.wrote">
+				<source>wrote </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

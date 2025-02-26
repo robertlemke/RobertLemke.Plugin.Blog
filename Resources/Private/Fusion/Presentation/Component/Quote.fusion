@@ -1,0 +1,21 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Quote) < prototype(Neos.Fusion:Component) {
+
+    citeAuthor = null
+    textContent = ''
+
+    @private {
+        citeAttribute = Neos.Fusion:DataStructure {
+            cite = ${props.citeAuthor.citeUri}
+            @if.hasValue = ${props.citeAuthor && !String.isBlank(props.citeAuthor.citeUri)}
+        }
+    }
+
+    renderer = afx`
+        <Neos.Fusion:Fragment>
+            <RobertLemke.Plugin.Blog:Presentation.Atom.CiteAuthor citeAuthor={props.citeAuthor} />
+            <blockquote {...private.citeAttribute}>
+                {props.textContent}
+            </blockquote>
+        </Neos.Fusion:Fragment>
+    `
+}
