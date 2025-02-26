@@ -1,0 +1,47 @@
+prototype(RobertLemke.Plugin.Blog:Feed) < prototype(Neos.Fusion:Http.Message) {
+    httpResponseHead {
+        headers.Content-Type = 'application/xml'
+    }
+
+    doctype = '<?xml version="1.0" encoding="utf-8"?>'
+    doctype.@position = 'start 100'
+
+    feed = Neos.Fusion:Component {
+        posts = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Document.Post]').sort('datePublished', 'DESC').slice(0, 20).get()}
+        site = ${site}
+        title = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.title')}
+        siteLink = Neos.Neos:NodeUri {
+            absolute = true
+            format = 'html'
+            node = ${site}
+        }
+        atomLink = Neos.Fusion:Join {
+            uri = Neos.Neos:NodeUri {
+                absolute = true
+                node = ${site}
+            }
+            path = ${String.endsWith(this.uri, 'rss.xml') ? '' : '/rss.xml'}
+        }
+        description = ${Configuration.setting('RobertLemke.Plugin.Blog.feed.description')}
+        language = ${String.replace(site.context.dimensions.language[0], '_', '-')}
+        publishDate = ${Date.now()}
+
+        renderer = afx`
+            <RobertLemke.Plugin.Blog:Presentation.Component.Feed {...props}/>
+        `
+
+        @cache {
+            mode = 'cached'
+
+            entryIdentifier {
+                identifier = 'postRss'
+            }
+
+            entryTags {
+                1 = ${Neos.Caching.nodeTypeTag('RobertLemke.Plugin.Blog:Document.Post', node)}
+            }
+        }
+    }
+}
+
+

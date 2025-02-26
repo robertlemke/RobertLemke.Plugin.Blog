@@ -10,7 +10,17 @@ RobertLemke:
           email: ''
           name: 'Blog Admin'
 
+      feed:
+        title: 'The Neos Blog'
+        description: 'A great, new - yet unconfigured - blog powered by Neos'
+
 Neos:
+  Flow:
+    mvc:
+      routes:
+        'RobertLemke.Plugin.Blog':
+          position: 'before Neos.Neos'
+
   Fusion:
     defaultContext:
       RobertLemke.Plugin.Blog.Teaser: 'RobertLemke\Plugin\Blog\Eel\Helper\Teaser'

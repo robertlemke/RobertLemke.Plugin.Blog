@@ -1,0 +1,64 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed) < prototype(Neos.Fusion:Component) {
+
+    title = ''
+    siteLink = ''
+    atomLink = ''
+    description = ''
+    language = ''
+    publishDate = null
+    posts = ${[]}
+
+    @private {
+        channelInformation = Neos.Fusion:Join {
+            title = Neos.Fusion:Tag {
+                tagName = 'title'
+                content = ${props.title}
+            }
+            siteLink = Neos.Fusion:Tag {
+                tagName = 'link'
+                content = ${String.htmlSpecialChars(props.siteLink)}
+            }
+            atomLink = Neos.Fusion:Tag {
+                tagName = 'atom-link'
+                content = ${props.atomLink}
+            }
+            description = Neos.Fusion:Tag {
+                tagName = 'description'
+                content = ${props.description}
+            }
+            language = Neos.Fusion:Tag {
+                tagName = 'language'
+                content = ${props.language}
+            }
+            lastBuildDate = Neos.Fusion:Tag {
+                tagName = 'lastBuildDate'
+                content = ${Date.format(props.publishDate, 'Y-m-d\TH:i:sP')}
+            }
+        }
+        postItems = Neos.Fusion:Loop {
+            items = ${props.posts}
+            itemName = 'post'
+            itemRenderer = RobertLemke.Plugin.Blog:Presentation.Component.Feed.FeedItem {
+                title = ${q(post).property('title')}
+                description = ${RobertLemke.Plugin.Blog.Teaser.getCroppedTeaser(post)}
+                link = Neos.Neos:NodeUri {
+                    node = ${post}
+                    absolute = true
+                }
+                publishDate = ${post.publishDate}
+                identifier = ${post.identifier}
+            }
+        }
+    }
+
+    renderer = afx`
+        <Neos.Fusion:Fragment>
+            <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+                <channel>
+                    {private.channelInformation}
+                    {private.postItems}
+                </channel>
+            </rss>
+        </Neos.Fusion:Fragment>
+    `
+}
