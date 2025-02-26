@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace RobertLemke\Plugin\Blog\Runtime\Action;
 
-use Neos\ContentRepository\Domain\NodeAggregate\NodeName;
 use Neos\Flow\Annotations as Flow;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Domain\NodeAggregate\NodeName;
 use Neos\ContentRepository\Domain\Model\NodeTemplate;
 use Neos\ContentRepository\Domain\Service\NodeService;
 use Neos\ContentRepository\Domain\Service\NodeTypeManager;
@@ -71,7 +72,13 @@ class CreateCommentAction extends AbstractAction
             throw new ActionException('Akismet service not available', 1740575405);
         }
 
+        $this->emitCommentCreated($commentNode, $postNode);
         $response->setContent($this->options['message']);
         return $response;
+    }
+
+    #[Flow\Signal]
+    protected function emitCommentCreated(NodeInterface $commentNode, NodeInterface $postNode): void
+    {
     }
 }
