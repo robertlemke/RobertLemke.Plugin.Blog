@@ -55,15 +55,20 @@ class ContentService
             }
         }
 
-        $jumpPosition = strpos($stringToTruncate, '<!-- read more -->');
-
-        if ($jumpPosition !== false) {
-            return $this->stripUnwantedTags(substr($stringToTruncate, 0, ($jumpPosition - 1)));
+        $readMorePosition = strpos($stringToTruncate, '<!-- read more -->');
+        if ($readMorePosition !== false) {
+            return $this->stripUnwantedTags(substr($stringToTruncate, 0, $readMorePosition - 1));
         }
 
-        $jumpPosition = strpos($stringToTruncate, '</p>');
-        if ($jumpPosition !== false && $jumpPosition < ($maximumLength + 100)) {
-            return $this->stripUnwantedTags(substr($stringToTruncate, 0, $jumpPosition + 4));
+        // Find all paragraph end positions
+        $validPositions = array_filter($this->getClosingPTagPositions($stringToTruncate), function($pos) use ($maximumLength) {
+            return $pos < $maximumLength;
+        });
+
+        // If we found a suitable paragraph break, use it
+        $bestEndPosition = max($validPositions);
+        if ($bestEndPosition !== null) {
+            return $this->stripUnwantedTags(substr($stringToTruncate, 0, $bestEndPosition));
         }
 
         if (strlen($stringToTruncate) > $maximumLength) {
@@ -71,6 +76,24 @@ class ContentService
         }
 
         return $this->stripUnwantedTags($stringToTruncate);
+    }
+
+    /**
+     * Find all positions of '</p>' in the given HTML string.
+     *
+     * @param string $html
+     * @return array
+     */
+    protected function getClosingPTagPositions(string $html) {
+        $positions = [];
+        $offset = 0;
+
+        while (($pos = strpos($html, '</p>', $offset)) !== false) {
+            $positions[] = $pos;
+            $offset = $pos + 1;
+        }
+
+        return $positions;
     }
 
     /**
