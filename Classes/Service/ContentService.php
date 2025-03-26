@@ -61,7 +61,7 @@ class ContentService
         }
 
         // Find all paragraph end positions
-        $validPositions = array_filter($this->getClosingPTagPositions($stringToTruncate), function($pos) use ($maximumLength) {
+        $validPositions = array_filter($this->getPTagPositions($stringToTruncate), function($pos) use ($maximumLength) {
             return $pos < $maximumLength;
         });
 
@@ -84,11 +84,11 @@ class ContentService
      * @param string $html
      * @return array
      */
-    protected function getClosingPTagPositions(string $html) {
+    protected function getPTagPositions(string $html) {
         $positions = [];
         $offset = 0;
 
-        while (($pos = strpos($html, '</p>', $offset)) !== false) {
+        while (($pos = strpos($html, '<p>', $offset)) !== false) {
             $positions[] = $pos;
             $offset = $pos + 1;
         }
