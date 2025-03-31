@@ -1,0 +1,23 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Post.Header) < prototype(Neos.Fusion:Component) {
+    title = null
+    author = null
+    publishDate = null
+
+    renderer = afx`
+        <header>
+            <h1 itemprop="name headline">
+                {props.title}
+            </h1>
+            <div class="byline">
+                by
+                <span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+                <span itemprop="name">{props.author}</span>
+            </span>
+                on
+                <time datetime={Date.format(props.publishDate, 'c')} itemprop="datePublished">
+                    {Date.format(props.publishDate, 'F jS, Y')}
+                </time>
+            </div>
+        </header>
+    `
+}

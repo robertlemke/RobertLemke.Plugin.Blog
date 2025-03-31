@@ -1,0 +1,15 @@
+'RobertLemke.Plugin.Blog:Document.Category':
+  superTypes:
+    'Neos.Neos:Document': true
+    'RobertLemke.Plugin.Blog:Constraint.Document': true
+  ui:
+    label: 'Blog Category'
+    group: blog
+    icon: 'folder'
+  properties:
+    domain:
+      type: string
+      ui:
+        label: 'Taxonomy domain'
+        inspector:
+          group: 'document'

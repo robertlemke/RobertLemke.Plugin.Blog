@@ -1,0 +1,12 @@
+#
+# List posts in tag, including pagination
+#
+prototype(RobertLemke.Plugin.Blog:Document.Tag) < prototype(Neos.NodeTypes:Page) {
+    body.content.main = RobertLemke.Plugin.Blog:Content.PostsOverview {
+        paginatedPosts = Flowpack.Listable:PaginatedCollection {
+            collection = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Document.Post]').filterByReference('tags', documentNode).get()}
+        }
+    }
+}
+
+

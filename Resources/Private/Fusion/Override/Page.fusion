@@ -1,0 +1,13 @@
+prototype(Neos.Neos:Page) {
+    head {
+        stylesheets {
+            RobertLemkePluginBlog = Neos.Fusion:Tag {
+                tagName = 'link'
+                attributes {
+                    rel = 'stylesheet'
+                    href = ${StaticResource.uri('RobertLemke.Plugin.Blog', 'Public/Stylesheets/Blog.css')}
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,64 @@
+'RobertLemke.Plugin.Blog:Document.Post':
+  superTypes:
+    'Neos.Neos:Document': true
+    'RobertLemke.Plugin.Blog:Constraint.Document': true
+  ui:
+    label: 'Blog Post'
+    group: blog
+    icon: 'file-alt'
+    inspector:
+      groups:
+        page:
+          label: 'Blog Post'
+        moreinfo:
+          label: 'More Info'
+  childNodes:
+    main:
+      type: 'Neos.Neos:ContentCollection'
+    comments:
+      type: 'Neos.Neos:ContentCollection'
+  properties:
+    datePublished:
+      type: DateTime
+      ui:
+        label: 'Publication Date'
+        reloadIfChanged: true
+        inspector:
+          group: page
+    author:
+      type: string
+      defaultValue: 'Robert Lemke'
+      ui:
+        label: Author
+        inspector:
+          group: page
+    enableComments:
+      type: boolean
+      ui:
+        label: 'Enable Comments'
+        inspector:
+          group: page
+    relatedPosts:
+      type: references
+      ui:
+        label: 'Related Posts'
+        inspector:
+          group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Document.Post']
+    categories:
+      type: references
+      ui:
+        label: Categories
+        inspector:
+          group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Document.Category']
+    tags:
+      type: references
+      ui:
+        label: Tags
+        inspector:
+          group: moreinfo
+          editorOptions:
+            nodeTypes: ['RobertLemke.Plugin.Blog:Document.Tag']

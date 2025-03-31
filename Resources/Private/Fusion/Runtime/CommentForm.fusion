@@ -1,0 +1,51 @@
+prototype(RobertLemke.Plugin.Blog:Runtime.CommentForm) < prototype(Neos.Fusion.Form:Runtime.RuntimeForm) {
+
+    namespace = "createComment"
+    data = Neos.Fusion:DataStructure {
+        postNode = ${documentNode.path}
+    }
+
+    process {
+        content = afx`
+            <Neos.Fusion.Form:Hidden field.name="postNode" />
+            <Neos.Fusion.Form:FieldContainer field.name="author" label={I18n.translate('RobertLemke.Plugin.Blog:Main:40')} class="field-group">
+                <Neos.Fusion.Form:Input @validate />
+            </Neos.Fusion.Form:FieldContainer>
+            <Neos.Fusion.Form:FieldContainer field.name="emailAddress" label={I18n.translate('RobertLemke.Plugin.Blog:Main:41')} class="field-group">
+                <Neos.Fusion.Form:Input @validate />
+            </Neos.Fusion.Form:FieldContainer>
+            <Neos.Fusion.Form:FieldContainer field.name="text" label={I18n.translate('RobertLemke.Plugin.Blog:Main:43')} class="field-group">
+                <Neos.Fusion.Form:Textarea @validate />
+            </Neos.Fusion.Form:FieldContainer>
+        `
+
+        footer = afx`
+            <Neos.Fusion.Form:Button>{Translation.id('createCommentForm.submit').package('RobertLemke.Plugin.Blog').translate()}</Neos.Fusion.Form:Button>
+        `
+
+        schema {
+            author = ${Form.Schema.string().isRequired()}
+            emailAddress = ${Form.Schema.string().isRequired().validator('EmailAddress')}
+            text = ${Form.Schema.string().isRequired().validator('StringLength', {minimum: 5})}
+            postNode = ${Form.Schema.string().isRequired()}
+        }
+    }
+
+    action {
+        createComment {
+            type = 'RobertLemke\\Plugin\\Blog\\Runtime\\Action\\CreateCommentAction'
+            options {
+                message = afx`<h1>{Translation.id('createCommentForm.createdComment').arguments(data).package('RobertLemke.Plugin.Blog').translate()}</h1>`
+                author = ${data.author}
+                text = ${data.text}
+                emailAddress = ${data.emailAddress}
+                postNode = ${data.postNode}
+            }
+        }
+    }
+
+    attributes = Neos.Fusion:DataStructure {
+        class = 'newcomment'
+        id = 'newCommentForm'
+    }
+}

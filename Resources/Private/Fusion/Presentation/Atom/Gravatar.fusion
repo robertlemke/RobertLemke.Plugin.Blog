@@ -1,0 +1,24 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Atom.Gravatar) < prototype(Neos.Fusion:Component) {
+    email = ''
+    size = 64
+    rating = 'g'
+    default = 'mg'
+    forceDefault = false
+    class = null
+
+    @private {
+        class = ${props.class}
+        class.@if.hasClassDefined = ${!String.isBlank(props.class)}
+        gravatarUri = ${RobertLemke.Plugin.Blog.Gravatar.getGravatarURL(props.email, props.size, props.rating, props.default, props.forceDefault)}
+    }
+
+    renderer = Neos.Fusion:Tag {
+        tagName = 'img'
+        attributes {
+            class = ${props.class}
+            class.@if.hasClassDefined = ${!String.isBlank(props.class)}
+            src = ${private.gravatarUri}
+        }
+        @if.hasEmailOrDefault = ${!String.isBlank(props.email) || !String.isBlank(props.default)}
+    }
+}

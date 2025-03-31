@@ -1,0 +1,54 @@
+'RobertLemke.Plugin.Blog:Content.Comment':
+  superTypes:
+    'Neos.Neos:Content': true
+    'RobertLemke.Plugin.Blog:Constraint.Content': true
+  ui:
+    label: 'Blog Comment'
+    icon: 'comment'
+    group: blog
+    inspector:
+      groups:
+        comment:
+          label: 'Blog Comment'
+  properties:
+    datePublished:
+      type: DateTime
+      ui:
+        label: 'Publication Date'
+        reloadIfChanged: true
+        inspector:
+          group: comment
+    author:
+      type: string
+      ui:
+        label: Author
+        reloadIfChanged: true
+        inspector:
+          group: comment
+    emailAddress:
+      type: string
+      ui:
+        label: 'Email Address'
+        reloadIfChanged: true
+        inspector:
+          group: comment
+    uri:
+      type: string
+      ui:
+        label: URI
+        reloadIfChanged: true
+        inspector:
+          group: comment
+    spam:
+      type: boolean
+      ui:
+        label: Spam
+        inspector:
+          group: comment
+    text:
+      type: string
+      ui:
+        inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Your Comment Here'

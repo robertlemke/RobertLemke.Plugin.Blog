@@ -154,6 +154,15 @@
 			<trans-unit id="48">
 				<source>Filed under:</source>
 			</trans-unit>
+			<trans-unit id="createCommentForm.submit">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="createCommentForm.createdComment">
+				<source>Thank you {author} for your comment!</source>
+			</trans-unit>
+			<trans-unit id="nodetype.quote.citeAuthor.wrote">
+				<source>wrote </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

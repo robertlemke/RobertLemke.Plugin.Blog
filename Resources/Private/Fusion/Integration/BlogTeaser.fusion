@@ -1,0 +1,13 @@
+prototype(RobertLemke.Plugin.Blog:Integration.BlogTeaser) < prototype(Neos.Neos:ContentComponent) {
+    title = ${q(node).property('title')}
+    teaserText = ${RobertLemke.Plugin.Blog.Teaser.getCroppedTeaser(node)}
+    postUri = Neos.Neos:NodeUri {
+        node = ${node}
+        absolute = true
+    }
+    removed = ${q(node).property('removed')}
+
+    renderer = afx`
+        <RobertLemke.Plugin.Blog:Presentation.Component.BlogTeaser {...props}/>
+    `
+}

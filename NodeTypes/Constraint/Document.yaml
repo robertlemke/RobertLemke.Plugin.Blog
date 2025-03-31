@@ -1,0 +1,5 @@
+##
+# Constraint-supertype that makes blog nodes available in the document tree
+#
+'RobertLemke.Plugin.Blog:Constraint.Document':
+  abstract: true

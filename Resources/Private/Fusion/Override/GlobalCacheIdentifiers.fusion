@@ -1,0 +1,4 @@
+#
+# Add the paginator's "current page" value to cache entry identifiers.
+#
+prototype(Neos.Fusion:GlobalCacheIdentifiers).blogPostsPaginatorCurrentPage = ${request.pluginArguments.posts-paginator.currentPage}

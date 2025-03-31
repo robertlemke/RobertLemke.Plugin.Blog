@@ -1,0 +1,50 @@
+#
+# Blog Post is rendered by a Template-based Fusion object which contains some
+# properties on its own (title, ...) and renders sub nodes contained in two
+# separate sections, namely "main" for the actual post content and "comments" for
+# the comment nodes.
+#
+# The blog post content is made of several content elements which are rendered
+# as a collection just like a page would render its content elements. Hence the
+# usage of ContentCollection.
+#
+# The blog post comments are just several Text nodes which are as well rendered
+# through the Fusion collection feature.
+#
+prototype(RobertLemke.Plugin.Blog:Document.Post) < prototype(Neos.NodeTypes:Page) {
+    body.content.main = RobertLemke.Plugin.Blog:Document.PostRenderer
+}
+
+prototype(RobertLemke.Plugin.Blog:Document.PostRenderer) < prototype(Neos.Fusion:Component) {
+    node = ${node}
+    title = ${q(node).property('title')}
+    author = ${q(node).property('author')}
+    datePublished = ${q(node).property('datePublished')}
+    enableComments = ${q(node).property('enableComments')}
+
+    # Render the main ContentCollection of the Post like a page would
+    mainContent = Neos.Neos:ContentCollection {
+        nodePath = 'main'
+    }
+
+    renderer = afx`
+        <article itemscope="" itemtype="http://schema.org/Article" class="robertlemke-plugin-blog" xmlns:f="http://www.w3.org/1999/html">
+            <RobertLemke.Plugin.Blog:Presentation.Component.Post.Header title={props.title} author={props.author} publishDate={props.datePublished} />
+            <RobertLemke.Plugin.Blog:Presentation.Component.Post.Body content={props.mainContent} />
+            <RobertLemke.Plugin.Blog:Integration.Comments enableReply={props.enableComments} />
+        </article>
+    `
+
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            node = ${node}
+            content = 'blogpost'
+        }
+        entryTags {
+            1 = ${'Node_' + node.identifier}
+            2 = ${'DescendantOf_' + q(node).find('main').property('_identifier')}
+            3 = ${'DescendantOf_' + q(node).find('comments').property('_identifier')}
+        }
+    }
+}

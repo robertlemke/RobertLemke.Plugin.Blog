@@ -1,0 +1,24 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Comments.Comment) < prototype(Neos.Fusion:Component) {
+
+    author = ''
+    datePublished = null
+    emailAddress = ''
+    textContent = ''
+
+    @private {
+        gravatarDefaultUri = ${StaticResource.uri('RobertLemke.Plugin.Blog', 'Public/Icons/GravatarDefault.png')}
+    }
+
+    renderer = afx`
+        <Neos.Fusion:Fragment>
+            <p class="metadata">
+                <strong>{props.author}</strong> |
+                {Date.format(props.datePublished, 'd.m.Y')}
+            </p>
+            <RobertLemke.Plugin.Blog:Presentation.Atom.Gravatar email={props.emailAddress} default={private.gravatarDefaultUri} class="gravatar"/>
+            <p class="content">
+                {props.textContent}
+            </p>
+        </Neos.Fusion:Fragment>
+    `
+}

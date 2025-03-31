@@ -15,7 +15,7 @@ namespace RobertLemke\Plugin\Blog;
 
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Package\Package as BasePackage;
-use RobertLemke\Plugin\Blog\Controller\CommentController;
+use RobertLemke\Plugin\Blog\Runtime\Action\CreateCommentAction;
 use RobertLemke\Plugin\Blog\Service\NotificationService;
 
 /**
@@ -33,6 +33,6 @@ class Package extends BasePackage
     public function boot(Bootstrap $bootstrap)
     {
         $dispatcher = $bootstrap->getSignalSlotDispatcher();
-        $dispatcher->connect(CommentController::class, 'commentCreated', NotificationService::class, 'sendNewCommentNotification');
+        $dispatcher->connect(CreateCommentAction::class, 'commentCreated', NotificationService::class, 'sendNewCommentNotification');
     }
 }

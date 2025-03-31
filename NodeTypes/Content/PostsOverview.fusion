@@ -1,0 +1,35 @@
+#
+# List of most recent blog posts, including pagination
+#
+prototype(RobertLemke.Plugin.Blog:Content.PostsOverview) < prototype(Neos.Neos:ContentComponent) {
+    paginatedPosts = Flowpack.Listable:PaginatedCollection {
+        collection = ${q(site).find('[instanceof RobertLemke.Plugin.Blog:Document.Post]').get()}
+        itemsPerPage = 5
+        maximumNumberOfLinks = 15
+        showPreviousNextLinks = true
+
+        prototype(Flowpack.Listable:Collection) {
+            listClass = 'posts'
+            itemClass = 'post'
+            itemRenderer = RobertLemke.Plugin.Blog:Integration.BlogTeaser
+        }
+    }
+
+    renderer = afx`
+        <div class="robertlemke-plugin-blog" id="scrolling-container">
+            {props.paginatedPosts}
+        </div>
+    `
+
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            documentNode = ${node}
+            currentPage = ${request.pluginArguments.posts-paginator.currentPage}
+        }
+        entryTags {
+            1 = ${'Node_' + node.identifier}
+            2 = ${'DescendantOf_' + q(node).property('_identifier')}
+        }
+    }
+}

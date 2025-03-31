@@ -112,7 +112,7 @@ class AtomImportCommandController extends CommandController
         }
 
         $textNodeType = $this->nodeTypeManager->getNodeType('Neos.NodeTypes:Text');
-        $commentNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Comment');
+        $commentNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Content.Comment');
         $counter = 0;
         foreach ($parser->get_items() as $item) {
             $categories = $item->get_categories();
@@ -135,7 +135,7 @@ class AtomImportCommandController extends CommandController
             }
 
             $nodeTemplate = new NodeTemplate();
-            $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Post'));
+            $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Document.Post'));
             $nodeTemplate->setProperty('title', $item->get_title());
             $nodeTemplate->setProperty('author', $item->get_author()->get_name());
             $published = new \DateTime();
@@ -189,7 +189,7 @@ class AtomImportCommandController extends CommandController
 
         foreach ($tags as $tag) {
             if (!isset($this->tagNodes[$tag])) {
-                $tagNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Tag');
+                $tagNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Document.Tag');
 
                 $tagNode = $this->blogNode->createNode(Utility::renderValidNodeName($tag), $tagNodeType);
                 $tagNode->setProperty('title', $tag);

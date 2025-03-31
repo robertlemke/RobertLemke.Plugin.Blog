@@ -13,41 +13,32 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
-use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Annotations as Flow;
+use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\Flow\Log\ThrowableStorageInterface;
 use Neos\Flow\Log\Utility\LogEnvironment;
-use Neos\SwiftMailer\Message;
+use Neos\SymfonyMailer\Exception\InvalidMailerConfigurationException;
+use Neos\SymfonyMailer\Service\MailerService;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+
 use Psr\Log\LoggerInterface;
 
 /**
  * A notification service
- *
- * @Flow\Scope("singleton")
  */
+#[Flow\Scope("singleton")]
 class NotificationService
 {
-    /**
-     * @var array
-     */
-    protected $settings;
+    protected array $settings;
 
-    /**
-     * @Flow\Inject
-     * @var ThrowableStorageInterface
-     */
-    protected $throwableStorage;
+    #[Flow\Inject]
+    protected ThrowableStorageInterface $throwableStorage;
 
-    /**
-     * @Flow\Inject
-     * @var LoggerInterface
-     */
-    protected $logger;
+    #[Flow\Inject]
+    protected LoggerInterface $logger;
 
-    /**
-     * @param array $settings
-     * @return void
-     */
     public function injectSettings(array $settings): void
     {
         $this->settings = $settings;
@@ -66,22 +57,31 @@ class NotificationService
             return;
         }
 
-        if (!class_exists(Message::class)) {
-            $this->logger->info('The package "Neos.SwiftMailer" is required to send notifications!', LogEnvironment::fromMethodName(__METHOD__));
-
+        if (!class_exists(MailerService::class)) {
+            $this->logger->info('The package "Neos.SymfonyMailer" is required to send notifications!', LogEnvironment::fromMethodName(__METHOD__));
             return;
         }
 
         try {
-            $mail = new Message();
-            $mail
-                ->setFrom([$this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']])
-                ->setReplyTo([$commentNode->getProperty('emailAddress') => $commentNode->getProperty('author')])
-                ->setTo([$this->settings['notifications']['to']['email'] => $this->settings['notifications']['to']['name']])
-                ->setSubject('New comment on blog post "' . $postNode->getProperty('title') . '"' . ($commentNode->getProperty('spam') ? ' (SPAM)' : ''))
-                ->setBody($commentNode->getProperty('text'))
-                ->send();
-        } catch (\Exception $e) {
+            $mailerService = new MailerService();
+
+            // prepare email properties
+            $subject = 'New comment on blog post "' . $postNode->getProperty('title') . '"' . ($commentNode->getProperty('spam') ? ' (SPAM)' : '');
+            $from = new Address($this->settings['notifications']['to']['email'], $this->settings['notifications']['to']['name']);
+            $reply = new Address($commentNode->getProperty('emailAddress'), $commentNode->getProperty('author'));
+
+            // Send email to the blog administrator
+            $email = new Email();
+            $email
+                ->from($from)
+                ->replyTo($reply)
+                ->to($from)
+                ->subject($subject)
+                ->text($commentNode->getProperty('text'));
+
+            $mailer = $mailerService->getMailer();
+            $mailer->send($email);
+        } catch (TransportExceptionInterface|InvalidMailerConfigurationException|\Exception $e) {
             $message = $this->throwableStorage->logThrowable($e);
             $this->logger->error($message, LogEnvironment::fromMethodName(__METHOD__));
         }

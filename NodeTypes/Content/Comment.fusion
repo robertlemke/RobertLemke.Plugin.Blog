@@ -1,0 +1,15 @@
+#
+# Comment is a straight-forward content type
+#
+prototype(RobertLemke.Plugin.Blog:Content.Comment) < prototype(Neos.Neos:ContentComponent) {
+    textContent = Neos.Neos:Editable {
+        property = 'text'
+    }
+    author = ${q(node).property('author')}
+    datePublished = ${q(node).property('datePublished')}
+    emailAddress = ${q(node).property('emailAddress')}
+
+    renderer = afx`
+        <RobertLemke.Plugin.Blog:Presentation.Component.Comments.Comment {...props} />
+    `
+}

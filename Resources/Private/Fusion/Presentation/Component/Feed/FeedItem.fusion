@@ -1,0 +1,37 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed.FeedItem) < prototype(Neos.Fusion:Component) {
+    title = ''
+    link = ''
+    description = ''
+    publishDate = null
+    identifier = ''
+
+    renderer = Neos.Fusion:Tag {
+        tagName = 'item'
+        content = Neos.Fusion:Join {
+            title = Neos.Fusion:Tag {
+                tagName = 'title'
+                content = ${String.htmlSpecialChars(String.stripTags(props.title))}
+            }
+            link = Neos.Fusion:Tag {
+                tagName = 'link'
+                content = ${String.htmlSpecialChars(props.link)}
+            }
+            description = Neos.Fusion:Tag {
+                tagName = 'description'
+                content = ${String.htmlSpecialChars(String.stripTags(props.description))}
+            }
+            pubDate = Neos.Fusion:Tag {
+                tagName = 'pubDate'
+                content = ${Date.format(props.publishDate, 'Y-m-d\TH:i:sP')}
+            }
+            guid = Neos.Fusion:Tag {
+                tagName = 'guid'
+                attributes = Neos.Fusion:DataStructure {
+                    isPermaLink = 'false'
+                    @if.hasIdentifier = ${!String.isBlank(props.identifier)}
+                }
+                content = ${props.identifier}
+            }
+        }
+    }
+}

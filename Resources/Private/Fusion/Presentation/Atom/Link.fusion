@@ -1,0 +1,24 @@
+prototype(RobertLemke.Plugin.Blog:Presentation.Atom.Link) < prototype(Neos.Fusion:Component) {
+    uri = null
+    label = null
+    external = false
+    class = null
+
+    @private {
+        class = ${props.class}
+        class.@if.hasClassDefined = ${!String.isBlank(props.class)}
+        target = ${props.external ? '_blank' : null}
+    }
+
+
+    renderer = Neos.Fusion:Tag {
+        tagName = 'a'
+        attributes {
+            class = ${props.class}
+            class.@if.hasClassDefined = ${!String.isBlank(props.class)}
+            target = ${props.external ? '_blank' : null}
+            href = ${props.uri}
+        }
+        content = ${String.isBlank(props.label) ? props.content : props.label}
+    }
+}

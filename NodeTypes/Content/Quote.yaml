@@ -1,0 +1,48 @@
+'RobertLemke.Plugin.Blog:Content.Quote':
+  superTypes:
+    'Neos.Neos:Content': true
+    'RobertLemke.Plugin.Blog:Constraint.Content': true
+  ui:
+    group: blog
+    label: 'Blog Quote'
+    icon: 'quote-right'
+    inspector:
+      groups:
+        quote:
+          label: 'Blog Quote'
+  properties:
+    citeAuthor:
+      type: string
+      ui:
+        label: 'Cite Author'
+        reloadIfChanged: true
+        inspector:
+          group: quote
+    citeAuthorUri:
+      type: string
+      ui:
+        label: 'Cite Author URI'
+        reloadIfChanged: true
+        inspector:
+          group: quote
+    citeUri:
+      type: string
+      ui:
+        label: 'Cite URI'
+        reloadIfChanged: true
+        inspector:
+          group: quote
+    citeUriLabel:
+      type: string
+      ui:
+        label: 'Cite URI Label'
+        reloadIfChanged: true
+        inspector:
+          group: quote
+    text:
+      type: string
+      ui:
+        inlineEditable: true
+        inline:
+          editorOptions:
+            placeholder: 'Enter quote here'

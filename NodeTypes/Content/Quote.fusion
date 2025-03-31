@@ -1,0 +1,18 @@
+#
+# Quote is a straight-forward content type
+#
+prototype(RobertLemke.Plugin.Blog:Content.Quote) < prototype(Neos.Neos:ContentComponent) {
+    textContent = Neos.Neos:Editable {
+        property = 'text'
+    }
+    citeAuthor = Neos.Fusion:DataStructure {
+        name = ${q(node).property('citeAuthor')}
+        uri = ${q(node).property('citeAuthorUri')}
+        citeUri = ${q(node).property('citeUri')}
+        citeUriLabel = ${q(node).property('citeUriLabel')}
+    }
+
+    renderer = afx`
+        <RobertLemke.Plugin.Blog:Presentation.Component.Quote {...props} />
+    `
+}
