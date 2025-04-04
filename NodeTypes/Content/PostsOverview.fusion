@@ -28,7 +28,7 @@ prototype(RobertLemke.Plugin.Blog:Content.PostsOverview) < prototype(Neos.Neos:C
             currentPage = ${request.pluginArguments.posts-paginator.currentPage}
         }
         entryTags {
-            1 = ${'Node_' + node.identifier}
+            1 = ${Neos.Caching.nodeTag(node)}
             2 = ${'DescendantOf_' + q(node).property('_identifier')}
         }
     }
