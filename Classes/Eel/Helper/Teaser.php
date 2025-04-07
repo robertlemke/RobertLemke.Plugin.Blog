@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace RobertLemke\Plugin\Blog\Eel\Helper;
 
-use Neos\Flow\Annotations as Flow;
-use Neos\ContentRepository\Domain\Model\NodeInterface;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 use Neos\Eel\ProtectedContextAwareInterface;
+use Neos\Flow\Annotations as Flow;
 use RobertLemke\Plugin\Blog\Service\ContentService;
 
 class Teaser implements ProtectedContextAwareInterface
@@ -16,7 +16,7 @@ class Teaser implements ProtectedContextAwareInterface
      */
     protected $contentService;
 
-    public function getCroppedTeaser(NodeInterface $node, int $maximumLength = 500): string
+    public function getCroppedTeaser(Node $node, int $maximumLength = 500): string
     {
         return $this->contentService->renderTeaser($node, $maximumLength);
     }

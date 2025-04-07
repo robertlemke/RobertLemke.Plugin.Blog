@@ -1,57 +1,71 @@
-#############################################################################################################################################################################
-# For more information about node migrations in Neos, checkout the documentation: https://neos.readthedocs.io/en/stable/References/NodeMigrations.html?highlight=migrations #
-#############################################################################################################################################################################
 up:
   comments: 'Migrate Blog related NodeTypes to new structure with Content and Document prefixes'
   migration:
-    - filters:
-        - type: 'NodeType'
+    -
+      filters:
+        -
+          type: NodeType
           settings:
             nodeType: 'RobertLemke.Plugin.Blog:Post'
       transformations:
-        - type: ChangeNodeType
+        -
+          type: ChangeNodeType
           settings:
             newType: 'RobertLemke.Plugin.Blog:Document.Post'
-    - filters:
-        - type: 'NodeType'
+    -
+      filters:
+        -
+          type: NodeType
           settings:
             nodeType: 'RobertLemke.Plugin.Blog:Category'
       transformations:
-        - type: ChangeNodeType
+        -
+          type: ChangeNodeType
           settings:
             newType: 'RobertLemke.Plugin.Blog:Document.Category'
-    - filters:
-        - type: 'NodeType'
+    -
+      filters:
+        -
+          type: NodeType
           settings:
             nodeType: 'RobertLemke.Plugin.Blog:Tag'
       transformations:
-        - type: ChangeNodeType
+        -
+          type: ChangeNodeType
           settings:
             newType: 'RobertLemke.Plugin.Blog:Document.Tag'
-    - filters:
-        - type: 'NodeType'
+    -
+      filters:
+        -
+          type: NodeType
           settings:
             nodeType: 'RobertLemke.Plugin.Blog:Comment'
       transformations:
-        - type: ChangeNodeType
+        -
+          type: ChangeNodeType
           settings:
             newType: 'RobertLemke.Plugin.Blog:Content.Comment'
-    - filters:
-        - type: 'NodeType'
+    -
+      filters:
+        -
+          type: NodeType
           settings:
             nodeType: 'RobertLemke.Plugin.Blog:Quote'
       transformations:
-        - type: ChangeNodeType
+        -
+          type: ChangeNodeType
           settings:
             newType: 'RobertLemke.Plugin.Blog:Content.Quote'
-    - filters:
-        - type: 'NodeType'
+    -
+      filters:
+        -
+          type: NodeType
           settings:
             nodeType: 'RobertLemke.Plugin.Blog:PostsOverview'
       transformations:
-        - type: ChangeNodeType
+        -
+          type: ChangeNodeType
           settings:
             newType: 'RobertLemke.Plugin.Blog:Content.PostsOverview'
-
 down:
   comments: 'No down migration available'

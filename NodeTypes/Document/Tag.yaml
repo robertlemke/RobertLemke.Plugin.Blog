@@ -5,4 +5,4 @@
   ui:
     label: 'Blog Tag'
     group: blog
-    icon: 'tag'
+    icon: tag

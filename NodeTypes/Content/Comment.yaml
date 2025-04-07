@@ -4,7 +4,7 @@
     'RobertLemke.Plugin.Blog:Constraint.Content': true
   ui:
     label: 'Blog Comment'
-    icon: 'comment'
+    icon: comment
     group: blog
     inspector:
       groups:
