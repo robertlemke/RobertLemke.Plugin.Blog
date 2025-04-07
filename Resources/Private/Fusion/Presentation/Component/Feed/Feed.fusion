@@ -45,8 +45,8 @@ prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed) < prototype(Neos.
                     node = ${post}
                     absolute = true
                 }
-                publishDate = ${post.publishDate}
-                identifier = ${post.identifier}
+                publishDate = ${q(post).property('datePublished')}
+                identifier = ${post.aggregateId}
             }
         }
     }

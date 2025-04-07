@@ -2,7 +2,7 @@ prototype(RobertLemke.Plugin.Blog:Runtime.CommentForm) < prototype(Neos.Fusion.F
 
     namespace = "createComment"
     data = Neos.Fusion:DataStructure {
-        postNode = ${documentNode.path}
+        postNode = ${Neos.Node.path(documentNode)}
     }
 
     process {

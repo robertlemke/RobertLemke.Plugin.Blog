@@ -2,25 +2,25 @@
   name: 'RobertLemke.Plugin.Blog: RSS Feed'
   uriPattern: '{node}/rss.xml'
   defaults:
-    '@package': 'Neos.Neos'
-    '@controller': 'Frontend\Node'
-    '@action': 'show'
-    '@format': 'xml'
+    '@package': Neos.Neos
+    '@controller': Frontend\Node
+    '@action': show
+    '@format': xml
   routeParts:
-    'node':
-      handler: 'Neos\Neos\Routing\FrontendNodeRoutePartHandlerInterface'
+    node:
+      handler: Neos\Neos\FrontendRouting\FrontendNodeRoutePartHandlerInterface
       options:
-        onlyMatchSiteNodes: TRUE
+        onlyMatchSiteNodes: true
 -
   name: 'RobertLemke.Plugin.Blog: RSS Feed'
   uriPattern: '{node}rss.xml'
   defaults:
-    '@package': 'Neos.Neos'
-    '@controller': 'Frontend\Node'
-    '@action': 'show'
-    '@format': 'xml'
+    '@package': Neos.Neos
+    '@controller': Frontend\Node
+    '@action': show
+    '@format': xml
   routeParts:
-    'node':
-      handler: 'Neos\Neos\Routing\FrontendNodeRoutePartHandlerInterface'
+    node:
+      handler: Neos\Neos\FrontendRouting\FrontendNodeRoutePartHandlerInterface
       options:
-        onlyMatchSiteNodes: TRUE
+        onlyMatchSiteNodes: true
