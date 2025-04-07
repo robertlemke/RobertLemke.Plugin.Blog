@@ -1,5 +1,2 @@
-##
-# Constraint-supertype that makes contents available in the main content area of the page
-#
 'RobertLemke.Plugin.Blog:Constraint.Content':
   abstract: true

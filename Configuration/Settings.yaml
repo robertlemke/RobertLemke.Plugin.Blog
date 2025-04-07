@@ -1,7 +1,3 @@
-#                                                                        #
-# Settings Configuration for the Blog package                            #
-#                                                                        #
-
 RobertLemke:
   Plugin:
     Blog:
@@ -9,23 +5,19 @@ RobertLemke:
         to:
           email: ''
           name: 'Blog Admin'
-
       feed:
         title: 'The Neos Blog'
         description: 'A great, new - yet unconfigured - blog powered by Neos'
-
 Neos:
   Flow:
     mvc:
       routes:
-        'RobertLemke.Plugin.Blog':
+        RobertLemke.Plugin.Blog:
           position: 'before Neos.Neos'
-
   Fusion:
     defaultContext:
-      RobertLemke.Plugin.Blog.Teaser: 'RobertLemke\Plugin\Blog\Eel\Helper\Teaser'
-      RobertLemke.Plugin.Blog.Gravatar: 'RobertLemke\Plugin\Blog\Eel\Helper\Gravatar'
-
+      RobertLemke.Plugin.Blog.Teaser: RobertLemke\Plugin\Blog\Eel\Helper\Teaser
+      RobertLemke.Plugin.Blog.Gravatar: RobertLemke\Plugin\Blog\Eel\Helper\Gravatar
   Neos:
     nodeTypes:
       groups:

@@ -5,7 +5,7 @@
   ui:
     label: 'Blog Post'
     group: blog
-    icon: 'file-alt'
+    icon: file-alt
     inspector:
       groups:
         page:
@@ -45,7 +45,8 @@
         inspector:
           group: moreinfo
           editorOptions:
-            nodeTypes: ['RobertLemke.Plugin.Blog:Document.Post']
+            nodeTypes:
+              - 'RobertLemke.Plugin.Blog:Document.Post'
     categories:
       type: references
       ui:
@@ -53,7 +54,8 @@
         inspector:
           group: moreinfo
           editorOptions:
-            nodeTypes: ['RobertLemke.Plugin.Blog:Document.Category']
+            nodeTypes:
+              - 'RobertLemke.Plugin.Blog:Document.Category'
     tags:
       type: references
       ui:
@@ -61,4 +63,5 @@
         inspector:
           group: moreinfo
           editorOptions:
-            nodeTypes: ['RobertLemke.Plugin.Blog:Document.Tag']
+            nodeTypes:
+              - 'RobertLemke.Plugin.Blog:Document.Tag'
