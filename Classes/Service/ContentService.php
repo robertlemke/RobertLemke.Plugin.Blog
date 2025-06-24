@@ -50,7 +50,7 @@ class ContentService
         foreach ($contentNodes as $contentNode) {
             foreach ($contentNode->getProperties() as $propertyValue) {
                 if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
-                    $stringToTruncate .= $propertyValue;
+                    $stringToTruncate .= $propertyValue . PHP_EOL;
                 }
             }
         }
@@ -67,7 +67,7 @@ class ContentService
 
         // If we found a suitable paragraph break, use it
         $bestEndPosition = max($validPositions);
-        if ($bestEndPosition !== null) {
+        if ($bestEndPosition > 0) {
             return $this->stripUnwantedTags(substr($stringToTruncate, 0, $bestEndPosition));
         }
 
@@ -82,9 +82,9 @@ class ContentService
      * Find all positions of '</p>' in the given HTML string.
      *
      * @param string $html
-     * @return array
+     * @return int[]
      */
-    protected function getPTagPositions(string $html) {
+    protected function getPTagPositions(string $html): array {
         $positions = [];
         $offset = 0;
 
@@ -94,47 +94,6 @@ class ContentService
         }
 
         return $positions;
-    }
-
-    /**
-     * @param NodeInterface $node
-     * @return string
-     * @throws NodeException
-     */
-    public function renderContent(NodeInterface $node): string
-    {
-        $content = '';
-        $childNodes = $this->getContentNodesFromMainCollection($node);
-
-        /** @var NodeInterface $contentNode */
-        foreach ($childNodes as $contentNode) {
-            if ($contentNode->getNodeType()->isOfType('Neos.NodeTypes:TextWithImage')) {
-                $propertyValue = $contentNode->getProperty('image');
-                $attributes = [
-                    'width="' . $propertyValue->getWidth() . '"',
-                    'height="' . $propertyValue->getHeight() . '"',
-                    'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
-                ];
-                $content .= $contentNode->getProperty('text');
-                $content .= '<img ' . implode(' ', $attributes) . '/>';
-            } elseif ($contentNode->getNodeType()->isOfType('Neos.NodeTypes:Image')) {
-                $propertyValue = $contentNode->getProperty('image');
-                $attributes = [
-                    'width="' . $propertyValue->getWidth() . '"',
-                    'height="' . $propertyValue->getHeight() . '"',
-                    'src="' . $this->resourceManager->getPublicPersistentResourceUri($propertyValue->getResource()) . '"'
-                ];
-                $content .= '<img ' . implode(' ', $attributes) . '/>';
-            } else {
-                foreach ($contentNode->getProperties() as $propertyValue) {
-                    if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
-                        $content .= $propertyValue;
-                    }
-                }
-            }
-        }
-
-        return $this->stripUnwantedTags($content);
     }
 
     /**
