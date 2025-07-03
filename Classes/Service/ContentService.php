@@ -13,25 +13,25 @@ namespace RobertLemke\Plugin\Blog\Service;
  * source code.
  */
 
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\NodeAggregate\NodeName;
-use Neos\ContentRepository\Domain\NodeType\NodeTypeConstraintFactory;
-use Neos\ContentRepository\Domain\Projection\Content\TraversableNodes;
-use Neos\ContentRepository\Exception\NodeException;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Filter\FindChildNodesFilter;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\Projection\ContentGraph\NodePath;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Nodes;
+use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\ResourceManagement\ResourceManager;
 
 /**
  * A service which can render specific views of blog related content
  */
-#[Flow\Scope("singleton")]
+#[Flow\Scope('singleton')]
 class ContentService
 {
     #[Flow\Inject]
     protected ResourceManager $resourceManager;
 
     #[Flow\Inject]
-    protected NodeTypeConstraintFactory $nodeTypeConstraintFactory;
+    protected ContentRepositoryRegistry $contentRepositoryRegistry;
 
     /**
      * Renders a teaser text with up to $maximumLength characters, with an outermost <p> and some more tags removed,
@@ -41,14 +41,14 @@ class ContentService
      *
      * @return string
      */
-    public function renderTeaser(NodeInterface $node, int $maximumLength = 500): string
+    public function renderTeaser(Node $node, int $maximumLength = 500): string
     {
         $stringToTruncate = '';
         $contentNodes = $this->getContentNodesFromMainCollection($node);
 
-        /** @var NodeInterface $contentNode */
+        /** @var Node $contentNode */
         foreach ($contentNodes as $contentNode) {
-            foreach ($contentNode->getProperties() as $propertyValue) {
+            foreach ($contentNode->properties as $propertyValue) {
                 if (!is_object($propertyValue) || method_exists($propertyValue, '__toString')) {
                     $stringToTruncate .= $propertyValue . PHP_EOL;
                 }
@@ -61,7 +61,7 @@ class ContentService
         }
 
         // Find all paragraph end positions
-        $validPositions = array_filter($this->getPTagPositions($stringToTruncate), function($pos) use ($maximumLength) {
+        $validPositions = array_filter($this->getPTagPositions($stringToTruncate), static function ($pos) use ($maximumLength) {
             return $pos < $maximumLength;
         });
 
@@ -84,7 +84,8 @@ class ContentService
      * @param string $html
      * @return int[]
      */
-    protected function getPTagPositions(string $html): array {
+    protected function getPTagPositions(string $html): array
+    {
         $positions = [];
         $offset = 0;
 
@@ -97,15 +98,16 @@ class ContentService
     }
 
     /**
-     * @param NodeInterface $node
-     * @return TraversableNodes
+     * @param Node $node
+     * @return Nodes
      */
-    protected function getContentNodesFromMainCollection(NodeInterface $node): TraversableNodes
+    protected function getContentNodesFromMainCollection(Node $node): Nodes
     {
-        $childNodeConstraint = $this->nodeTypeConstraintFactory->parseFilterString('Neos.Neos:Content');
-        return $node
-            ->findNamedChildNode(NodeName::fromString('main'))
-            ->findChildNodes($childNodeConstraint);
+        $subgraph = $this->contentRepositoryRegistry->subgraphForNode($node);
+        $subNode = $subgraph->findNodeByPath(NodePath::fromString('main'), $node->aggregateId);
+
+        return $this->contentRepositoryRegistry->subgraphForNode($subNode)
+            ->findChildNodes($subNode->aggregateId, FindChildNodesFilter::create('Neos.Neos:Content'));
     }
 
     /**
@@ -121,7 +123,7 @@ class ContentService
     protected function stripUnwantedTags(string $content): string
     {
         $content = trim($content);
-        $content = preg_replace(
+        $content = (string)preg_replace(
             [
                 '/\\<a [^\\>]+\\>/',
                 '/\<\\/a\\>/',
@@ -140,7 +142,7 @@ class ContentService
         );
         $content = str_replace('&nbsp;', ' ', $content);
 
-        if (strpos($content, '<p>') === 0 && substr($content, -4, 4) === '</p>') {
+        if (str_starts_with($content, '<p>') && str_ends_with($content, '</p>')) {
             $content = substr($content, 3, -4);
         }
 

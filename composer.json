@@ -12,11 +12,11 @@
         }
     ],
     "require": {
-        "neos/neos": "^8.0",
-        "robertlemke/akismet": "^3.0",
-        "robertlemke/rss": "^2.0",
-        "flowpack/listable": "^3.6",
-        "neos/fusion-form": "^2.0"
+        "neos/neos": "^9.0",
+        "robertlemke/akismet": "^3.1.2",
+        "robertlemke/rss": "^2.1",
+        "flowpack/listable": "^4.0",
+        "neos/fusion-form": "^2.2"
     },
     "suggest": {
         "neos/symfonymailer": "Allows sending notification emails on new comments",
@@ -108,7 +108,21 @@
             "Neos.Flow-20170127183102",
             "Neos.Fusion-20180211175500",
             "Neos.Fusion-20180211184832",
-            "Neos.Flow-20180415105700"
+            "Neos.Flow-20180415105700",
+            "Neos.Neos-20180907103800",
+            "Neos.Neos.Ui-20190319094900",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000",
+            "Neos.Flow-20200813181400",
+            "Neos.Flow-20201003165200",
+            "Neos.Flow-20201109224100",
+            "Neos.Flow-20201205172733",
+            "Neos.Flow-20201207104500",
+            "Neos.Neos-20220318111600",
+            "Neos.Flow-20220318174300",
+            "Neos.Fusion-20220326120900",
+            "Neos.Neos-20230801154834",
+            "Neos.Workspace.Ui-20240603134000"
         ]
     }
 }

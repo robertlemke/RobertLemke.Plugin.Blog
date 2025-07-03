@@ -28,9 +28,9 @@ prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed.FeedItem) < protot
                 tagName = 'guid'
                 attributes = Neos.Fusion:DataStructure {
                     isPermaLink = 'false'
-                    @if.hasIdentifier = ${!String.isBlank(props.identifier)}
+                    @if.hasIdentifier = ${!String.isBlank(props.aggregateId)}
                 }
-                content = ${props.identifier}
+                content = ${props.aggregateId}
             }
         }
     }
