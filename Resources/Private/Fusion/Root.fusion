@@ -1,10 +1,7 @@
 include: **/*.fusion
 include: nodetypes://RobertLemke.Plugin.Blog/**/*.fusion
 
-root {
-    rssFeed {
-        @position = 'before format'
-        condition = ${request.format == 'xml' && String.endsWith(request.httpRequest.uri.path, 'rss.xml')}
-        renderer = RobertLemke.Plugin.Blog:Feed
-    }
+root.rssFeed {
+    condition = ${request.format == 'xml.rss'}
+    type = 'RobertLemke.Plugin.Blog:Feed'
 }

@@ -10,27 +10,25 @@ prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed.FeedItem) < protot
         content = Neos.Fusion:Join {
             title = Neos.Fusion:Tag {
                 tagName = 'title'
-                content = ${String.htmlSpecialChars(String.stripTags(props.title))}
+                content = ${String.stripTags(props.title)}
             }
-            link = Neos.Fusion:Tag {
-                tagName = 'link'
-                content = ${String.htmlSpecialChars(props.link)}
-            }
+            // cannot use Neos.Fusion:Tag – "link" is handled as self-closing and will never show content
+            link = ${'<link>' + props.link + '</link>'}
             description = Neos.Fusion:Tag {
                 tagName = 'description'
                 content = ${String.htmlSpecialChars(String.stripTags(props.description))}
             }
             pubDate = Neos.Fusion:Tag {
                 tagName = 'pubDate'
-                content = ${Date.format(props.publishDate, 'Y-m-d\TH:i:sP')}
+                content = ${Date.format(props.publishDate, 'r')}
             }
             guid = Neos.Fusion:Tag {
                 tagName = 'guid'
                 attributes = Neos.Fusion:DataStructure {
                     isPermaLink = 'false'
-                    @if.hasIdentifier = ${!String.isBlank(props.aggregateId)}
+                    @if.hasIdentifier = ${!String.isBlank(props.identifier)}
                 }
-                content = ${props.aggregateId}
+                content = ${props.identifier}
             }
         }
     }
