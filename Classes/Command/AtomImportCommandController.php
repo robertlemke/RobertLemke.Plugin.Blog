@@ -13,18 +13,18 @@ namespace RobertLemke\Plugin\Blog\Command;
  * source code.
  */
 
-use Neos\ContentRepository\Domain\Model\NodeInterface;
-use Neos\ContentRepository\Domain\Model\NodeTemplate;
-use Neos\ContentRepository\Domain\Service\NodeTypeManager;
-use Neos\ContentRepository\Exception\NodeException;
-use Neos\ContentRepository\Exception\NodeExistsException;
-use Neos\ContentRepository\Exception\NodeTypeNotFoundException;
-use Neos\ContentRepository\Utility;
-use Neos\Eel\Exception;
+use Neos\ContentRepository\Core\DimensionSpace\DimensionSpacePoint;
+use Neos\ContentRepository\Core\NodeType\NodeTypeName;
+use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
+use Neos\ContentRepository\Core\Projection\ContentGraph\VisibilityConstraints;
+use Neos\ContentRepository\Core\SharedModel\ContentRepository\ContentRepositoryId;
+use Neos\ContentRepository\Core\SharedModel\Node\NodeName;
+use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
+use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Eel\FlowQuery\FlowQuery;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
-use Neos\Neos\Domain\Service\ContentContextFactory;
+use Neos\Rector\ContentRepository90\Legacy\LegacyContextStub;
 
 /**
  * BlogCommand command controller for the RobertLemke.Plugin.Blog package
@@ -33,27 +33,12 @@ use Neos\Neos\Domain\Service\ContentContextFactory;
  */
 class AtomImportCommandController extends CommandController
 {
-    /**
-     * @Flow\Inject
-     * @var NodeTypeManager
-     */
-    protected $nodeTypeManager;
+    protected Node $blogNode;
 
-    /**
-     * @Flow\Inject
-     * @var ContentContextFactory
-     */
-    protected $contentContextFactory;
+    protected array $tagNodes = [];
 
-    /**
-     * @var NodeInterface
-     */
-    protected $blogNode;
-
-    /**
-     * @var array
-     */
-    protected $tagNodes = [];
+    #[Flow\Inject]
+    protected ContentRepositoryRegistry $contentRepositoryRegistry;
 
     /**
      * Imports atom data into the blog
@@ -62,10 +47,6 @@ class AtomImportCommandController extends CommandController
      * @param string $targetNode The target node (expressed as a FlowQuery find condition)
      * @param string $atomFile The atom file to import
      * @return void
-     * @throws NodeException
-     * @throws NodeExistsException
-     * @throws NodeTypeNotFoundException
-     * @throws Exception
      */
     public function migrateCommand(string $workspace, string $targetNode, string $atomFile): void
     {
@@ -74,10 +55,15 @@ class AtomImportCommandController extends CommandController
             $this->quit(1);
         }
 
-        $context = $this->contentContextFactory->create(['workspaceName' => $workspace]);
-        $q = new FlowQuery([$context->getRootNode()]);
+        $context = new LegacyContextStub(['workspaceName' => $workspace]);
+        // TODO 9.0 migration: !! MEGA DIRTY CODE! Ensure to rewrite this; by getting rid of LegacyContextStub.
+        $contentRepository = $this->contentRepositoryRegistry->get(ContentRepositoryId::fromString('default'));
+        $workspace = $contentRepository->findWorkspaceByName(WorkspaceName::fromString('live'));
+        $rootNodeAggregate = $contentRepository->getContentGraph($workspace->workspaceName)->findRootNodeAggregateByType(NodeTypeName::fromString('Neos.Neos:Sites'));
+        $subgraph = $contentRepository->getContentGraph($workspace->workspaceName)->getSubgraph(DimensionSpacePoint::fromLegacyDimensionArray($context->dimensions ?? []), $context->invisibleContentShown ? VisibilityConstraints::withoutRestrictions() : VisibilityConstraints::default());
+        $q = new FlowQuery([$subgraph->findNodeById($rootNodeAggregate->nodeAggregateId)]);
         $this->blogNode = $q->find($targetNode)->get(0);
-        if (!($this->blogNode instanceof NodeInterface)) {
+        if (!($this->blogNode instanceof Node)) {
             $this->outputLine('<error>Target node not found.</error>');
             $this->quit(1);
         }
@@ -93,7 +79,7 @@ class AtomImportCommandController extends CommandController
         $items = $parser->get_items();
 
         $comments = [];
-        /** @var $item \SimplePie_Item */
+        /** @var \SimplePie_Item $item */
         foreach ($items as $item) {
             $categories = $item->get_categories();
 
@@ -101,7 +87,7 @@ class AtomImportCommandController extends CommandController
                 continue;
             }
 
-            /** @var $category \SimplePie_Category */
+            /** @var \SimplePie_Category $category */
             foreach ($categories as $category) {
                 if ($category->get_term() === 'http://schemas.google.com/blogger/2008/kind#comment') {
                     $inReplyTo = current($item->get_item_tags('http://purl.org/syndication/thread/1.0', 'in-reply-to'));
@@ -110,9 +96,10 @@ class AtomImportCommandController extends CommandController
                 }
             }
         }
+        $contentRepository = $this->contentRepositoryRegistry->get(ContentRepositoryId::fromString('default'));
 
-        $textNodeType = $this->nodeTypeManager->getNodeType('Neos.NodeTypes:Text');
-        $commentNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Content.Comment');
+        $textNodeType = $contentRepository->getNodeTypeManager()->getNodeType('Neos.NodeTypes:Text');
+        $commentNodeType = $contentRepository->getNodeTypeManager()->getNodeType('RobertLemke.Plugin.Blog:Content.Comment');
         $counter = 0;
         foreach ($parser->get_items() as $item) {
             $categories = $item->get_categories();
@@ -134,8 +121,9 @@ class AtomImportCommandController extends CommandController
                 continue;
             }
 
+            // TODO 9.0 migration: !! NodeTemplate is removed in Neos 9.0. Use the "CreateNodeAggregateWithNode" command to create new nodes or "CreateNodeVariant" command to create variants of an existing node in other dimensions.
             $nodeTemplate = new NodeTemplate();
-            $nodeTemplate->setNodeType($this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Document.Post'));
+            $nodeTemplate->setNodeType($contentRepository->getNodeTypeManager()->getNodeType('RobertLemke.Plugin.Blog:Document.Post'));
             $nodeTemplate->setProperty('title', $item->get_title());
             $nodeTemplate->setProperty('author', $item->get_author()->get_name());
             $published = new \DateTime();
@@ -144,15 +132,15 @@ class AtomImportCommandController extends CommandController
             $nodeTemplate->setProperty('tags', $this->getTagNodes($tags));
 
             $slug = strtolower(str_replace([' ', ',', ':', 'ü', 'à', 'é', '?', '!', '[', ']', '.', '\''], ['-', '', '', 'u', 'a', 'e', '', '', '', '', '-', ''], $item->get_title()));
-            /** @var NodeInterface $postNode */
+            /** @var Node $postNode */
             $postNode = $this->blogNode->createNodeFromTemplate($nodeTemplate, $slug);
             $postNode->getNode('main')->createNode(uniqid('node'), $textNodeType)->setProperty('text', $item->get_content());
 
             $postComments = $comments[$item->get_id()] ?? [];
             if ($postComments !== []) {
-                /** @var NodeInterface $commentsNode */
+                /** @var Node $commentsNode */
                 $commentsNode = $postNode->getNode('comments');
-                /** @var $postComment \SimplePie_Item */
+                /** @var \SimplePie_Item $postComment */
                 foreach ($postComments as $postComment) {
                     $commentNode = $commentsNode->createNode(uniqid('comment-', true), $commentNodeType);
                     $commentNode->setProperty('author', html_entity_decode($postComment->get_author()->get_name(), ENT_QUOTES, 'utf-8'));
@@ -164,9 +152,7 @@ class AtomImportCommandController extends CommandController
                     $commentNode->setProperty('text', $commentText);
                     $commentNode->setProperty('spam', false);
                     $previousCommentNode = $commentNode;
-                    if ($previousCommentNode !== null) {
-                        $commentNode->moveAfter($previousCommentNode);
-                    }
+                    $commentNode->moveAfter($previousCommentNode);
                 }
             }
 
@@ -179,9 +165,7 @@ class AtomImportCommandController extends CommandController
 
     /**
      * @param array $tags
-     * @return array<NodeInterface>
-     * @throws NodeExistsException
-     * @throws NodeTypeNotFoundException
+     * @return array<Node>
      */
     protected function getTagNodes(array $tags): array
     {
@@ -189,9 +173,10 @@ class AtomImportCommandController extends CommandController
 
         foreach ($tags as $tag) {
             if (!isset($this->tagNodes[$tag])) {
-                $tagNodeType = $this->nodeTypeManager->getNodeType('RobertLemke.Plugin.Blog:Document.Tag');
+                $contentRepository = $this->contentRepositoryRegistry->get(ContentRepositoryId::fromString('default'));
+                $tagNodeType = $contentRepository->getNodeTypeManager()->getNodeType('RobertLemke.Plugin.Blog:Document.Tag');
 
-                $tagNode = $this->blogNode->createNode(Utility::renderValidNodeName($tag), $tagNodeType);
+                $tagNode = $this->blogNode->createNode(NodeName::fromString($tag)->value, $tagNodeType);
                 $tagNode->setProperty('title', $tag);
                 $this->tagNodes[$tag] = $tagNode;
             }

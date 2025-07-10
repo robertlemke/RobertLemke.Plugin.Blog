@@ -5,11 +5,11 @@
   ui:
     label: 'Blog Category'
     group: blog
-    icon: 'folder'
+    icon: folder
   properties:
     domain:
       type: string
       ui:
         label: 'Taxonomy domain'
         inspector:
-          group: 'document'
+          group: document
