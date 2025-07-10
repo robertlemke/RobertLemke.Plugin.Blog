@@ -5,11 +5,12 @@
     '@package': Neos.Neos
     '@controller': Frontend\Node
     '@action': show
-    '@format': xml
+    '@format': xml.rss
   routeParts:
     node:
       handler: Neos\Neos\FrontendRouting\FrontendNodeRoutePartHandlerInterface
       options:
+        uriPathSuffix: ''
         onlyMatchSiteNodes: true
 -
   name: 'RobertLemke.Plugin.Blog: RSS Feed'
@@ -18,9 +19,10 @@
     '@package': Neos.Neos
     '@controller': Frontend\Node
     '@action': show
-    '@format': xml
+    '@format': xml.rss
   routeParts:
     node:
       handler: Neos\Neos\FrontendRouting\FrontendNodeRoutePartHandlerInterface
       options:
+        uriPathSuffix: ''
         onlyMatchSiteNodes: true

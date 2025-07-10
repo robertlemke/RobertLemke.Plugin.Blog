@@ -14,13 +14,13 @@ prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed) < prototype(Neos.
                 tagName = 'title'
                 content = ${props.title}
             }
-            siteLink = Neos.Fusion:Tag {
-                tagName = 'link'
-                content = ${String.htmlSpecialChars(props.siteLink)}
-            }
+            // cannot use Neos.Fusion:Tag – "link" is handled as self-closing and will never show content
+            siteLink = ${'<link>' + props.siteLink + '</link>'}
             atomLink = Neos.Fusion:Tag {
                 tagName = 'atom-link'
-                content = ${props.atomLink}
+                attributes.href = ${props.atomLink}
+                attributes.rel = 'self'
+                selfClosingTag = true
             }
             description = Neos.Fusion:Tag {
                 tagName = 'description'
@@ -32,20 +32,21 @@ prototype(RobertLemke.Plugin.Blog:Presentation.Component.Feed) < prototype(Neos.
             }
             lastBuildDate = Neos.Fusion:Tag {
                 tagName = 'lastBuildDate'
-                content = ${Date.format(props.publishDate, 'Y-m-d\TH:i:sP')}
+                content = ${Date.format(props.publishDate, 'r')}
             }
         }
         postItems = Neos.Fusion:Loop {
             items = ${props.posts}
             itemName = 'post'
             itemRenderer = RobertLemke.Plugin.Blog:Presentation.Component.Feed.FeedItem {
-                title = ${q(post).property('title')}
+                title = ${post.properties.title}
                 description = ${RobertLemke.Plugin.Blog.Teaser.getCroppedTeaser(post)}
                 link = Neos.Neos:NodeUri {
                     node = ${post}
+                    format = 'html'
                     absolute = true
                 }
-                publishDate = ${q(post).property('datePublished')}
+                publishDate = ${post.properties.datePublished}
                 identifier = ${post.aggregateId}
             }
         }
