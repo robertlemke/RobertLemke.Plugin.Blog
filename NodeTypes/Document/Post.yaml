@@ -20,6 +20,7 @@
   properties:
     datePublished:
       type: DateTime
+      defaultValue: now
       ui:
         label: 'Publication Date'
         reloadIfChanged: true
